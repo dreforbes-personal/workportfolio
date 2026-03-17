@@ -257,6 +257,120 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);lin
   .hero{padding:30px 16px}
   .section{padding:40px 16px}
 }
+
+/* ── M&A HIDDEN SECTION ── */
+.ma-gate{
+  padding:200px 60px 100px;max-width:600px;margin:0 auto;text-align:center;
+  opacity:0.3;transition:opacity 0.5s;
+}
+.ma-gate:hover,.ma-gate:focus-within{opacity:1}
+.ma-gate-label{
+  font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:3px;
+  text-transform:uppercase;color:var(--text-muted);margin-bottom:16px;
+}
+.ma-gate-input{
+  width:100%;max-width:340px;padding:14px 20px;border:1px solid var(--border);
+  border-radius:var(--radius);font-family:'IBM Plex Mono',monospace;font-size:0.85rem;
+  background:var(--surface);color:var(--text);text-align:center;outline:none;
+  transition:border-color var(--transition);
+}
+.ma-gate-input:focus{border-color:var(--accent)}
+.ma-gate-input.error{border-color:var(--red-soft);animation:shake 0.4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.ma-gate-hint{font-size:0.75rem;color:var(--text-muted);margin-top:10px}
+
+.ma-section{
+  display:none;padding:100px 60px;max-width:1200px;margin:0 auto;
+}
+.ma-section.revealed{display:block;animation:fadeUp 0.7s forwards}
+.ma-section-header{margin-bottom:60px}
+.ma-section-num{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:3px;color:var(--accent);margin-bottom:12px}
+.ma-section-title{font-family:'Instrument Serif',serif;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:400;margin-bottom:12px;letter-spacing:-0.01em}
+.ma-section-desc{color:var(--text-secondary);max-width:680px;font-size:0.95rem;line-height:1.75}
+
+.ma-arch{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:48px 40px;margin-bottom:40px;position:relative;overflow:hidden;
+}
+.ma-arch::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--blue-soft),var(--purple-soft))}
+.ma-arch-title{font-family:'Instrument Serif',serif;font-size:1.5rem;margin-bottom:8px}
+.ma-arch-sub{font-size:0.85rem;color:var(--text-secondary);margin-bottom:32px;line-height:1.6}
+
+.ma-flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;margin-bottom:36px}
+.ma-flow-node{
+  background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 22px;text-align:center;min-width:130px;transition:all var(--transition);
+}
+.ma-flow-node:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,0.05)}
+.ma-flow-node .node-icon{font-size:1.4rem;margin-bottom:6px}
+.ma-flow-node .node-label{font-weight:700;font-size:0.82rem;margin-bottom:3px}
+.ma-flow-node .node-desc{font-size:0.72rem;color:var(--text-secondary);line-height:1.5}
+.ma-flow-node.central{background:linear-gradient(135deg,#29b5e8 0%,#71c8e8 100%);color:#fff;border-color:#29b5e8;transform:scale(1.08)}
+.ma-flow-node.central .node-desc{color:rgba(255,255,255,0.8)}
+.ma-flow-arrow{font-size:1.2rem;color:var(--text-muted);font-weight:700}
+
+.ma-phases{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;margin-bottom:40px}
+.ma-phase{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:30px;position:relative;overflow:hidden;transition:all var(--transition);
+}
+.ma-phase:hover{border-color:var(--border-hover);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.04)}
+.ma-phase::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:0.6}
+.ma-phase:nth-child(1)::before{background:var(--blue-soft)}
+.ma-phase:nth-child(2)::before{background:var(--purple-soft)}
+.ma-phase:nth-child(3)::before{background:var(--green-soft)}
+.ma-phase:nth-child(4)::before{background:var(--accent)}
+.ma-phase-num{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:2px;color:var(--text-muted);margin-bottom:10px}
+.ma-phase-title{font-weight:700;font-size:1rem;margin-bottom:8px}
+.ma-phase-desc{font-size:0.84rem;color:var(--text-secondary);line-height:1.7;margin-bottom:14px}
+.ma-phase-items{list-style:none;display:flex;flex-direction:column;gap:5px}
+.ma-phase-items li{font-size:0.79rem;color:var(--text-secondary);padding-left:16px;position:relative;line-height:1.55}
+.ma-phase-items li::before{content:'';position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:0.4}
+
+.ma-flywheel{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:36px 40px;margin-bottom:40px;
+}
+.ma-flywheel-title{font-family:'Instrument Serif',serif;font-size:1.3rem;margin-bottom:8px}
+.ma-flywheel-desc{font-size:0.85rem;color:var(--text-secondary);line-height:1.7;margin-bottom:24px}
+.ma-flywheel-steps{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
+.ma-flywheel-step{
+  background:var(--surface-2);border:1px solid var(--border);border-radius:20px;
+  padding:10px 18px;font-size:0.78rem;font-weight:600;display:flex;align-items:center;gap:8px;
+}
+.ma-flywheel-step .step-num{
+  background:var(--accent);color:#fff;width:20px;height:20px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700;
+}
+.ma-flywheel-arrow{color:var(--text-muted);font-size:1rem}
+
+@media(max-width:768px){
+  .ma-gate{padding:120px 20px 80px}
+  .ma-section{padding:60px 20px}
+  .ma-section-header{margin-bottom:40px}
+  .ma-section-desc{font-size:0.88rem}
+  .ma-arch{padding:28px 20px}
+  .ma-arch-title{font-size:1.25rem}
+  .ma-flow{flex-direction:column}
+  .ma-flow-node{min-width:auto;width:100%}
+  .ma-flow-node.central{transform:scale(1)}
+  .ma-flow-arrow{transform:rotate(90deg)}
+  .ma-phases{grid-template-columns:1fr}
+  .ma-phase{padding:22px}
+  .ma-flywheel{padding:28px 20px}
+  .ma-flywheel-steps{flex-direction:column;align-items:stretch}
+  .ma-flywheel-step{justify-content:center}
+  .ma-flywheel-arrow{transform:rotate(90deg);text-align:center}
+}
+@media(max-width:400px){
+  .ma-gate{padding:80px 16px 60px}
+  .ma-gate-input{font-size:0.78rem;padding:12px 16px}
+  .ma-section{padding:40px 16px}
+  .ma-arch{padding:20px 16px}
+  .ma-phase{padding:18px}
+  .ma-flywheel{padding:20px 16px}
+  .ma-flywheel-step{font-size:0.72rem;padding:8px 14px}
+}
 </style>
 </head>
 <body>
@@ -395,6 +509,127 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);lin
   <div class="name">Dre Forbes</div>
   <p>Director of Technology · Atlanta, GA</p>
 </footer>
+
+<!-- ── M&A HIDDEN GATE ── -->
+<div class="ma-gate" id="ma-gate">
+  <div class="ma-gate-label">Restricted Access</div>
+  <input type="password" class="ma-gate-input" id="ma-password" placeholder="Enter access code" autocomplete="off">
+  <div class="ma-gate-hint">Authorized personnel only</div>
+</div>
+
+<section class="ma-section" id="ma-section">
+  <div class="ma-section-header">
+    <div class="ma-section-num">09 / STRATEGIC INITIATIVE</div>
+    <div class="ma-section-title">Mergers & Acquisition Plans</div>
+    <div class="ma-section-desc">An AI-driven integration framework built on a centralized Snowflake data warehouse, MCP-connected pipelines, and an exploratory agent that learns to map incoming organizations to our data model with increasing precision over time.</div>
+  </div>
+
+  <div class="ma-arch">
+    <div class="ma-arch-title">Central Data Architecture</div>
+    <div class="ma-arch-sub">All source systems feed into a Snowflake data warehouse via API-connected MCP servers. An AI agent builds and refines the canonical data model that serves as the integration blueprint for every acquisition.</div>
+    <div class="ma-flow">
+      <div class="ma-flow-node">
+        <div class="node-icon">☁️</div>
+        <div class="node-label">Salesforce</div>
+        <div class="node-desc">CRM records, contacts, opportunities, accounts</div>
+      </div>
+      <div class="ma-flow-arrow">&rarr;</div>
+      <div class="ma-flow-node">
+        <div class="node-icon">🔌</div>
+        <div class="node-label">MCP Servers</div>
+        <div class="node-desc">API connectors orchestrating data sync pipelines</div>
+      </div>
+      <div class="ma-flow-arrow">&rarr;</div>
+      <div class="ma-flow-node central">
+        <div class="node-icon">&#10052;</div>
+        <div class="node-label">Snowflake DB</div>
+        <div class="node-desc">Centralized warehouse &mdash; single source of truth</div>
+      </div>
+      <div class="ma-flow-arrow">&larr;</div>
+      <div class="ma-flow-node">
+        <div class="node-icon">🤖</div>
+        <div class="node-label">AI Agent</div>
+        <div class="node-desc">Builds canonical data map model from all sources</div>
+      </div>
+      <div class="ma-flow-arrow">&larr;</div>
+      <div class="ma-flow-node">
+        <div class="node-icon">📊</div>
+        <div class="node-label">Source Systems</div>
+        <div class="node-desc">Addepar, Pershing, Rippling, QuickBooks, etc.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ma-phases">
+    <div class="ma-phase">
+      <div class="ma-phase-num">PHASE 1</div>
+      <div class="ma-phase-title">Foundation &mdash; Canonical Data Model</div>
+      <div class="ma-phase-desc">MCP servers connect to all internal source systems via API. An AI agent ingests schemas, relationships, and data flows to build a canonical data map model of our entire organization.</div>
+      <ul class="ma-phase-items">
+        <li>Deploy MCP servers with API connections to Salesforce, Addepar, Pershing, Rippling, and all source systems</li>
+        <li>AI agent analyzes schemas, field mappings, and data relationships across systems</li>
+        <li>Agent generates a unified data model representing how all entities relate</li>
+        <li>Organization reviews the model to verify accuracy and alignment with real-world data</li>
+        <li>Validated model syncs to Snowflake as the canonical reference</li>
+      </ul>
+    </div>
+    <div class="ma-phase">
+      <div class="ma-phase-num">PHASE 2</div>
+      <div class="ma-phase-title">Acquisition &mdash; Exploratory Agent</div>
+      <div class="ma-phase-desc">When a new firm is acquired, the exploratory agent connects to their systems via API. It compares their data structures against our canonical model to find the best integration path.</div>
+      <ul class="ma-phase-items">
+        <li>Exploratory agent connects to the acquired firm's systems via API</li>
+        <li>Agent maps their data schemas, user structures, and system topology</li>
+        <li>Compares against our canonical model to identify overlaps, gaps, and conflicts</li>
+        <li>Generates a recommended mapping: how their users, accounts, and data map to ours</li>
+        <li>Leadership reviews and confirms the proposed integration plan</li>
+      </ul>
+    </div>
+    <div class="ma-phase">
+      <div class="ma-phase-num">PHASE 3</div>
+      <div class="ma-phase-title">Integration &mdash; Pipeline Automation</div>
+      <div class="ma-phase-desc">Once the mapping is confirmed, the agent builds the necessary data pipelines to sync the acquired firm's data into our Snowflake warehouse and connected systems.</div>
+      <ul class="ma-phase-items">
+        <li>Agent auto-generates ETL pipelines based on the confirmed mapping</li>
+        <li>Pipelines sync incoming users, accounts, holdings, and records to Snowflake</li>
+        <li>Downstream systems (Salesforce, Addepar, etc.) receive mapped data via existing MCP connectors</li>
+        <li>Validation checks ensure data integrity post-migration</li>
+        <li>Personnel onboarded into our identity and access systems (Rippling, Duo, Keycloak)</li>
+      </ul>
+    </div>
+    <div class="ma-phase">
+      <div class="ma-phase-num">PHASE 4</div>
+      <div class="ma-phase-title">Learning &mdash; Agent Improvement</div>
+      <div class="ma-phase-desc">Each acquisition teaches the exploratory agent more about how different organizations structure their data. Over time, it becomes faster and more accurate at mapping new firms.</div>
+      <ul class="ma-phase-items">
+        <li>Every confirmed mapping becomes training data for the agent</li>
+        <li>Agent learns patterns: common CRM schemas, custodian structures, reporting hierarchies</li>
+        <li>Future acquisitions produce higher-confidence mappings with less manual review</li>
+        <li>Reduces integration timeline from weeks to days as the agent matures</li>
+        <li>Builds institutional knowledge that persists beyond any individual team member</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="ma-flywheel">
+    <div class="ma-flywheel-title">The Integration Flywheel</div>
+    <div class="ma-flywheel-desc">Each acquisition strengthens the system. The exploratory agent gets smarter, the canonical model gets richer, and integration timelines compress. What starts as a manual process becomes a competitive advantage.</div>
+    <div class="ma-flywheel-steps">
+      <div class="ma-flywheel-step"><span class="step-num">1</span>Connect via API</div>
+      <div class="ma-flywheel-arrow">&rarr;</div>
+      <div class="ma-flywheel-step"><span class="step-num">2</span>Agent Maps Data</div>
+      <div class="ma-flywheel-arrow">&rarr;</div>
+      <div class="ma-flywheel-step"><span class="step-num">3</span>Review & Confirm</div>
+      <div class="ma-flywheel-arrow">&rarr;</div>
+      <div class="ma-flywheel-step"><span class="step-num">4</span>Build Pipelines</div>
+      <div class="ma-flywheel-arrow">&rarr;</div>
+      <div class="ma-flywheel-step"><span class="step-num">5</span>Sync to Snowflake</div>
+      <div class="ma-flywheel-arrow">&rarr;</div>
+      <div class="ma-flywheel-step"><span class="step-num">6</span>Agent Learns</div>
+      <div class="ma-flywheel-arrow">&#8635;</div>
+    </div>
+  </div>
+</section>
 
 <div class="detail-overlay" id="detail-overlay">
   <div class="detail-panel" id="detail-panel"></div>
@@ -588,6 +823,24 @@ const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.targe
 document.querySelectorAll('.obs').forEach(el=>obs.observe(el));
 const sids=['roles','ops','dev','salesforce','integrations','architecture','impact','timeline'];
 window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<=130)c=id});document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.section===c))});
+
+// ── M&A PASSWORD GATE ──
+const maInput=document.getElementById('ma-password');
+const maSection=document.getElementById('ma-section');
+const maGate=document.getElementById('ma-gate');
+maInput.addEventListener('keydown',function(e){
+  if(e.key==='Enter'){
+    if(this.value==='dreforbesmna2027!'){
+      maGate.style.display='none';
+      maSection.classList.add('revealed');
+      maSection.scrollIntoView({behavior:'smooth',block:'start'});
+    } else {
+      this.classList.add('error');
+      this.value='';
+      setTimeout(()=>this.classList.remove('error'),500);
+    }
+  }
+});
 </script>
 </body>
 </html>
