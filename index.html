@@ -207,15 +207,55 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);lin
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:768px){
-  .hero,.section{padding-left:24px;padding-right:24px}
-  .nav{padding:0 16px}
-  .hero h1{font-size:2.4rem}
-  .roles-grid,.projects-grid{grid-template-columns:1fr}
+  .hero{padding:40px 20px}
+  .section{padding:50px 20px}
+  .nav{padding:0 12px;gap:0}
+  .nav-btn{padding:14px 12px;font-size:0.72rem}
+  .hero h1{font-size:2.2rem}
+  .hero-role{font-size:0.95rem;margin-bottom:32px}
+  .hero-eyebrow{font-size:0.65rem;letter-spacing:3px;margin-bottom:20px}
   .hero-metrics{grid-template-columns:repeat(2,1fr)}
+  .metric{padding:16px 14px}
+  .metric .val{font-size:1.5rem}
+  .metric .lbl{font-size:0.55rem}
+  .roles-grid,.projects-grid{grid-template-columns:1fr}
+  .ops-grid{grid-template-columns:1fr}
+  .int-grid{grid-template-columns:repeat(2,1fr)}
+  .sf-tabs{gap:4px}
+  .sf-tab{font-size:0.72rem;padding:6px 12px}
+  .sf-item{padding:14px 16px}
+  .arch-box{padding:20px 16px}
+  .arch-flow{min-width:auto;flex-wrap:wrap;gap:8px;justify-content:center}
+  .arch-node{padding:8px 14px}
+  .arch-node .a-tech{font-size:0.78rem}
+  .arch-arrow{font-size:0.8rem}
+  .tech-grid{grid-template-columns:repeat(2,1fr);gap:6px}
+  .tech-chip{font-size:0.73rem;padding:7px 10px}
+  .impact-split{grid-template-columns:1fr}
+  .impact-total{padding:20px;flex-direction:column;text-align:center;gap:8px}
+  .impact-total-val{font-size:1.8rem}
   .detail-panel{width:100vw}
-  .section{padding-top:64px;padding-bottom:64px}
-  .divider{padding:0 24px}
-  .tl-item{padding-left:52px}
+  .detail-header{padding:20px}
+  .detail-features{padding:20px}
+  .divider{padding:0 20px}
+  .tl-item{padding-left:48px;margin-bottom:36px}
+  .tl-role{font-size:1.15rem}
+  .timeline-line{left:20px}
+  .tl-dot{left:12px;width:16px;height:16px}
+  .footer{padding:40px 20px}
+  .section-desc{font-size:0.88rem}
+  .role-card{padding:22px}
+  .card-body{padding:18px}
+}
+@media(max-width:400px){
+  .hero h1{font-size:1.85rem}
+  .hero-metrics{grid-template-columns:repeat(2,1fr)}
+  .metric{padding:12px 10px}
+  .metric .val{font-size:1.3rem}
+  .int-grid{grid-template-columns:1fr}
+  .tech-grid{grid-template-columns:1fr}
+  .hero{padding:30px 16px}
+  .section{padding:40px 16px}
 }
 </style>
 </head>
