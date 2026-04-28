@@ -992,6 +992,9 @@ maInput.addEventListener('keydown',function(e){
 .ah-modal-container{position:relative;width:100%;max-width:1440px;height:90vh;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,0.3);display:flex;flex-direction:column}
 .ah-modal-close{position:absolute;top:12px;right:12px;z-index:100;width:32px;height:32px;border-radius:50%;border:none;background:rgba(0,0,0,0.06);color:#64748b;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
 .ah-modal-close:hover{background:rgba(0,0,0,0.12);color:#1e293b}
+.ah-mobile-close{display:none;width:100%;padding:10px 16px;background:#fff;border-bottom:1px solid #e5e7eb;flex-shrink:0;align-items:center;justify-content:space-between}
+.ah-mobile-close button{padding:6px 16px;border-radius:6px;border:1px solid #e5e7eb;background:#fff;font-size:0.78rem;font-weight:600;color:#1e293b;cursor:pointer;font-family:inherit}
+.ah-mobile-close span{font-size:0.72rem;color:#64748b}
 
 /* Info Banner */
 .ah-info-banner{background:#f0f4ff;border-bottom:1px solid #dbeafe;padding:8px 20px;display:flex;align-items:center;gap:8px;font-size:0.75rem;color:#3b82f6;flex-shrink:0}
@@ -1373,7 +1376,8 @@ maInput.addEventListener('keydown',function(e){
   .ah-team-member__name{font-size:0.68rem}
   .ah-popover{max-width:280px;min-width:220px}
   .ah-info-banner{font-size:0.68rem;padding:6px 12px}
-  .ah-modal-close{top:8px;right:8px;width:28px;height:28px;font-size:16px}
+  .ah-modal-close{display:none}
+  .ah-mobile-close{display:flex}
   .ah-alert-banner{font-size:0.75rem;padding:8px 12px}
   .ah-demo-footer{font-size:0.6rem;padding:6px 12px}
 }
@@ -1434,6 +1438,10 @@ maInput.addEventListener('keydown',function(e){
 <div class="ah-modal-overlay" id="ah-modal" style="display:none" role="dialog" aria-modal="true" aria-label="AdvisorHub Interactive Demo">
   <div class="ah-modal-container">
     <button class="ah-modal-close" id="ah-modal-close" aria-label="Close demo">&times;</button>
+    <div class="ah-mobile-close">
+      <span>AdvisorHub Demo</span>
+      <button id="ah-modal-close-mobile">Close &times;</button>
+    </div>
 
   <!-- Info Banner -->
   <div class="ah-info-banner" role="note">
@@ -2990,6 +2998,7 @@ maInput.addEventListener('keydown',function(e){
   function initModal(){
     const overlay=document.getElementById('ah-modal');
     const closeBtn=document.getElementById('ah-modal-close');
+    const closeMobileBtn=document.getElementById('ah-modal-close-mobile');
     const launchBtn=document.getElementById('launch-ah-demo');
     if(!overlay)return;
 
@@ -3007,6 +3016,7 @@ maInput.addEventListener('keydown',function(e){
 
     if(launchBtn)launchBtn.addEventListener('click',openModal);
     if(closeBtn)closeBtn.addEventListener('click',closeModal);
+    if(closeMobileBtn)closeMobileBtn.addEventListener('click',closeModal);
     overlay.addEventListener('click',e=>{if(e.target===overlay)closeModal()});
     document.addEventListener('keydown',e=>{if(e.key==='Escape'&&overlay.style.display!=='none')closeModal()});
   }
