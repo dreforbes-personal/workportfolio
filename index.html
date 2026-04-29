@@ -403,6 +403,47 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);lin
 </style>
 </head>
 <body>
+<style id="scroll-hint-styles">
+.scroll-hint{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:50;display:flex;flex-direction:column;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.55);pointer-events:none;opacity:0;animation:scrollHintIn 0.7s 1.4s ease-out forwards;transition:opacity 0.45s ease,transform 0.45s ease}
+.scroll-hint.scroll-hint--hidden{opacity:0!important;transform:translateX(-50%) translateY(12px);pointer-events:none}
+.scroll-hint__label{text-shadow:0 1px 8px rgba(0,0,0,0.4)}
+.scroll-hint__chevrons{display:flex;flex-direction:column;align-items:center;line-height:0.5;font-size:1rem;color:rgba(255,255,255,0.65)}
+.scroll-hint__chev{display:block;animation:scrollChevPulse 1.6s ease-in-out infinite}
+.scroll-hint__chev:nth-child(2){animation-delay:0.2s;opacity:0.55}
+.scroll-hint__chev:nth-child(3){animation-delay:0.4s;opacity:0.3}
+@keyframes scrollHintIn{from{opacity:0;transform:translateX(-50%) translateY(14px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+@keyframes scrollChevPulse{0%,100%{transform:translateY(0);opacity:var(--start-op,0.65)}50%{transform:translateY(4px);opacity:1}}
+.scroll-hint__chev:nth-child(1){--start-op:0.95}
+.scroll-hint__chev:nth-child(2){--start-op:0.55}
+.scroll-hint__chev:nth-child(3){--start-op:0.3}
+@media (max-width:600px){.scroll-hint{bottom:16px;font-size:0.58rem}}
+</style>
+<div class="scroll-hint" id="scroll-hint" aria-hidden="true">
+  <span class="scroll-hint__label">Scroll for more</span>
+  <span class="scroll-hint__chevrons" aria-hidden="true">
+    <span class="scroll-hint__chev">&#x2304;</span>
+    <span class="scroll-hint__chev">&#x2304;</span>
+    <span class="scroll-hint__chev">&#x2304;</span>
+  </span>
+</div>
+<script id="scroll-hint-script">
+(function(){
+  function init(){
+    const hint=document.getElementById('scroll-hint');
+    if(!hint)return;
+    let hidden=false;
+    function check(){
+      if(hidden)return;
+      if(window.scrollY>50){hint.classList.add('scroll-hint--hidden');hidden=true;window.removeEventListener('scroll',check)}
+    }
+    window.addEventListener('scroll',check,{passive:true});
+    // Auto-hide after 8 seconds even if user hasn't scrolled
+    setTimeout(()=>{if(!hidden){hint.classList.add('scroll-hint--hidden');hidden=true}},8000);
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init)}else{init()}
+})();
+</script>
+
 
 <!-- Terminal Intro Overlay -->
 <div id="term-overlay">
