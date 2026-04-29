@@ -812,6 +812,31 @@ const PROJECTS=[
       {g:'Analysis Engine',items:[{n:'SDI Profile Matching',d:'Compares client and RM Strength Deployment Inventory results for personality compatibility'},{n:'Communication Style Analysis',d:'Evaluates communication preferences and interaction patterns between client and potential RMs'},{n:'Conflict Resolution Mapping',d:'Maps conflict resolution approaches to identify complementary or compatible styles'},{n:'Historical Interaction Scoring',d:'Weighs past interaction quality, frequency, and outcomes in compatibility scoring'}]},
       {g:'UI Components',items:[{n:'Compatibility Dashboard',d:'Visual scoring with "Analyze SDI Compatibility" action button in Salesforce'},{n:'RM Roster View',d:'"Show All Relationship Managers" with SDI profiles and availability'},{n:'Match Recommendations',d:'Ranked list of best-fit RMs with compatibility scores and reasoning'}]},
     ]},
+  {id:'security',domain:'projects.balentine.com',title:'Security & Network Monitoring Dashboard',stripe:'linear-gradient(90deg,var(--red-soft),var(--green-soft))',demo:'security',
+    desc:'Unified security posture across 10+ vendor systems. Live traffic-light banner, 8 specialized tabs (Network, Threats, Devices, Identity, Data Security, Pen Testing, Alerts), 60-second auto-refresh. Replaced fragmented vendor consoles with a single operational view.',
+    tags:['Huntress','SentinelOne','Meraki','MS Defender','PostgreSQL'],
+    features:[
+      {g:'Unified Posture',items:[{n:'Traffic-Light Banner',d:'Live red/yellow/green status driven by Huntress incidents, escalations, and alert severity. Always visible across all tabs'},{n:'Active Incidents Counter',d:'Real-time count of open Huntress incidents pulled via vendor API'},{n:'Open Escalations',d:'Yellow-tier issues requiring analyst review before automatic remediation'},{n:'Unresolved Alerts',d:'Aggregated across all 10+ security vendors with severity weighting'}]},
+      {g:'8 Specialized Tabs',items:[{n:'Overview',d:'Security score card, metric tiles, recent event feed, system status grid for all integrated vendors'},{n:'Network',d:'Cisco Meraki traffic, device health, SSID activity, VPN sessions, Cisco Umbrella DNS-layer events'},{n:'Threats',d:'Huntress + SentinelOne threat feed with severity badges, MITRE ATT&CK mapping, response actions'},{n:'Devices',d:'NinjaOne RMM endpoint inventory, patch compliance, software deployment status'},{n:'Identity & Access',d:'MS Defender sign-ins, risky users, conditional access policies, Duo MFA failures'},{n:'Data Security',d:'Box, SharePoint, OneDrive sharing posture, DLP policy violations, sensitive label coverage'},{n:'Pen Testing',d:'Built-in scanner integrated with the security stack, scheduled tests, finding tracker'},{n:'Alerts & Reports',d:'Cross-vendor alert queue with status workflow, exportable reports for SEC exam evidence'}]},
+      {g:'Architecture',items:[{n:'Live Data Pipeline',d:'PostgreSQL backend ingesting from 10+ vendor APIs on staggered schedules. Cached for sub-second tab switches'},{n:'Auto-Refresh',d:'60-second polling on the visible tab + banner. Manual refresh available'},{n:'Compliance Mode',d:'Full audit trail for SEC exam. Every alert action timestamped + attributed'},{n:'Mobile-Responsive',d:'Designed for desk and incident-response use on phones'}]},
+    ]},
+  {id:'dataarch',domain:'projects.balentine.com',title:'Data Architecture Map',stripe:'linear-gradient(90deg,var(--blue-soft),var(--purple-soft))',demo:'dataarch',
+    desc:'Interactive map of every system, integration, and data flow at the firm. Salesforce-centric hub with 20+ connected platforms, MCP-powered AI access, and clearly labeled sync directions and frequencies. Built so any team member can see how data moves end-to-end.',
+    tags:['React Flow','Salesforce','MCP','Architecture'],
+    features:[
+      {g:'Hub Topology',items:[{n:'Salesforce as Central Hub',d:'CRM and unified client data layer. All major systems connect to it through native sync, custom MCP servers, file feeds, or manual import'},{n:'8 Integration Categories',d:'Onboarding, Custodial/Portfolio, Document Storage, Financial Planning, Communication, Internal Operations, AI/Productivity, Third-Party AI'},{n:'Sync Direction Indicators',d:'One-way, two-way, manual CSV. Each labeled at the connection level'},{n:'Sync Frequency',d:'Real-time, intraday, nightly, daily. Per-integration schedule shown'}]},
+      {g:'AI Layer',items:[{n:'11 MCP Servers',d:'Custom FastAPI servers exposing 425+ tools across Salesforce, Addepar, Pershing, Arch, Box, Gong, Zoom, MS Graph, RedBlack, Fidelity, Rippling'},{n:'Multi-Tier RAG',d:'Qdrant vector DB + PostgreSQL cache holding 7M+ Addepar transactions for sub-second answers'},{n:'Self-Hosted LLMs',d:'Ollama running qwen3:30b, gpt-oss:120b, deepseek-r1:70b, llama3.2-vision (~195GB on-prem) with runtime switching to Claude API for tool-heavy work'},{n:'Third-Party AI Access',d:'Slack, ChatGPT, Claude all have read access to Box, Office 365, Salesforce. Slack has read/write'}]},
+      {g:'Operational Use',items:[{n:'Onboarding New Engineers',d:'Replaces 50-page architecture docs. New hires understand the firm in an afternoon'},{n:'Build vs Buy Decisions',d:'Quickly see whether a vendor request would duplicate existing data flows'},{n:'Future Automation Targets',d:'Manual flows clearly marked. Roadmap tied directly to the diagram'}]},
+    ]},
+  {id:'roadmap',domain:'projects.balentine.com',title:'Technology Roadmap',stripe:'linear-gradient(90deg,var(--accent),var(--purple-soft))',demo:'roadmap',
+    desc:'Living, interactive roadmap of every major IT initiative since 2022. 100+ milestones grouped into 8 strategic epics (Infrastructure, Identity, AI, Security, Custodian, Data Lake, etc.) with status, impact, and dependency visualization. Built for executive reporting and team planning.',
+    tags:['Framer Motion','React','Timeline','Strategic Planning'],
+    features:[
+      {g:'Strategic Epics',items:[{n:'Infrastructure Modernization',d:'MSP exit → direct licensing → hardware refresh → Azure migration → network stabilization. Pre-2022 through 2023 Q1'},{n:'Identity, HR & Employee Experience',d:'11+ HR systems consolidated → SSO strategy → Salesforce Resource Centers → Rippling unified platform. Pre-2022 through 2025 Q4'},{n:'Cybersecurity (NIST)',d:'Failed SEC exam → NIST framework rebuild → MFA/SSO → endpoint controls → unified monitoring → second SEC exam zero findings'},{n:'AI & Agentic Systems',d:'OpenAI summarization → Conga Orchestrate → Insights App → 11 MCP servers → 425+ tools → Senior RIA Reviewer pattern'},{n:'Custodian Conversion',d:'Pershing → Fidelity. Custom SFTP ingestion server, 14 PostgreSQL tables, 18 daily jobs. In progress'},{n:'Data Orchestration Backbone',d:'Snowflake vs Databricks evaluation, central data lake, agentic exploration loops'}]},
+      {g:'Visualization',items:[{n:'Horizontal Timeline',d:'Pannable, zoomable. Each epic is a row with milestone nodes plotted on a date axis'},{n:'Status Coloring',d:'Completed, in-progress, planned. Impact tier (critical/high/medium) controls node size'},{n:'Detail Drill-Down',d:'Click any milestone for description, dependencies, related project. Two-level zoom (epic → milestone)'},{n:'Mobile View',d:'Compact card stack with phase filter. Same data, finger-friendly'}]},
+      {g:'Reporting',items:[{n:'Executive Snapshot',d:'One-screen view for board reporting and quarterly innovation sessions'},{n:'Cross-Department Sharing',d:'Read-only view for ops, RM, admin teams. Pulls live from same database as operations'},{n:'Build vs Buy Tracking',d:'Each epic tracks vendors avoided, dollars saved, productivity gains'}]},
+    ]},
+
 ];
 
 const SF=[
@@ -949,7 +974,7 @@ const og=document.getElementById('ops-grid');
 OPS.forEach(c=>{const d=document.createElement('div');d.className='ops-card';d.innerHTML=`<div class="ops-cat">${c.cat}</div><div class="ops-chips">${c.items.map(i=>`<span class="ops-chip">${i}</span>`).join('')}</div>`;og.appendChild(d)});
 
 const pg=document.getElementById('projects-grid');
-PROJECTS.forEach(p=>{const d=document.createElement('div');d.className='project-card';d.innerHTML=`<div class="card-stripe" style="background:${p.stripe}"></div><div class="card-body"><div class="card-domain">${p.domain}</div><div class="card-title">${p.title}</div><div class="card-desc">${p.desc}</div><div class="card-tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></div>`;d.onclick=()=>openDetail(p);pg.appendChild(d)});
+PROJECTS.forEach(p=>{const d=document.createElement('div');d.className='project-card';const demoBtn=p.demo?`<button class="card-demo-btn" data-demo="${p.demo}" onclick="event.stopPropagation();window.openShowcaseDemo('${p.demo}')">&#x1F5A5; Launch Live Demo</button>`:'';d.innerHTML=`<div class="card-stripe" style="background:${p.stripe}"></div><div class="card-body"><div class="card-domain">${p.domain}</div><div class="card-title">${p.title}</div><div class="card-desc">${p.desc}</div><div class="card-tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>${demoBtn}</div>`;d.onclick=()=>openDetail(p);pg.appendChild(d)});
 
 const stEl=document.getElementById('sf-tabs'),scEl=document.getElementById('sf-content');
 function renderSf(i){stEl.querySelectorAll('.sf-tab').forEach((t,j)=>t.classList.toggle('active',j===i));scEl.innerHTML=SF[i].items.map(it=>`<div class="sf-item"><div class="sf-icon">${it.icon}</div><div><div class="sf-item-title">${it.title}</div><div class="sf-item-desc">${it.desc}</div></div></div>`).join('')}
@@ -2861,6 +2886,711 @@ maInput.addEventListener('keydown',function(e){
   </div>
 </div>
 <!-- /ADVISORHUB INTERACTIVE DEMO -->
+
+<!-- ============================================================ -->
+<!-- INTERACTIVE DEMOS: Security Dashboard, Data Arch, Tech Roadmap -->
+<!-- ============================================================ -->
+
+<style id="demo-modals-styles">
+/* Project card demo launcher */
+.card-demo-btn{margin-top:12px;display:inline-flex;align-items:center;gap:6px;font-family:'Manrope',sans-serif;font-size:0.74rem;font-weight:600;padding:7px 14px;border-radius:14px;border:1px solid var(--accent);background:var(--accent-dim);color:var(--accent);cursor:pointer;transition:all 0.18s}
+.card-demo-btn:hover{background:var(--accent);color:#fff;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+
+/* Shared modal chrome */
+.dm-overlay{position:fixed;inset:0;background:rgba(8,18,14,0.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:9998;display:none;align-items:center;justify-content:center;padding:20px;animation:dmFadeIn 0.25s ease}
+.dm-overlay.dm-open{display:flex}
+.dm-shell{background:#fafaf7;border-radius:16px;width:100%;max-width:1280px;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,0.5);font-family:'Manrope',sans-serif}
+.dm-titlebar{background:#174435;color:#fff;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1)}
+.dm-titlebar h2{font-size:1rem;font-weight:700;margin:0;letter-spacing:0.3px;display:flex;align-items:center;gap:10px}
+.dm-titlebar h2 .dm-dot{width:9px;height:9px;border-radius:50%;background:#65906B;box-shadow:0 0 8px #65906B;animation:dmPulse 2s infinite}
+.dm-close{background:rgba(255,255,255,0.12);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background 0.2s}
+.dm-close:hover{background:rgba(255,255,255,0.25)}
+.dm-banner{background:#fff7ed;border-bottom:1px solid #fed7aa;padding:8px 22px;font-size:0.72rem;color:#9a3412;font-family:'IBM Plex Mono',monospace;letter-spacing:0.3px}
+.dm-body{flex:1;overflow-y:auto;background:#f3f4f1}
+@keyframes dmFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes dmPulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* ── SECURITY MONITORING DASHBOARD ── */
+.sm-page{background:#f9fafb;padding:0;color:#111827}
+.sm-header{background:#fff;border-bottom:1px solid #e5e7eb;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.sm-header-left{display:flex;align-items:center;gap:12px}
+.sm-icon{width:38px;height:38px;border-radius:8px;background:#174435;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem}
+.sm-header h3{font-size:1rem;font-weight:700;color:#111827;margin:0}
+.sm-header p{font-size:0.78rem;color:#6b7280;margin:2px 0 0}
+.sm-header-time{font-size:0.78rem;color:#6b7280}
+.sm-header-time strong{color:#111827;font-weight:600}
+
+.sm-status-banner{margin:14px 24px 0;border-radius:10px;background:#f0fdf4;border:1px solid #bbf7d0;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.sm-traffic{display:flex;align-items:center;gap:14px}
+.sm-lights{display:flex;gap:6px}
+.sm-light{width:14px;height:14px;border-radius:50%;background:#bbf7d0}
+.sm-light.sm-red-on{background:#fee2e2}
+.sm-light.sm-yellow-on{background:#fef3c7}
+.sm-light.sm-green-on{background:#22c55e;box-shadow:0 0 0 0 rgba(34,197,94,0.5);animation:smPing 2.4s infinite}
+.sm-status-label{font-weight:700;color:#166534;font-size:0.92rem}
+.sm-status-sub{font-size:0.74rem;color:#16a34a;margin-top:2px}
+.sm-counters{display:flex;align-items:center;gap:18px;font-size:0.78rem}
+.sm-counter{text-align:center}
+.sm-counter-num{font-size:1.18rem;font-weight:700;color:#111827;line-height:1.1}
+.sm-counter-num.sm-warn{color:#ea580c}
+.sm-counter-num.sm-crit{color:#dc2626}
+.sm-counter-lbl{font-size:0.66rem;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
+.sm-counter-div{width:1px;height:32px;background:#d1d5db}
+@keyframes smPing{0%{box-shadow:0 0 0 0 rgba(34,197,94,0.5)}80%{box-shadow:0 0 0 10px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+
+.sm-tabs-shell{margin:14px 24px 0;background:#fff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden}
+.sm-tab-nav{display:flex;overflow-x:auto;border-bottom:1px solid #e5e7eb;background:#fff}
+.sm-tab{padding:12px 16px;background:none;border:none;border-bottom:2px solid transparent;font-size:0.83rem;font-weight:600;color:#6b7280;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;font-family:inherit;transition:all 0.15s}
+.sm-tab:hover{color:#111827}
+.sm-tab.sm-tab-active{color:#174435;border-bottom-color:#174435}
+.sm-tab .sm-tab-icon{font-size:0.95rem}
+.sm-tab-content{padding:18px}
+.sm-tab-panel{display:none}
+.sm-tab-panel.sm-active{display:block;animation:smFade 0.25s ease}
+@keyframes smFade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+.sm-overview-grid{display:grid;grid-template-columns:240px 1fr;gap:14px;margin-bottom:18px}
+@media (max-width:768px){.sm-overview-grid{grid-template-columns:1fr}}
+.sm-score-card{background:linear-gradient(135deg,#174435,#1f5a44);color:#fff;border-radius:10px;padding:18px;text-align:center;display:flex;flex-direction:column;justify-content:center}
+.sm-score-num{font-size:2.6rem;font-weight:800;line-height:1}
+.sm-score-grade{font-size:1rem;font-weight:700;margin-top:4px;letter-spacing:1px}
+.sm-score-lbl{font-size:0.7rem;color:rgba(255,255,255,0.75);text-transform:uppercase;letter-spacing:1px;margin-top:8px}
+.sm-score-trend{font-size:0.72rem;margin-top:10px;color:#bbf7d0}
+.sm-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.sm-metric{background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:12px}
+.sm-metric-lbl{font-size:0.66rem;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px}
+.sm-metric-num{font-size:1.4rem;font-weight:700;color:#111827;margin:4px 0}
+.sm-metric-delta{font-size:0.7rem;color:#16a34a;display:flex;align-items:center;gap:4px}
+.sm-metric-delta.sm-down{color:#dc2626}
+
+.sm-feed-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:768px){.sm-feed-grid{grid-template-columns:1fr}}
+.sm-panel{background:#fff;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden}
+.sm-panel-head{padding:12px 14px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;background:#fafafa}
+.sm-panel-title{font-size:0.85rem;font-weight:700;color:#111827}
+.sm-panel-count{font-size:0.7rem;color:#6b7280;background:#f3f4f6;padding:2px 8px;border-radius:10px}
+.sm-event-row{padding:10px 14px;border-bottom:1px solid #f3f4f6;display:flex;align-items:flex-start;gap:10px;font-size:0.78rem}
+.sm-event-row:last-child{border-bottom:none}
+.sm-sev{display:inline-block;width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.sm-sev-crit{background:#dc2626}
+.sm-sev-high{background:#ea580c}
+.sm-sev-med{background:#f59e0b}
+.sm-sev-low{background:#3b82f6}
+.sm-sev-info{background:#9ca3af}
+.sm-event-body{flex:1;min-width:0}
+.sm-event-title{font-weight:600;color:#111827;margin-bottom:2px}
+.sm-event-meta{color:#6b7280;font-size:0.7rem}
+.sm-event-source{font-family:'IBM Plex Mono',monospace;color:#174435}
+
+.sm-systems{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:18px}
+.sm-system{background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:12px;display:flex;align-items:center;gap:10px}
+.sm-sys-status{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.sm-sys-status.ok{background:#22c55e}
+.sm-sys-status.warn{background:#f59e0b}
+.sm-sys-status.err{background:#dc2626}
+.sm-sys-name{font-size:0.82rem;font-weight:600;color:#111827}
+.sm-sys-desc{font-size:0.68rem;color:#6b7280;margin-top:2px}
+
+.sm-placeholder{padding:40px 20px;text-align:center}
+.sm-placeholder-icon{width:60px;height:60px;margin:0 auto 14px;border-radius:50%;background:rgba(23,68,53,0.08);display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:#174435}
+.sm-placeholder h4{font-size:1rem;font-weight:700;color:#111827;margin:0 0 6px}
+.sm-placeholder p{font-size:0.82rem;color:#6b7280;max-width:520px;margin:0 auto}
+.sm-placeholder-tags{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.sm-placeholder-tag{font-family:'IBM Plex Mono',monospace;font-size:0.66rem;background:rgba(23,68,53,0.08);color:#174435;padding:4px 10px;border-radius:12px}
+
+/* ── DATA ARCHITECTURE MAP ── */
+.da-shell{padding:22px}
+.da-intro{margin-bottom:18px;display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+.da-intro-text h3{font-size:1.05rem;font-weight:700;color:#111827;margin:0 0 4px}
+.da-intro-text p{font-size:0.82rem;color:#6b7280;margin:0;max-width:640px}
+.da-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:0.7rem;color:#374151}
+.da-legend-item{display:flex;align-items:center;gap:5px}
+.da-legend-swatch{width:14px;height:3px;border-radius:2px;background:#174435}
+.da-legend-swatch.two-way{background:linear-gradient(90deg,#174435,#3b82f6)}
+.da-legend-swatch.manual{background:repeating-linear-gradient(90deg,#9ca3af 0,#9ca3af 3px,transparent 3px,transparent 6px)}
+.da-legend-swatch.mcp{background:#7c3aed}
+
+.da-canvas-wrap{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px;display:grid;grid-template-columns:1fr 280px;gap:14px;min-height:520px}
+@media (max-width:900px){.da-canvas-wrap{grid-template-columns:1fr}}
+.da-canvas{position:relative;background:linear-gradient(135deg,#f9fafb,#f3f4f6);border-radius:10px;min-height:480px;overflow:hidden}
+.da-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.da-svg path{fill:none;stroke-width:1.5;stroke:#94a3b8;opacity:0.55;transition:all 0.2s}
+.da-svg path.da-mcp{stroke:#7c3aed;stroke-width:2}
+.da-svg path.da-two-way{stroke:#3b82f6}
+.da-svg path.da-manual{stroke:#9ca3af;stroke-dasharray:4 4}
+.da-svg path.active{opacity:1;stroke-width:2.5;filter:drop-shadow(0 0 4px currentColor)}
+.da-node{position:absolute;background:#fff;border:1.5px solid #e5e7eb;border-radius:10px;padding:8px 11px;font-size:0.74rem;font-weight:600;color:#111827;cursor:pointer;transform:translate(-50%,-50%);transition:all 0.18s;box-shadow:0 2px 8px rgba(0,0,0,0.05);text-align:center;min-width:84px;user-select:none}
+.da-node:hover,.da-node.active{border-color:#174435;background:#f0fdf4;transform:translate(-50%,-50%) scale(1.06);box-shadow:0 4px 14px rgba(23,68,53,0.18);z-index:5}
+.da-node.da-hub{background:linear-gradient(135deg,#174435,#1f5a44);color:#fff;border-color:#174435;font-size:0.82rem;padding:14px 18px;min-width:120px}
+.da-node.da-hub:hover{background:linear-gradient(135deg,#1f5a44,#266b53);transform:translate(-50%,-50%) scale(1.04)}
+.da-node-tag{display:block;font-size:0.58rem;font-weight:500;opacity:0.75;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
+.da-sidebar{background:#fafafa;border:1px solid #e5e7eb;border-radius:10px;padding:14px;display:flex;flex-direction:column;min-width:0}
+.da-side-empty{font-size:0.78rem;color:#9ca3af;text-align:center;margin:auto 0;font-style:italic}
+.da-side-name{font-size:0.95rem;font-weight:700;color:#174435;margin:0 0 4px}
+.da-side-cat{font-family:'IBM Plex Mono',monospace;font-size:0.64rem;color:#6b7280;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.da-side-desc{font-size:0.78rem;color:#374151;line-height:1.5;margin-bottom:12px}
+.da-side-section{margin-bottom:10px}
+.da-side-section h5{font-size:0.7rem;font-weight:700;color:#111827;text-transform:uppercase;letter-spacing:0.5px;margin:0 0 6px}
+.da-side-flow{font-size:0.74rem;color:#374151;padding:5px 0;border-bottom:1px dashed #e5e7eb;display:flex;justify-content:space-between;gap:8px}
+.da-side-flow:last-child{border-bottom:none}
+.da-side-flow-arrow{color:#174435;font-weight:700}
+.da-side-meta{font-family:'IBM Plex Mono',monospace;font-size:0.66rem;color:#6b7280;margin-top:2px}
+
+.da-categories{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.da-cat-pill{font-family:'IBM Plex Mono',monospace;font-size:0.66rem;background:#fff;border:1px solid #e5e7eb;padding:5px 10px;border-radius:14px;cursor:pointer;color:#374151;transition:all 0.15s}
+.da-cat-pill:hover{border-color:#174435;color:#174435}
+.da-cat-pill.active{background:#174435;color:#fff;border-color:#174435}
+
+/* ── TECH ROADMAP ── */
+.tr-shell{padding:22px;background:#243d32;color:#e7f0eb;min-height:560px}
+.tr-intro{margin-bottom:18px;display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.tr-intro h3{font-size:1.05rem;font-weight:700;color:#fff;margin:0 0 4px}
+.tr-intro p{font-size:0.82rem;color:rgba(231,240,235,0.75);margin:0;max-width:640px}
+.tr-controls{display:flex;gap:6px;flex-wrap:wrap}
+.tr-filter{font-family:'IBM Plex Mono',monospace;font-size:0.66rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:#e7f0eb;padding:5px 10px;border-radius:14px;cursor:pointer;transition:all 0.15s}
+.tr-filter:hover{background:rgba(255,255,255,0.12)}
+.tr-filter.active{background:#65906B;border-color:#65906B;color:#fff}
+
+.tr-board{background:rgba(0,0,0,0.18);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px;overflow:hidden}
+.tr-axis{display:grid;grid-template-columns:170px 1fr;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:8px;margin-bottom:10px;font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:rgba(231,240,235,0.55);text-transform:uppercase;letter-spacing:1px}
+.tr-axis-cells{display:grid;grid-template-columns:repeat(8,1fr);gap:4px}
+.tr-axis-cell{text-align:center}
+.tr-row{display:grid;grid-template-columns:170px 1fr;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);transition:background 0.15s}
+.tr-row:last-child{border-bottom:none}
+.tr-row:hover{background:rgba(255,255,255,0.03)}
+.tr-row-label{padding-right:14px}
+.tr-row-title{font-size:0.82rem;font-weight:700;color:#fff;line-height:1.25}
+.tr-row-cat{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:rgba(231,240,235,0.5);text-transform:uppercase;letter-spacing:0.7px;margin-top:2px}
+.tr-track{position:relative;height:42px;background:linear-gradient(90deg,rgba(255,255,255,0.04),rgba(255,255,255,0.04));border-radius:6px;display:grid;grid-template-columns:repeat(8,1fr)}
+.tr-track-gridline{border-right:1px dashed rgba(255,255,255,0.05);height:100%}
+.tr-track-gridline:last-child{border-right:none}
+.tr-bar{position:absolute;top:50%;height:8px;border-radius:4px;transform:translateY(-50%);transition:all 0.18s}
+.tr-bar.tr-completed{background:linear-gradient(90deg,#65906B,#86b890)}
+.tr-bar.tr-progress{background:linear-gradient(90deg,#3b82f6,#60a5fa);box-shadow:0 0 8px rgba(59,130,246,0.5)}
+.tr-bar.tr-planned{background:repeating-linear-gradient(45deg,rgba(255,255,255,0.18) 0,rgba(255,255,255,0.18) 4px,rgba(255,255,255,0.05) 4px,rgba(255,255,255,0.05) 8px)}
+.tr-milestone{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;transform:translate(-50%,-50%);border:2px solid #243d32;cursor:pointer;transition:all 0.18s;z-index:2}
+.tr-milestone:hover{transform:translate(-50%,-50%) scale(1.4);z-index:3}
+.tr-milestone.tr-crit{background:#dc2626;width:18px;height:18px}
+.tr-milestone.tr-high{background:#f59e0b;width:14px;height:14px}
+.tr-milestone.tr-medium{background:#65906B;width:11px;height:11px}
+.tr-milestone.tr-future{background:rgba(255,255,255,0.4)}
+
+.tr-detail{margin-top:14px;background:rgba(0,0,0,0.22);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px;min-height:80px}
+.tr-detail-empty{font-size:0.78rem;color:rgba(231,240,235,0.5);font-style:italic;text-align:center;padding:14px}
+.tr-detail-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.tr-detail-dot{width:14px;height:14px;border-radius:50%}
+.tr-detail-title{font-size:0.95rem;font-weight:700;color:#fff;margin:0}
+.tr-detail-meta{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:rgba(231,240,235,0.6);text-transform:uppercase;letter-spacing:0.5px}
+.tr-detail-desc{font-size:0.82rem;color:rgba(231,240,235,0.85);line-height:1.55;margin:6px 0 0}
+.tr-detail-tags{margin-top:8px;display:flex;flex-wrap:wrap;gap:5px}
+.tr-detail-tag{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;background:rgba(101,144,107,0.2);color:#bbf7d0;padding:3px 8px;border-radius:10px}
+
+.tr-legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-size:0.7rem;color:rgba(231,240,235,0.7)}
+.tr-leg-item{display:flex;align-items:center;gap:6px}
+.tr-leg-dot{width:11px;height:11px;border-radius:50%}
+
+@media (max-width:768px){
+  .tr-axis,.tr-row{grid-template-columns:120px 1fr}
+  .tr-row-title{font-size:0.74rem}
+  .sm-tab{padding:10px 11px;font-size:0.74rem}
+}
+</style>
+
+<!-- Security Monitoring Dashboard Modal -->
+<div class="dm-overlay" id="sm-modal" role="dialog" aria-modal="true" aria-label="Security Monitoring Dashboard Demo">
+  <div class="dm-shell">
+    <div class="dm-titlebar">
+      <h2><span class="dm-dot"></span>Security & Network Monitoring Dashboard</h2>
+      <button class="dm-close" data-dm-close="sm-modal" aria-label="Close">✕</button>
+    </div>
+    <div class="dm-banner"><strong>Interactive Demo</strong> · Live production deployment ingests from 10+ vendor APIs (Huntress, SentinelOne, Meraki, Umbrella, NinjaOne, KnowBe4, Keeper, MS Defender, Duo, Box). Sample data shown.</div>
+    <div class="dm-body">
+      <div class="sm-page">
+        <div class="sm-header">
+          <div class="sm-header-left">
+            <div class="sm-icon">🛡</div>
+            <div>
+              <h3>Security &amp; Network Monitor</h3>
+              <p>Unified security posture across all systems</p>
+            </div>
+          </div>
+          <div class="sm-header-time">Dashboard initialized <strong>10:42</strong></div>
+        </div>
+
+        <div class="sm-status-banner">
+          <div class="sm-traffic">
+            <div class="sm-lights">
+              <span class="sm-light sm-red"></span>
+              <span class="sm-light sm-yellow"></span>
+              <span class="sm-light sm-green-on"></span>
+            </div>
+            <div>
+              <div class="sm-status-label">All Systems Nominal</div>
+              <div class="sm-status-sub">No active incidents or critical alerts</div>
+            </div>
+          </div>
+          <div class="sm-counters">
+            <div class="sm-counter"><div class="sm-counter-num">0</div><div class="sm-counter-lbl">Active Incidents</div></div>
+            <div class="sm-counter-div"></div>
+            <div class="sm-counter"><div class="sm-counter-num sm-warn">2</div><div class="sm-counter-lbl">Open Escalations</div></div>
+            <div class="sm-counter-div"></div>
+            <div class="sm-counter"><div class="sm-counter-num">7</div><div class="sm-counter-lbl">Unresolved Alerts</div></div>
+          </div>
+        </div>
+
+        <div class="sm-tabs-shell">
+          <nav class="sm-tab-nav" role="tablist" aria-label="Security Dashboard Tabs"></nav>
+          <div class="sm-tab-content" id="sm-tab-content"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Data Architecture Map Modal -->
+<div class="dm-overlay" id="da-modal" role="dialog" aria-modal="true" aria-label="Data Architecture Map Demo">
+  <div class="dm-shell">
+    <div class="dm-titlebar">
+      <h2><span class="dm-dot"></span>Data Architecture Map</h2>
+      <button class="dm-close" data-dm-close="da-modal" aria-label="Close">✕</button>
+    </div>
+    <div class="dm-banner"><strong>Interactive Demo</strong> · Click any system to see its connections, sync direction, and frequency. Production version is rendered with React Flow against the live integration registry.</div>
+    <div class="dm-body">
+      <div class="da-shell">
+        <div class="da-intro">
+          <div class="da-intro-text">
+            <h3>Salesforce-Centric Integration Hub</h3>
+            <p>Every major system at the firm — CRM, custody, portfolio mgmt, document storage, AI, comms — flows through Salesforce as the unified client-data layer. Custom MCP servers expose live tool access to the agentic AI platform.</p>
+          </div>
+          <div class="da-legend">
+            <div class="da-legend-item"><span class="da-legend-swatch"></span>One-way</div>
+            <div class="da-legend-item"><span class="da-legend-swatch two-way"></span>Two-way</div>
+            <div class="da-legend-item"><span class="da-legend-swatch manual"></span>Manual / CSV</div>
+            <div class="da-legend-item"><span class="da-legend-swatch mcp"></span>MCP server</div>
+          </div>
+        </div>
+        <div class="da-canvas-wrap">
+          <div class="da-canvas" id="da-canvas">
+            <svg class="da-svg" id="da-svg" viewBox="0 0 700 480" preserveAspectRatio="none"></svg>
+          </div>
+          <aside class="da-sidebar" id="da-sidebar">
+            <div class="da-side-empty">Hover or tap any node to inspect its data flows.</div>
+          </aside>
+        </div>
+        <div class="da-categories" id="da-cats"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tech Roadmap Modal -->
+<div class="dm-overlay" id="tr-modal" role="dialog" aria-modal="true" aria-label="Technology Roadmap Demo">
+  <div class="dm-shell">
+    <div class="dm-titlebar">
+      <h2><span class="dm-dot"></span>Technology Roadmap</h2>
+      <button class="dm-close" data-dm-close="tr-modal" aria-label="Close">✕</button>
+    </div>
+    <div class="dm-banner"><strong>Interactive Demo</strong> · 100+ milestones across 8 strategic epics. Click any milestone for detail. Production version supports zoom/pan, mobile compact view, and live status from the operations DB.</div>
+    <div class="dm-body">
+      <div class="tr-shell">
+        <div class="tr-intro">
+          <div>
+            <h3>Strategic Technology Roadmap · Pre-2022 → 2026 Q4</h3>
+            <p>Every major IT initiative since taking over the program. Status updated live from the projects database. Filter by status to scope the view.</p>
+          </div>
+          <div class="tr-controls" id="tr-filters"></div>
+        </div>
+        <div class="tr-board">
+          <div class="tr-axis">
+            <div></div>
+            <div class="tr-axis-cells" id="tr-axis-cells"></div>
+          </div>
+          <div id="tr-rows"></div>
+          <div class="tr-legend">
+            <div class="tr-leg-item"><span class="tr-leg-dot" style="background:#dc2626"></span>Critical impact</div>
+            <div class="tr-leg-item"><span class="tr-leg-dot" style="background:#f59e0b"></span>High impact</div>
+            <div class="tr-leg-item"><span class="tr-leg-dot" style="background:#65906B"></span>Medium impact</div>
+            <div class="tr-leg-item"><span class="tr-leg-dot" style="background:rgba(255,255,255,0.4)"></span>Future / planned</div>
+          </div>
+        </div>
+        <div class="tr-detail" id="tr-detail"><div class="tr-detail-empty">Click any milestone above for detail.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script id="demo-modals-script">
+(function(){
+  'use strict';
+
+  // ── Open / Close helpers ──
+  window.openShowcaseDemo=function(id){
+    const map={security:'sm-modal',dataarch:'da-modal',roadmap:'tr-modal'};
+    const m=document.getElementById(map[id]);
+    if(!m)return;
+    m.classList.add('dm-open');
+    document.body.style.overflow='hidden';
+    if(id==='security')initSecurity();
+    if(id==='dataarch')initDataArch();
+    if(id==='roadmap')initRoadmap();
+  };
+  document.addEventListener('click',e=>{
+    const c=e.target.closest('[data-dm-close]');
+    if(c){const m=document.getElementById(c.dataset.dmClose);m&&m.classList.remove('dm-open');document.body.style.overflow=''}
+    const ov=e.target.classList&&e.target.classList.contains('dm-overlay');
+    if(ov){e.target.classList.remove('dm-open');document.body.style.overflow=''}
+  });
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){document.querySelectorAll('.dm-overlay.dm-open').forEach(m=>m.classList.remove('dm-open'));document.body.style.overflow=''}
+  });
+
+  // ─────────────────────────────────────────
+  // SECURITY MONITORING DASHBOARD
+  // ─────────────────────────────────────────
+  const SM_TABS=[
+    {id:'overview',label:'Overview',icon:'⌑'},
+    {id:'network',label:'Network',icon:'⊕'},
+    {id:'threats',label:'Threats',icon:'⚠'},
+    {id:'devices',label:'Devices',icon:'▭'},
+    {id:'identity',label:'Identity & Access',icon:'⚿'},
+    {id:'data',label:'Data Security',icon:'⛁'},
+    {id:'pentest',label:'Pen Testing',icon:'⚒'},
+    {id:'alerts',label:'Alerts & Reports',icon:'⚑'},
+  ];
+  const SM_SYSTEMS=[
+    {n:'Huntress',d:'Managed EDR · 0 incidents',s:'ok'},
+    {n:'SentinelOne',d:'Endpoint protection · 247/247 healthy',s:'ok'},
+    {n:'Cisco Meraki',d:'Network · 2 sites online',s:'ok'},
+    {n:'Cisco Umbrella',d:'DNS-layer · 1.2K queries/min',s:'ok'},
+    {n:'NinjaOne',d:'RMM · 4 patches pending',s:'warn'},
+    {n:'KnowBe4',d:'Phishing sim · 3% click rate',s:'ok'},
+    {n:'Keeper',d:'Vault · 0 weak passwords',s:'ok'},
+    {n:'MS Defender',d:'Identity · 2 risky sign-ins',s:'warn'},
+    {n:'Duo MFA',d:'15K auths today',s:'ok'},
+    {n:'Box',d:'Sharing posture · clean',s:'ok'},
+  ];
+  const SM_EVENTS=[
+    {sev:'med',title:'Risky sign-in detected',meta:'MS Defender · finance.user@balentine.com · 9:14 AM',src:'defender'},
+    {sev:'low',title:'Endpoint reboot pending after patch deployment',meta:'NinjaOne · DESKTOP-7K2L · 8:55 AM',src:'ninja'},
+    {sev:'info',title:'Phishing simulation campaign delivered',meta:'KnowBe4 · 65 recipients · 8:30 AM',src:'knowbe4'},
+    {sev:'low',title:'New device enrolled',meta:'Rippling → SentinelOne · MBP-2024-09 · 8:12 AM',src:'sentinel'},
+    {sev:'med',title:'Failed MFA attempts threshold (3)',meta:'Duo · external IP 73.x.x.x · 7:48 AM',src:'duo'},
+    {sev:'info',title:'Nightly DNS report generated',meta:'Umbrella · 0 blocked categories breached · 6:00 AM',src:'umbrella'},
+  ];
+  const SM_ALERTS=[
+    {sev:'high',title:'External shared link with no expiration',meta:'Box · /Clients/Acme · age: 47d',src:'box'},
+    {sev:'med',title:'Mailbox forwarding rule created',meta:'MS Graph · ops.user@balentine.com',src:'graph'},
+    {sev:'med',title:'Privileged role activation',meta:'Entra ID · Global Admin · 23 min',src:'defender'},
+    {sev:'low',title:'Patch SLA approaching for 4 endpoints',meta:'NinjaOne · target: 48h',src:'ninja'},
+    {sev:'low',title:'Conditional access policy modified',meta:'Entra ID · attributed: i.t.admin',src:'defender'},
+  ];
+  let smInited=false;
+  function initSecurity(){
+    if(smInited)return; smInited=true;
+    const nav=document.querySelector('#sm-modal .sm-tab-nav');
+    const content=document.getElementById('sm-tab-content');
+    SM_TABS.forEach((t,i)=>{
+      const btn=document.createElement('button');
+      btn.className='sm-tab'+(i===0?' sm-tab-active':'');
+      btn.dataset.tab=t.id;
+      btn.innerHTML=`<span class="sm-tab-icon">${t.icon}</span>${t.label}`;
+      btn.addEventListener('click',()=>{
+        document.querySelectorAll('#sm-modal .sm-tab').forEach(x=>x.classList.remove('sm-tab-active'));
+        btn.classList.add('sm-tab-active');
+        document.querySelectorAll('#sm-modal .sm-tab-panel').forEach(x=>x.classList.remove('sm-active'));
+        const p=document.querySelector(`#sm-modal .sm-tab-panel[data-tab="${t.id}"]`);
+        if(p)p.classList.add('sm-active');
+      });
+      nav.appendChild(btn);
+    });
+    // Build all panels
+    SM_TABS.forEach((t,i)=>{
+      const p=document.createElement('div');
+      p.className='sm-tab-panel'+(i===0?' sm-active':'');
+      p.dataset.tab=t.id;
+      p.innerHTML=renderSmPanel(t.id);
+      content.appendChild(p);
+    });
+  }
+  function renderSmPanel(id){
+    if(id==='overview'){
+      return `
+        <div class="sm-overview-grid">
+          <div class="sm-score-card">
+            <div class="sm-score-num">94</div>
+            <div class="sm-score-grade">A · STRONG</div>
+            <div class="sm-score-lbl">Security Posture Score</div>
+            <div class="sm-score-trend">▲ +2 vs last week</div>
+          </div>
+          <div class="sm-metrics">
+            <div class="sm-metric"><div class="sm-metric-lbl">Endpoints</div><div class="sm-metric-num">247</div><div class="sm-metric-delta">+3 this week</div></div>
+            <div class="sm-metric"><div class="sm-metric-lbl">MFA Coverage</div><div class="sm-metric-num">100%</div><div class="sm-metric-delta">All identities</div></div>
+            <div class="sm-metric"><div class="sm-metric-lbl">Patch SLA</div><div class="sm-metric-num">98.4%</div><div class="sm-metric-delta sm-down">−0.2%</div></div>
+            <div class="sm-metric"><div class="sm-metric-lbl">Phishing Click Rate</div><div class="sm-metric-num">3.1%</div><div class="sm-metric-delta">▼ vs 4.8%</div></div>
+            <div class="sm-metric"><div class="sm-metric-lbl">DNS Blocks</div><div class="sm-metric-num">1,247</div><div class="sm-metric-delta">last 24h</div></div>
+            <div class="sm-metric"><div class="sm-metric-lbl">Vault Health</div><div class="sm-metric-num">A+</div><div class="sm-metric-delta">0 weak / 0 reused</div></div>
+          </div>
+        </div>
+        <div class="sm-feed-grid">
+          <div class="sm-panel">
+            <div class="sm-panel-head"><div class="sm-panel-title">Recent Security Events</div><div class="sm-panel-count">${SM_EVENTS.length}</div></div>
+            ${SM_EVENTS.map(e=>`<div class="sm-event-row"><span class="sm-sev sm-sev-${e.sev}"></span><div class="sm-event-body"><div class="sm-event-title">${e.title}</div><div class="sm-event-meta">${e.meta}</div></div></div>`).join('')}
+          </div>
+          <div class="sm-panel">
+            <div class="sm-panel-head"><div class="sm-panel-title">Active Alerts</div><div class="sm-panel-count">${SM_ALERTS.length}</div></div>
+            ${SM_ALERTS.map(e=>`<div class="sm-event-row"><span class="sm-sev sm-sev-${e.sev}"></span><div class="sm-event-body"><div class="sm-event-title">${e.title}</div><div class="sm-event-meta">${e.meta}</div></div></div>`).join('')}
+          </div>
+        </div>
+        <div class="sm-systems">
+          ${SM_SYSTEMS.map(s=>`<div class="sm-system"><span class="sm-sys-status ${s.s}"></span><div><div class="sm-sys-name">${s.n}</div><div class="sm-sys-desc">${s.d}</div></div></div>`).join('')}
+        </div>`;
+    }
+    const tabBlurbs={
+      network:{i:'⊕',h:'Network Telemetry',p:'Cisco Meraki traffic and device health across both offices, plus Cisco Umbrella DNS-layer enforcement events. Trend lines, top talkers, blocked-category breakdowns, VPN session inventory, SSID activity, guest network isolation status.',tags:['Meraki','Umbrella','VPN','SSIDs']},
+      threats:{i:'⚠',h:'Threat Detection Feed',p:'Unified Huntress + SentinelOne event stream. MITRE ATT&CK technique mapping, severity-graded triage queue, one-click isolate/quarantine/respond actions, and analyst notes.',tags:['Huntress','SentinelOne','MITRE','EDR']},
+      devices:{i:'▭',h:'Endpoint Inventory',p:'NinjaOne RMM view of every Mac and Windows endpoint. Patch compliance, software deployment status, hardware specs, last check-in, FileVault/BitLocker posture, MDM enrollment.',tags:['NinjaOne','Patch','MDM','Inventory']},
+      identity:{i:'⚿',h:'Identity & Access Posture',p:'MS Defender for Identity sign-in risk, conditional access policy state, Duo MFA failures, privileged role activations, Entra ID directory health, Rippling group sync status.',tags:['Entra ID','Duo','Defender','Conditional Access']},
+      data:{i:'⛁',h:'Data Security Posture',p:'Box, SharePoint, OneDrive sharing posture across the firm. DLP policy violations, sensitive label coverage, external sharing audit, file activity anomalies.',tags:['Box','SharePoint','DLP','Labels']},
+      pentest:{i:'⚒',h:'Penetration Testing',p:'Built-in scanner integrated with the security stack. Scheduled and ad-hoc assessments, finding tracker with remediation status, evidence bundles, retest scheduling.',tags:['Scanner','Findings','Evidence','Retest']},
+      alerts:{i:'⚑',h:'Alerts & Reports',p:'Cross-vendor alert workflow with status (open/in-progress/resolved/false-positive), assignment, and SLA tracking. Exportable reports for SEC exam evidence and board reporting.',tags:['Workflow','SLA','SEC Exam','Audit']},
+    };
+    const b=tabBlurbs[id];
+    return `<div class="sm-placeholder">
+      <div class="sm-placeholder-icon">${b.i}</div>
+      <h4>${b.h}</h4>
+      <p>${b.p}</p>
+      <div class="sm-placeholder-tags">${b.tags.map(t=>`<span class="sm-placeholder-tag">${t}</span>`).join('')}</div>
+    </div>`;
+  }
+
+  // ─────────────────────────────────────────
+  // DATA ARCHITECTURE MAP
+  // ─────────────────────────────────────────
+  const DA_NODES=[
+    {id:'sf',name:'Salesforce',cat:'CRM Hub',hub:true,x:50,y:50,desc:'Unified client data layer and central CRM. Every major system connects to Salesforce as the source of truth for households, contacts, accounts, opportunities, and cases.',
+      flows:[{f:'Pershing → SF',m:'MCP · intraday 4×',cls:'da-mcp'},{f:'Addepar ↔ SF',m:'MCP · nightly two-way',cls:'da-two-way'},{f:'Box ↔ SF',m:'Native · real-time',cls:'da-two-way'},{f:'Gong → SF',m:'Webhook · near real-time',cls:''},{f:'Office 365 ↔ SF',m:'Native · two-way',cls:'da-two-way'},{f:'SF → Concur',m:'One-way · daily',cls:''},{f:'Redblack → SF',m:'Manual CSV',cls:'da-manual'}]},
+    {id:'pershing',name:'Pershing',cat:'Custodian',x:18,y:14,desc:'Primary custodian. Live account data, balances, holdings, transactions, RMDs, beneficiaries. Cert-auth APIs into custom MCP server.',flows:[{f:'Pershing → SF',m:'Intraday 4×',cls:'da-mcp'},{f:'Pershing → Addepar',m:'Daily feed',cls:''},{f:'Pershing → PostgreSQL',m:'Nightly + intraday',cls:'da-mcp'}]},
+    {id:'addepar',name:'Addepar',cat:'Portfolio Mgmt',x:50,y:14,desc:'Portfolio aggregator. Positions, transactions, AUM, tax lots, entity hierarchies. Two-way SF sync for performance and account hierarchy.',flows:[{f:'Addepar ↔ SF',m:'Nightly',cls:'da-two-way'},{f:'Addepar → eMoney',m:'One-way · planning',cls:''},{f:'Addepar → Redblack',m:'Feed',cls:''},{f:'Addepar → PostgreSQL',m:'Nightly 2-4 AM',cls:'da-mcp'}]},
+    {id:'arch',name:'Arch',cat:'Private Capital',x:82,y:14,desc:'Private capital aggregator. Capital calls, K1s, private holdings. Custom integration with Salesforce for cash flows.',flows:[{f:'Arch ↔ SF',m:'Daily',cls:'da-two-way'},{f:'Arch → Addepar',m:'One-way feed',cls:''},{f:'Arch → PostgreSQL',m:'Daily 4 AM',cls:'da-mcp'}]},
+    {id:'box',name:'Box',cat:'Document Storage',x:14,y:42,desc:'Document storage backbone. Two-way SF sync for household docs. Powers client portal, document vault, and onboarding doc collection.',flows:[{f:'Box ↔ SF',m:'Real-time',cls:'da-two-way'},{f:'Box → clients.balentine',m:'One-way',cls:''},{f:'Box → documents.balentine',m:'One-way',cls:''}]},
+    {id:'office',name:'Office 365',cat:'Productivity',x:86,y:42,desc:'Email, calendar, contacts, Teams. Native two-way Salesforce sync. MS Graph powers email automations, sign-in security, calendar mgmt.',flows:[{f:'Office 365 ↔ SF',m:'Native · two-way',cls:'da-two-way'},{f:'Graph → projects.balentine',m:'Email automations',cls:''}]},
+    {id:'gong',name:'Gong',cat:'Comms Intelligence',x:30,y:78,desc:'Meeting recordings, transcripts, AI summaries. Pushes to SF for activity timeline and AI prep briefs.',flows:[{f:'Zoom → Gong',m:'Recording sync',cls:''},{f:'Gong → SF',m:'Near real-time',cls:''}]},
+    {id:'rippling',name:'Rippling',cat:'HR / Identity',x:70,y:78,desc:'HR, payroll, devices, SAML SSO. Source of truth for employees. Drives projects.balentine total rewards and contact sync.',flows:[{f:'Rippling → projects.balentine',m:'One-way',cls:''},{f:'Rippling → PostgreSQL',m:'Daily 7 AM',cls:'da-mcp'},{f:'Rippling → SAML',m:'SSO for all apps',cls:''}]},
+    {id:'qb',name:'QuickBooks',cat:'Accounting',x:6,y:68,desc:'Accounting backbone. Bidirectional sync with budgets.balentine for accounts, bills, vendors, expenses.',flows:[{f:'QuickBooks → budgets.balentine',m:'Two-way',cls:'da-two-way'}]},
+    {id:'concur',name:'Concur',cat:'Expense',x:94,y:68,desc:'Expense management and travel. Receives client codes from SF for proper attribution.',flows:[{f:'SF → Concur',m:'Daily',cls:''}]},
+    {id:'ai',name:'AI Agents',cat:'Agentic Layer',x:50,y:88,desc:'11 MCP servers exposing 425+ tools. Multi-tier RAG (Qdrant + PostgreSQL). Self-hosted Ollama LLMs with runtime Claude API switching. Senior RIA reviewer pattern.',flows:[{f:'AI ↔ all MCPs',m:'Live tool access',cls:'da-mcp'},{f:'AI → PostgreSQL data lake',m:'Vector + relational',cls:''}]},
+  ];
+  const DA_LINKS=[
+    ['sf','pershing','da-mcp'],['sf','addepar','da-two-way'],['sf','arch','da-two-way'],
+    ['sf','box','da-two-way'],['sf','office','da-two-way'],['sf','gong',''],
+    ['sf','concur',''],['rippling','sf',''],['ai','sf','da-mcp'],
+    ['ai','pershing','da-mcp'],['ai','addepar','da-mcp'],['ai','arch','da-mcp'],
+    ['ai','box','da-mcp'],['ai','rippling','da-mcp'],['qb','sf','da-manual'],
+    ['pershing','addepar',''],['arch','addepar',''],
+  ];
+  let daInited=false;
+  function initDataArch(){
+    if(daInited)return; daInited=true;
+    const canvas=document.getElementById('da-canvas');
+    const svg=document.getElementById('da-svg');
+    const sidebar=document.getElementById('da-sidebar');
+    // Render nodes
+    DA_NODES.forEach(n=>{
+      const el=document.createElement('div');
+      el.className='da-node'+(n.hub?' da-hub':'');
+      el.style.left=n.x+'%';el.style.top=n.y+'%';
+      el.dataset.id=n.id;
+      el.innerHTML=`${n.name}<span class="da-node-tag">${n.cat}</span>`;
+      el.addEventListener('mouseenter',()=>showDaNode(n.id));
+      el.addEventListener('click',()=>showDaNode(n.id));
+      canvas.appendChild(el);
+    });
+    // Render links
+    DA_LINKS.forEach(([a,b,cls])=>{
+      const A=DA_NODES.find(n=>n.id===a),B=DA_NODES.find(n=>n.id===b);
+      if(!A||!B)return;
+      const x1=A.x*7,y1=A.y*4.8,x2=B.x*7,y2=B.y*4.8;
+      const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+      const cx=(x1+x2)/2,cy=(y1+y2)/2-30;
+      path.setAttribute('d',`M${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`);
+      if(cls)path.setAttribute('class',cls);
+      path.dataset.from=a;path.dataset.to=b;
+      svg.appendChild(path);
+    });
+    // Categories
+    const cats=document.getElementById('da-cats');
+    const allCats=[...new Set(DA_NODES.map(n=>n.cat))];
+    allCats.forEach(c=>{
+      const p=document.createElement('span');
+      p.className='da-cat-pill';p.textContent=c;
+      p.addEventListener('click',()=>{
+        const wasActive=p.classList.contains('active');
+        cats.querySelectorAll('.da-cat-pill').forEach(x=>x.classList.remove('active'));
+        canvas.querySelectorAll('.da-node').forEach(n=>n.style.opacity='1');
+        if(wasActive)return;
+        p.classList.add('active');
+        canvas.querySelectorAll('.da-node').forEach(n=>{
+          const node=DA_NODES.find(x=>x.id===n.dataset.id);
+          n.style.opacity=(node&&node.cat===c)?'1':'0.3';
+        });
+      });
+      cats.appendChild(p);
+    });
+    showDaNode('sf');
+  }
+  function showDaNode(id){
+    const n=DA_NODES.find(x=>x.id===id);
+    if(!n)return;
+    document.querySelectorAll('#da-canvas .da-node').forEach(el=>el.classList.toggle('active',el.dataset.id===id));
+    document.querySelectorAll('#da-svg path').forEach(p=>p.classList.toggle('active',p.dataset.from===id||p.dataset.to===id));
+    const sidebar=document.getElementById('da-sidebar');
+    sidebar.innerHTML=`
+      <div class="da-side-name">${n.name}</div>
+      <div class="da-side-cat">${n.cat}</div>
+      <div class="da-side-desc">${n.desc}</div>
+      <div class="da-side-section">
+        <h5>Data Flows</h5>
+        ${n.flows.map(f=>`<div class="da-side-flow"><span>${f.f}</span><span class="da-side-flow-arrow">→</span></div><div class="da-side-meta">${f.m}</div>`).join('')}
+      </div>`;
+  }
+
+  // ─────────────────────────────────────────
+  // TECH ROADMAP
+  // ─────────────────────────────────────────
+  const TR_PERIODS=['Pre-2022','2022','2023','2024','2025','2026','2027','Future'];
+  const TR_EPICS=[
+    {id:'infra',title:'Infrastructure Modernization',cat:'Infrastructure',color:'#65906B',start:0,end:3,
+      milestones:[
+        {p:0,impact:'crit',title:'MSP-driven legacy state',desc:'High cost, low service. Obsolete hardware, fragmented systems.',tags:['Pre-2022']},
+        {p:1,impact:'crit',title:'MSP exit decision',desc:'Strategic decision to bring all of IT in-house. Direct vendor relationships established.',tags:['2022','MSP']},
+        {p:1,impact:'high',title:'Hardware refresh program',desc:'Systematic replacement of obsolete fleet. Standardized on Apple silicon for advisors.',tags:['2022','Hardware']},
+        {p:2,impact:'crit',title:'Azure cloud migration',desc:'All workloads migrated to Azure. AV systems stabilized. Network reliability achieved.',tags:['2023','Azure']},
+        {p:2,impact:'high',title:'Raleigh office build',desc:'Built new office IT from scratch — MDF, networking, AV, endpoints, MDM.',tags:['2023','Office']},
+        {p:3,impact:'crit',title:'IT associate hire',desc:'First IT hire to support infrastructure. Enabled focus on strategic builds.',tags:['2024','Hiring']},
+      ]},
+    {id:'identity',title:'Identity, HR & Employee Experience',cat:'Identity',color:'#3b82f6',start:0,end:4,
+      milestones:[
+        {p:0,impact:'high',title:'HR system sprawl',desc:'11+ separate HR/benefits systems. Login confusion, fragmented data.',tags:['Pre-2022','HR']},
+        {p:1,impact:'high',title:'SSO strategy defined',desc:'Federated identity strategy. Keycloak as IdP, SAML to all apps.',tags:['2022','SSO']},
+        {p:2,impact:'medium',title:'Salesforce resource centers',desc:'Centralized employee resources inside Salesforce.',tags:['2023']},
+        {p:3,impact:'crit',title:'Rippling unified platform',desc:'Consolidated 12 employee systems into Rippling. Single source of truth for HR.',tags:['2024','Rippling']},
+        {p:4,impact:'high',title:'Total rewards portal',desc:'Real-time comp, benefits, incentive visibility. SAML federated.',tags:['2025']},
+      ]},
+    {id:'security',title:'Cybersecurity (NIST)',cat:'Security',color:'#dc2626',start:1,end:4,
+      milestones:[
+        {p:1,impact:'crit',title:'SEC exam findings',desc:'Outsourced cybersecurity program failed SEC exam. Catalyst for in-house rebuild.',tags:['2022','SEC']},
+        {p:2,impact:'crit',title:'NIST framework rebuild',desc:'Rebuilt cybersecurity from scratch on NIST CSF foundation. Identity, endpoints, network, data, alerting.',tags:['2023','NIST']},
+        {p:3,impact:'crit',title:'Unified security dashboard',desc:'Built Security & Network Monitoring Dashboard across 10+ vendors. SecOps visibility in one pane.',tags:['2024','Dashboard']},
+        {p:3,impact:'crit',title:'SEC exam — zero findings',desc:'Second SEC exam passed with zero cybersecurity findings.',tags:['2024','SEC','Win']},
+        {p:4,impact:'high',title:'Built-in pen testing',desc:'Integrated pen testing scanner into the security stack with finding tracker.',tags:['2025']},
+      ]},
+    {id:'apps',title:'Custom Applications',cat:'Development',color:'#7c3aed',start:1,end:5,
+      milestones:[
+        {p:1,impact:'high',title:'First production app',desc:'Onboarding portal launched. Replaced manual paper process.',tags:['2022','React']},
+        {p:2,impact:'high',title:'Client + document portals',desc:'Clients.balentine.com and documents.balentine.com launched.',tags:['2023']},
+        {p:3,impact:'crit',title:'AdvisorHub Salesforce app',desc:'Unified RM dashboard. 65 LWC components, 98 Flows, 21 Apex triggers.',tags:['2024','Salesforce','LWC']},
+        {p:4,impact:'crit',title:'Budget app · QuickBooks bidirectional',desc:'Replaced spreadsheets across 20+ departments. SAML SSO, multi-stage approvals, AI summaries.',tags:['2025','QuickBooks']},
+        {p:5,impact:'high',title:'Insights + Sound Like Me',desc:'Meeting intelligence, voice-profile rewriter, pre-meeting briefs.',tags:['2026','AI']},
+      ]},
+    {id:'ai',title:'AI & Agentic Systems',cat:'AI',color:'#f59e0b',start:2,end:6,
+      milestones:[
+        {p:2,impact:'medium',title:'OpenAI summarization in CRM',desc:'First production AI use case. Summaries via OpenAI + Conga Orchestrate + Chatter.',tags:['2023','OpenAI']},
+        {p:3,impact:'high',title:'Insights App launched',desc:'Meeting intelligence with Gong/Zoom sync, transcription, pre-meeting briefs.',tags:['2024']},
+        {p:4,impact:'crit',title:'Agentic AI unit founded',desc:'11 MCP servers exposing 425+ tools. Self-hosted Ollama LLMs with runtime Claude switching. Multi-tier RAG.',tags:['2025','MCP','Ollama']},
+        {p:4,impact:'high',title:'Senior RIA reviewer pattern',desc:'Re-reads synthesized answers with domain expertise before delivery.',tags:['2025']},
+        {p:5,impact:'high',title:'Voice profiles · Sound Like Me',desc:'Personal writing-style learning from sent emails. One-click rewrite preserving facts.',tags:['2026']},
+        {p:6,impact:'medium',title:'Exploratory firm-mapping agents',desc:'Map how the firm actually works from comms + CRM activity.',tags:['2027','Future']},
+      ]},
+    {id:'custodian',title:'Pershing → Fidelity Conversion',cat:'Operations',color:'#0ea5e9',start:4,end:6,
+      milestones:[
+        {p:4,impact:'crit',title:'Decision to convert',desc:'Strategic decision to migrate from Pershing to Fidelity custodian.',tags:['2025']},
+        {p:5,impact:'high',title:'Custom SFTP ingestion server',desc:'DigitalOcean file watcher · 14 PostgreSQL tables · 18 daily jobs.',tags:['2026','In-progress']},
+        {p:5,impact:'high',title:'Cert-auth API integration',desc:'New custodian cert-based API + ingestion plumbing.',tags:['2026','In-progress']},
+        {p:6,impact:'crit',title:'Conversion complete',desc:'Full client base migrated. Pershing decommissioned.',tags:['2027','Planned']},
+      ]},
+    {id:'data',title:'Data Orchestration Backbone',cat:'Data',color:'#10b981',start:5,end:7,
+      milestones:[
+        {p:5,impact:'medium',title:'Snowflake vs Databricks evaluation',desc:'Benchmarked both for the centralized data lake.',tags:['2026']},
+        {p:6,impact:'high',title:'Centralized data lake',desc:'Unified backbone for all sync sources. Vector + relational hybrid.',tags:['2027','Planned']},
+        {p:7,impact:'medium',title:'Predictive client analytics',desc:'Models on top of the data lake for client engagement, retention, opportunity scoring.',tags:['Future']},
+      ]},
+    {id:'culture',title:'Adoption & Education',cat:'Culture',color:'#ec4899',start:2,end:6,
+      milestones:[
+        {p:2,impact:'medium',title:'Tech tip videos launched',desc:'Themed walkthrough videos to introduce new tech in approachable, fun ways.',tags:['2023','Video']},
+        {p:3,impact:'medium',title:'Quarterly innovation sessions',desc:'Cross-department feedback on build-vs-buy decisions.',tags:['2024']},
+        {p:4,impact:'high',title:'Firm-wide AI education',desc:'80% AI usage increase year-over-year through training and tooling.',tags:['2025','AI','Training']},
+        {p:5,impact:'medium',title:'Conference panels',desc:'Speaking on data orchestration and fintech integration.',tags:['2026']},
+        {p:6,impact:'medium',title:'Mentorship → Director / Chief of Staff promotions',desc:'Mentored team members into senior leadership roles.',tags:['2027']},
+      ]},
+  ];
+  let trInited=false;
+  let trFilter='all';
+  function initRoadmap(){
+    if(trInited)return; trInited=true;
+    const filters=document.getElementById('tr-filters');
+    [{id:'all',l:'All'},{id:'completed',l:'Completed'},{id:'progress',l:'In Progress'},{id:'planned',l:'Future / Planned'}].forEach(f=>{
+      const b=document.createElement('button');
+      b.className='tr-filter'+(f.id===trFilter?' active':'');
+      b.textContent=f.l;
+      b.addEventListener('click',()=>{
+        trFilter=f.id;
+        filters.querySelectorAll('.tr-filter').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active');
+        renderTrRows();
+      });
+      filters.appendChild(b);
+    });
+    const axis=document.getElementById('tr-axis-cells');
+    TR_PERIODS.forEach(p=>{const c=document.createElement('div');c.className='tr-axis-cell';c.textContent=p;axis.appendChild(c)});
+    renderTrRows();
+  }
+  function renderTrRows(){
+    const wrap=document.getElementById('tr-rows');
+    wrap.innerHTML='';
+    TR_EPICS.forEach(epic=>{
+      const row=document.createElement('div');
+      row.className='tr-row';
+      const startPct=(epic.start/(TR_PERIODS.length-1))*100;
+      const endPct=(epic.end/(TR_PERIODS.length-1))*100;
+      const status=epic.end<=4?'tr-completed':(epic.start<=4?'tr-progress':'tr-planned');
+      row.innerHTML=`
+        <div class="tr-row-label">
+          <div class="tr-row-title">${epic.title}</div>
+          <div class="tr-row-cat" style="color:${epic.color}cc">${epic.cat}</div>
+        </div>
+        <div class="tr-track">
+          ${TR_PERIODS.map(()=>`<div class="tr-track-gridline"></div>`).join('')}
+          <div class="tr-bar ${status}" style="left:${startPct}%;width:${endPct-startPct}%;background:${status==='tr-completed'?'linear-gradient(90deg,'+epic.color+'aa,'+epic.color+'66)':''}"></div>
+          ${epic.milestones.map((m,i)=>{
+            const left=(m.p/(TR_PERIODS.length-1))*100+(Math.random()*4-2);
+            const cls='tr-milestone tr-'+m.impact;
+            return `<button class="${cls}" style="left:${left}%" data-epic="${epic.id}" data-mile="${i}" title="${m.title}"></button>`;
+          }).join('')}
+        </div>`;
+      wrap.appendChild(row);
+    });
+    wrap.querySelectorAll('.tr-milestone').forEach(b=>{
+      b.addEventListener('click',()=>{
+        const epic=TR_EPICS.find(e=>e.id===b.dataset.epic);
+        const m=epic.milestones[+b.dataset.mile];
+        const det=document.getElementById('tr-detail');
+        const color=m.impact==='crit'?'#dc2626':m.impact==='high'?'#f59e0b':'#65906B';
+        det.innerHTML=`
+          <div class="tr-detail-head">
+            <span class="tr-detail-dot" style="background:${color}"></span>
+            <div>
+              <h4 class="tr-detail-title">${m.title}</h4>
+              <div class="tr-detail-meta">${epic.cat} · ${m.impact.toUpperCase()} impact · ${TR_PERIODS[m.p]}</div>
+            </div>
+          </div>
+          <p class="tr-detail-desc">${m.desc}</p>
+          <div class="tr-detail-tags">${m.tags.map(t=>`<span class="tr-detail-tag">${t}</span>`).join('')}</div>`;
+      });
+    });
+  }
+})();
+</script>
+<!-- /INTERACTIVE DEMOS -->
 
 <script>
 (function(){
