@@ -569,7 +569,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);lin
   </div>
   <div class="dap-cta">
     <button class="card-demo-btn" onclick="window.openShowcaseDemo('dataarch')">&#x1F5A5; Launch Full-Screen Interactive Demo</button>
-    <span class="dap-cta-hint">Same diagram, full-screen, with category filters</span>
+    <span class="dap-cta-hint">Drag any node to reposition &middot; full-screen demo adds category filters</span>
   </div>
 </section>
 <div class="divider"><hr></div>
@@ -680,23 +680,29 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);lin
           </div>`;
         trpRows.appendChild(row);
       });
-      trpRows.querySelectorAll('.tr-milestone').forEach(b=>{
-        b.addEventListener('click',()=>{
-          const epic=TR_EPICS.find(e=>e.id===b.dataset.epic);
-          const m=epic.milestones[+b.dataset.mile];
-          const det=document.getElementById('trp-detail');
-          const color=m.impact==='crit'?'#dc2626':m.impact==='high'?'#f59e0b':'#65906B';
-          det.innerHTML=`
-            <div class="trp-detail-head">
-              <span class="trp-detail-dot" style="background:${color}"></span>
-              <div>
-                <h4 class="trp-detail-title">${m.title}</h4>
-                <div class="trp-detail-meta">${epic.cat} &middot; ${m.impact.toUpperCase()} impact &middot; ${TR_PERIODS[m.p]}</div>
-              </div>
+      // Event delegation handles dynamically-positioned buttons across re-renders
+      trpRows.addEventListener('click',(ev)=>{
+        const b=ev.target.closest('.tr-milestone');
+        if(!b||!trpRows.contains(b))return;
+        const epic=TR_EPICS.find(e=>e.id===b.dataset.epic);
+        if(!epic)return;
+        const m=epic.milestones[+b.dataset.mile];
+        if(!m)return;
+        const det=document.getElementById('trp-detail');
+        if(!det)return;
+        const color=m.impact==='crit'?'#dc2626':m.impact==='high'?'#f59e0b':'#65906B';
+        det.innerHTML=`
+          <div class="trp-detail-head">
+            <span class="trp-detail-dot" style="background:${color}"></span>
+            <div>
+              <h4 class="trp-detail-title">${m.title}</h4>
+              <div class="trp-detail-meta">${epic.cat} &middot; ${m.impact.toUpperCase()} impact &middot; ${TR_PERIODS[m.p]}</div>
             </div>
-            <p class="trp-detail-desc">${m.desc}</p>
-            <div class="trp-detail-tags">${m.tags.map(t=>`<span class="trp-detail-tag">${t}</span>`).join('')}</div>`;
-        });
+          </div>
+          <p class="trp-detail-desc">${m.desc}</p>
+          <div class="trp-detail-tags">${m.tags.map(t=>`<span class="trp-detail-tag">${t}</span>`).join('')}</div>`;
+        // Scroll the detail panel into view if it's offscreen
+        det.scrollIntoView({behavior:'smooth',block:'nearest'});
       });
     }
   }
@@ -3740,23 +3746,26 @@ maInput.addEventListener('keydown',function(e){
         </div>`;
       wrap.appendChild(row);
     });
-    wrap.querySelectorAll('.tr-milestone').forEach(b=>{
-      b.addEventListener('click',()=>{
-        const epic=TR_EPICS.find(e=>e.id===b.dataset.epic);
-        const m=epic.milestones[+b.dataset.mile];
-        const det=document.getElementById('tr-detail');
-        const color=m.impact==='crit'?'#dc2626':m.impact==='high'?'#f59e0b':'#65906B';
-        det.innerHTML=`
-          <div class="tr-detail-head">
-            <span class="tr-detail-dot" style="background:${color}"></span>
-            <div>
-              <h4 class="tr-detail-title">${m.title}</h4>
-              <div class="tr-detail-meta">${epic.cat} · ${m.impact.toUpperCase()} impact · ${TR_PERIODS[m.p]}</div>
-            </div>
+    wrap.addEventListener('click',(ev)=>{
+      const b=ev.target.closest('.tr-milestone');
+      if(!b||!wrap.contains(b))return;
+      const epic=TR_EPICS.find(e=>e.id===b.dataset.epic);
+      if(!epic)return;
+      const m=epic.milestones[+b.dataset.mile];
+      if(!m)return;
+      const det=document.getElementById('tr-detail');
+      if(!det)return;
+      const color=m.impact==='crit'?'#dc2626':m.impact==='high'?'#f59e0b':'#65906B';
+      det.innerHTML=`
+        <div class="tr-detail-head">
+          <span class="tr-detail-dot" style="background:${color}"></span>
+          <div>
+            <h4 class="tr-detail-title">${m.title}</h4>
+            <div class="tr-detail-meta">${epic.cat} · ${m.impact.toUpperCase()} impact · ${TR_PERIODS[m.p]}</div>
           </div>
-          <p class="tr-detail-desc">${m.desc}</p>
-          <div class="tr-detail-tags">${m.tags.map(t=>`<span class="tr-detail-tag">${t}</span>`).join('')}</div>`;
-      });
+        </div>
+        <p class="tr-detail-desc">${m.desc}</p>
+        <div class="tr-detail-tags">${m.tags.map(t=>`<span class="tr-detail-tag">${t}</span>`).join('')}</div>`;
     });
   }
   // Expose data for inline previews
@@ -4174,5 +4183,92 @@ maInput.addEventListener('keydown',function(e){
 })();
 </script>
 
+
+<style id="da-drag-styles">
+.da-node{cursor:grab;user-select:none}
+.da-node:active{cursor:grabbing}
+.da-canvas .da-node-tag{pointer-events:none}
+.da-drag-hint{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:#9e9a90;margin-top:6px;text-align:center;letter-spacing:0.5px;text-transform:uppercase}
+</style>
+<script id="da-drag-script">
+(function(){
+  // Drag-to-reposition for any .da-node element on the page. Updates the connected
+  // SVG paths inside the same .da-canvas. Click-without-drag still triggers
+  // the existing showDap/showDaNode handlers — drag suppresses the click.
+  let activeClickSuppress=false;
+  function bindNode(){
+    document.addEventListener('mousedown',function(e){
+      const node=e.target.closest('.da-node');
+      if(!node||e.button!==0)return;
+      const canvas=node.closest('.da-canvas');
+      if(!canvas)return;
+      const startX=e.clientX,startY=e.clientY;
+      const startLeft=parseFloat(node.style.left)||0;
+      const startTop=parseFloat(node.style.top)||0;
+      let dragging=false;
+      const prevTransition=node.style.transition;
+      function onMove(ev){
+        const dx=ev.clientX-startX,dy=ev.clientY-startY;
+        if(!dragging){
+          if(Math.hypot(dx,dy)<4)return;
+          dragging=true;
+          activeClickSuppress=true;
+          node.style.transition='none';
+          node.style.cursor='grabbing';
+          document.body.style.userSelect='none';
+          ev.preventDefault();
+        }
+        const rect=canvas.getBoundingClientRect();
+        const dxPct=(dx/rect.width)*100;
+        const dyPct=(dy/rect.height)*100;
+        const newLeft=Math.max(2,Math.min(98,startLeft+dxPct));
+        const newTop=Math.max(2,Math.min(98,startTop+dyPct));
+        node.style.left=newLeft+'%';
+        node.style.top=newTop+'%';
+        // Persist in shared data so paths can be redrawn here & in other views on next render
+        const data=window.__SHOWCASE_DATA__;
+        if(data){
+          const id=node.dataset.id;
+          const dn=data.DA_NODES.find(n=>n.id===id);
+          if(dn){dn.x=newLeft;dn.y=newTop}
+          // Redraw paths in THIS canvas's svg
+          const svg=canvas.querySelector('.da-svg');
+          if(svg){
+            svg.querySelectorAll('path').forEach(p=>{
+              if(p.dataset.from!==id&&p.dataset.to!==id)return;
+              const A=data.DA_NODES.find(n=>n.id===p.dataset.from);
+              const B=data.DA_NODES.find(n=>n.id===p.dataset.to);
+              if(!A||!B)return;
+              const x1=A.x*7,y1=A.y*4.8,x2=B.x*7,y2=B.y*4.8;
+              const cx=(x1+x2)/2,cy=(y1+y2)/2-30;
+              p.setAttribute('d',`M${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`);
+            });
+          }
+        }
+      }
+      function onUp(){
+        document.removeEventListener('mousemove',onMove);
+        document.removeEventListener('mouseup',onUp);
+        if(dragging){
+          node.style.transition=prevTransition||'';
+          node.style.cursor='';
+          document.body.style.userSelect='';
+          // Let the synthetic click that follows mouseup fire, then clear the flag
+          setTimeout(()=>{activeClickSuppress=false},50);
+        }
+      }
+      document.addEventListener('mousemove',onMove);
+      document.addEventListener('mouseup',onUp);
+    });
+    // Capture-phase click suppressor: stops the existing showDap from firing after a drag
+    document.addEventListener('click',function(e){
+      if(activeClickSuppress&&e.target.closest('.da-node')){
+        e.stopImmediatePropagation();
+      }
+    },true);
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',bindNode)}else{bindNode()}
+})();
+</script>
 </body>
 </html>
