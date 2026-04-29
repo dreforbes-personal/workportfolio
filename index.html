@@ -716,35 +716,38 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);lin
             ${epic.milestones.map((m,i)=>{
               const left=(m.p/(TR_PERIODS.length-1))*100;
               const cls='tr-milestone tr-'+m.impact;
-              return `<button class="${cls}" style="left:${left}%" data-epic="${epic.id}" data-mile="${i}" title="${m.title}"></button>`;
+              return `<button class="${cls}" style="left:${left}%" data-epic="${epic.id}" data-mile="${i}" title="${m.title.replace(/"/g,'&quot;')}" onclick="window.__showTrMilestone(this,'trp-detail')"></button>`;
             }).join('')}
           </div>`;
         trpRows.appendChild(row);
       });
-      // Event delegation handles dynamically-positioned buttons across re-renders
-      trpRows.addEventListener('click',(ev)=>{
-        const b=ev.target.closest('.tr-milestone');
-        if(!b||!trpRows.contains(b))return;
-        const epic=TR_EPICS.find(e=>e.id===b.dataset.epic);
-        if(!epic)return;
-        const m=epic.milestones[+b.dataset.mile];
-        if(!m)return;
-        const det=document.getElementById('trp-detail');
-        if(!det)return;
+      // Define the global click handler (idempotent — same fn used by both preview & modal)
+      window.__showTrMilestone=window.__showTrMilestone||function(btn,detailId){
+        const data=window.__SHOWCASE_DATA__;if(!data)return;
+        const epic=data.TR_EPICS.find(e=>e.id===btn.dataset.epic);
+        if(!epic){console.warn('[tr] epic not found:',btn.dataset.epic);return}
+        const m=epic.milestones[+btn.dataset.mile];
+        if(!m){console.warn('[tr] milestone not found:',btn.dataset.mile);return}
+        const det=document.getElementById(detailId);
+        if(!det){console.warn('[tr] detail panel not found:',detailId);return}
         const color=m.impact==='crit'?'#dc2626':m.impact==='high'?'#f59e0b':'#65906B';
-        det.innerHTML=`
-          <div class="trp-detail-head">
-            <span class="trp-detail-dot" style="background:${color}"></span>
-            <div>
-              <h4 class="trp-detail-title">${m.title}</h4>
-              <div class="trp-detail-meta">${epic.cat} &middot; ${m.impact.toUpperCase()} impact &middot; ${TR_PERIODS[m.p]}</div>
-            </div>
-          </div>
-          <p class="trp-detail-desc">${m.desc}</p>
-          <div class="trp-detail-tags">${m.tags.map(t=>`<span class="trp-detail-tag">${t}</span>`).join('')}</div>`;
-        // Scroll the detail panel into view if it's offscreen
-        det.scrollIntoView({behavior:'smooth',block:'nearest'});
-      });
+        const isModal=detailId==='tr-detail';
+        const titleClass=isModal?'tr-detail-title':'trp-detail-title';
+        const headClass=isModal?'tr-detail-head':'trp-detail-head';
+        const dotClass=isModal?'tr-detail-dot':'trp-detail-dot';
+        const metaClass=isModal?'tr-detail-meta':'trp-detail-meta';
+        const descClass=isModal?'tr-detail-desc':'trp-detail-desc';
+        const tagsClass=isModal?'tr-detail-tags':'trp-detail-tags';
+        const tagClass=isModal?'tr-detail-tag':'trp-detail-tag';
+        det.innerHTML='<div class="'+headClass+'">'+
+          '<span class="'+dotClass+'" style="background:'+color+'"></span>'+
+          '<div><h4 class="'+titleClass+'">'+m.title+'</h4>'+
+          '<div class="'+metaClass+'">'+epic.cat+' &middot; '+m.impact.toUpperCase()+' impact &middot; '+data.TR_PERIODS[m.p]+'</div></div>'+
+          '</div>'+
+          '<p class="'+descClass+'">'+m.desc+'</p>'+
+          '<div class="'+tagsClass+'">'+m.tags.map(function(t){return '<span class="'+tagClass+'">'+t+'</span>'}).join('')+'</div>';
+        if(!isModal)det.scrollIntoView({behavior:'smooth',block:'nearest'});
+      };
     }
   }
   if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',render)}else{setTimeout(render,0)}
@@ -3782,32 +3785,12 @@ maInput.addEventListener('keydown',function(e){
           ${epic.milestones.map((m,i)=>{
             const left=(m.p/(TR_PERIODS.length-1))*100+(Math.random()*4-2);
             const cls='tr-milestone tr-'+m.impact;
-            return `<button class="${cls}" style="left:${left}%" data-epic="${epic.id}" data-mile="${i}" title="${m.title}"></button>`;
+            return `<button class="${cls}" style="left:${left}%" data-epic="${epic.id}" data-mile="${i}" title="${m.title.replace(/"/g,'&quot;')}" onclick="window.__showTrMilestone(this,'tr-detail')"></button>`;
           }).join('')}
         </div>`;
       wrap.appendChild(row);
     });
-    wrap.addEventListener('click',(ev)=>{
-      const b=ev.target.closest('.tr-milestone');
-      if(!b||!wrap.contains(b))return;
-      const epic=TR_EPICS.find(e=>e.id===b.dataset.epic);
-      if(!epic)return;
-      const m=epic.milestones[+b.dataset.mile];
-      if(!m)return;
-      const det=document.getElementById('tr-detail');
-      if(!det)return;
-      const color=m.impact==='crit'?'#dc2626':m.impact==='high'?'#f59e0b':'#65906B';
-      det.innerHTML=`
-        <div class="tr-detail-head">
-          <span class="tr-detail-dot" style="background:${color}"></span>
-          <div>
-            <h4 class="tr-detail-title">${m.title}</h4>
-            <div class="tr-detail-meta">${epic.cat} · ${m.impact.toUpperCase()} impact · ${TR_PERIODS[m.p]}</div>
-          </div>
-        </div>
-        <p class="tr-detail-desc">${m.desc}</p>
-        <div class="tr-detail-tags">${m.tags.map(t=>`<span class="tr-detail-tag">${t}</span>`).join('')}</div>`;
-    });
+    // Inline onclick on each milestone button calls window.__showTrMilestone (defined by preview script)
   }
   // Expose data for inline previews
   window.__SHOWCASE_DATA__={DA_NODES:DA_NODES,DA_LINKS:DA_LINKS,TR_PERIODS:TR_PERIODS,TR_EPICS:TR_EPICS};
