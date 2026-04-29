@@ -596,6 +596,146 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);lin
 .trp-detail-tag{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;background:rgba(23,68,53,0.1);color:#174435;padding:3px 8px;border-radius:10px}
 </style>
 
+<style id="tdoc-styles">
+.tdoc-section{padding-top:18px}
+.tdoc-frame{background:linear-gradient(135deg,#fff,#f7f8f5);border:1px solid var(--border);border-radius:14px;padding:24px;overflow:hidden;position:relative}
+.tdoc-pipeline{display:flex;align-items:stretch;gap:0;flex-wrap:nowrap;position:relative}
+.tdoc-stage{flex:1;min-width:0;background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 12px 16px;text-align:center;position:relative;transition:all 0.25s;display:flex;flex-direction:column;align-items:center}
+.tdoc-stage:hover{border-color:#174435;box-shadow:0 6px 20px rgba(23,68,53,0.10);transform:translateY(-2px)}
+.tdoc-stage__icon{width:46px;height:46px;border-radius:50%;background:rgba(23,68,53,0.08);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:10px}
+.tdoc-stage__num{position:absolute;top:8px;left:10px;font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:rgba(23,68,53,0.45);letter-spacing:1px}
+.tdoc-stage__label{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:#174435;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:4px}
+.tdoc-stage__title{font-size:0.92rem;font-weight:700;color:#111827;margin-bottom:6px;line-height:1.25}
+.tdoc-stage__desc{font-size:0.74rem;color:#6b7280;line-height:1.4}
+.tdoc-arrow{flex:0 0 28px;display:flex;align-items:center;justify-content:center;color:#65906B;font-size:1.4rem;font-weight:300;position:relative;overflow:hidden}
+.tdoc-arrow::before{content:'';position:absolute;left:50%;top:50%;width:6px;height:6px;background:#65906B;border-radius:50%;transform:translate(-50%,-50%);animation:tdocFlow 2.4s linear infinite;opacity:0}
+.tdoc-arrow:nth-of-type(2)::before{animation-delay:0s}
+.tdoc-arrow:nth-of-type(4)::before{animation-delay:0.6s}
+.tdoc-arrow:nth-of-type(6)::before{animation-delay:1.2s}
+.tdoc-arrow:nth-of-type(8)::before{animation-delay:1.8s}
+@keyframes tdocFlow{0%{opacity:0;transform:translate(-260%,-50%)}10%{opacity:1}90%{opacity:1}100%{opacity:0;transform:translate(160%,-50%)}}
+.tdoc-arrow__char{position:relative;z-index:1;background:linear-gradient(135deg,#fff,#f7f8f5);padding:0 4px}
+
+.tdoc-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px;padding-top:18px;border-top:1px dashed var(--border)}
+.tdoc-metric{text-align:center}
+.tdoc-metric__num{font-size:1.4rem;font-weight:800;color:#174435;font-family:'Manrope',sans-serif;line-height:1.1}
+.tdoc-metric__lbl{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:#6b7280;text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+@media(max-width:780px){
+  .tdoc-pipeline{flex-direction:column}
+  .tdoc-stage{padding:14px}
+  .tdoc-arrow{flex:0 0 28px;height:28px;width:100%;transform:rotate(90deg);font-size:1.6rem}
+  .tdoc-arrow::before{animation:tdocFlowVert 2.4s linear infinite}
+  @keyframes tdocFlowVert{0%{opacity:0;transform:translate(-50%,-260%)}10%{opacity:1}90%{opacity:1}100%{opacity:0;transform:translate(-50%,160%)}}
+  .tdoc-metrics{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:480px){
+  .tdoc-frame{padding:16px}
+  .tdoc-stage__title{font-size:0.85rem}
+  .tdoc-metric__num{font-size:1.15rem}
+}
+</style>
+<style id="mobile-polish">
+@media(max-width:768px){
+  /* Tech roadmap: stack labels above tracks, tighter dot sizes */
+  .tr-row,.tr-axis{grid-template-columns:1fr!important}
+  .tr-axis>div:first-child{display:none}
+  .tr-row-label{margin-bottom:8px}
+  .tr-axis-cells{font-size:0.55rem}
+  .trp-frame,.tr-shell{padding:12px}
+  .tr-track{height:32px}
+  .tr-milestone{border-width:1.5px}
+  .tr-bar{height:6px}
+  /* Data arch preview: tighten node text */
+  .da-node{font-size:0.62rem;padding:5px 7px;min-width:64px}
+  .da-node.da-hub{font-size:0.7rem;padding:9px 12px;min-width:90px}
+  .da-node-tag{font-size:0.5rem;letter-spacing:0.4px}
+  .dap-frame{min-height:auto;padding:12px;gap:10px}
+  .dap-frame .da-canvas{min-height:340px}
+  .dap-frame .da-sidebar{max-height:none;padding:10px}
+  /* CTA buttons */
+  .dap-cta{flex-direction:column;gap:8px}
+  .dap-cta .card-demo-btn{width:100%}
+  /* Section spacing */
+  .section{padding-left:16px;padding-right:16px}
+  .section-title{font-size:1.5rem!important}
+  .section-desc{font-size:0.86rem;margin-bottom:32px}
+  .section-num{font-size:0.58rem;letter-spacing:2px}
+  /* Project cards: stack to single column on small phones */
+  .projects-grid{grid-template-columns:1fr!important}
+  .card-demo-btn{font-size:0.7rem;padding:6px 12px}
+  /* Demo modals: full-bleed on small screens */
+  .dm-overlay{padding:0}
+  .dm-shell{max-height:100vh;border-radius:0}
+}
+@media(max-width:480px){
+  .tdoc-stage__icon{width:38px;height:38px;font-size:1.15rem}
+  .da-node{font-size:0.56rem;padding:4px 5px;min-width:56px}
+  .da-node.da-hub{font-size:0.65rem;min-width:78px}
+  .dap-frame .da-canvas{min-height:280px}
+  /* Sm modal tabs scroll horizontally already; ensure overview metrics stack 2-up */
+  .sm-metrics{grid-template-columns:repeat(2,1fr)!important}
+  .sm-feed-grid,.sm-overview-grid{grid-template-columns:1fr!important}
+  .sm-systems{grid-template-columns:repeat(2,1fr)!important}
+  .scroll-hint{display:none}
+}
+</style>
+<section class="section obs tdoc-section" id="tax-document-automation">
+  <div class="section-num">06.6 / TAX DOCUMENT AUTOMATION</div>
+  <div class="section-title">From Custodian to Client, Untouched</div>
+  <div class="section-desc">Custodian-issued tax documents (1099s, K-1s, monthly statements) ingested via cert-auth APIs and SFTP, classified, filed into client-specific Box folders, and surfaced in a custom client portal — with notifications, audit trail, and zero manual handoff.</div>
+  <div class="tdoc-frame">
+    <div class="tdoc-pipeline">
+  <div class="tdoc-stage">
+    <span class="tdoc-stage__num">01</span>
+    <div class="tdoc-stage__icon">🏦</div>
+    <div class="tdoc-stage__label">Custodian</div>
+    <div class="tdoc-stage__title">Pershing / Fidelity</div>
+    <div class="tdoc-stage__desc">Generates 1099s, K-1s,<br/>statements nightly</div>
+  </div>
+  <div class="tdoc-arrow" aria-hidden="true"><span class="tdoc-arrow__char">&rsaquo;</span></div>
+  <div class="tdoc-stage">
+    <span class="tdoc-stage__num">02</span>
+    <div class="tdoc-stage__icon">🔐</div>
+    <div class="tdoc-stage__label">Ingestion</div>
+    <div class="tdoc-stage__title">Cert-auth API + SFTP</div>
+    <div class="tdoc-stage__desc">5,000+ accounts,<br/>watcher + 18 daily jobs</div>
+  </div>
+  <div class="tdoc-arrow" aria-hidden="true"><span class="tdoc-arrow__char">&rsaquo;</span></div>
+  <div class="tdoc-stage">
+    <span class="tdoc-stage__num">03</span>
+    <div class="tdoc-stage__icon">🧠</div>
+    <div class="tdoc-stage__label">Classify &amp; Match</div>
+    <div class="tdoc-stage__title">Document Engine</div>
+    <div class="tdoc-stage__desc">Doc type, tax year,<br/>matched to household</div>
+  </div>
+  <div class="tdoc-arrow" aria-hidden="true"><span class="tdoc-arrow__char">&rsaquo;</span></div>
+  <div class="tdoc-stage">
+    <span class="tdoc-stage__num">04</span>
+    <div class="tdoc-stage__icon">📦</div>
+    <div class="tdoc-stage__label">File</div>
+    <div class="tdoc-stage__title">Box (per-client folders)</div>
+    <div class="tdoc-stage__desc">Role-based access,<br/>shared-link policy</div>
+  </div>
+  <div class="tdoc-arrow" aria-hidden="true"><span class="tdoc-arrow__char">&rsaquo;</span></div>
+  <div class="tdoc-stage">
+    <span class="tdoc-stage__num">05</span>
+    <div class="tdoc-stage__icon">🖥</div>
+    <div class="tdoc-stage__label">Portal</div>
+    <div class="tdoc-stage__title">documents.balentine.com</div>
+    <div class="tdoc-stage__desc">Tokenized links,<br/>email notification</div>
+  </div>
+    </div>
+    <div class="tdoc-metrics">
+  <div class="tdoc-metric"><div class="tdoc-metric__num">5,000+</div><div class="tdoc-metric__lbl">accounts</div></div>
+  <div class="tdoc-metric"><div class="tdoc-metric__num">60K+</div><div class="tdoc-metric__lbl">docs/yr</div></div>
+  <div class="tdoc-metric"><div class="tdoc-metric__num">0</div><div class="tdoc-metric__lbl">manual touches</div></div>
+  <div class="tdoc-metric"><div class="tdoc-metric__num">&lt;5 min</div><div class="tdoc-metric__lbl">custodian → portal</div></div>
+    </div>
+  </div>
+</section>
+<div class="divider"><hr></div>
+
 <section class="section obs" id="data-architecture">
   <div class="section-num">06.5 / DATA ARCHITECTURE</div>
   <div class="section-title">How Data Moves at the Firm</div>
