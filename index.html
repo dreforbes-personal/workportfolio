@@ -533,6 +533,177 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);lin
 </section>
 <div class="divider"><hr></div>
 
+<style id="preview-sections-styles">
+.dap-frame{display:grid;grid-template-columns:1fr 280px;gap:14px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;min-height:480px;margin-top:18px}
+@media (max-width:900px){.dap-frame{grid-template-columns:1fr}}
+.dap-frame .da-canvas{position:relative;background:linear-gradient(135deg,#f9fafb,#f3f4f6);border-radius:10px;min-height:440px;overflow:hidden}
+.dap-frame .da-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.dap-frame .da-sidebar{background:#fafafa;border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;flex-direction:column;min-width:0;max-height:440px;overflow-y:auto}
+.dap-cta{margin-top:18px;text-align:center;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+.dap-cta-hint{font-size:0.72rem;color:#9e9a90;font-family:'IBM Plex Mono',monospace}
+.dap-cta .card-demo-btn{font-size:0.85rem;padding:10px 22px;border-radius:18px}
+
+.trp-frame{background:#243d32;color:#e7f0eb;border-radius:12px;padding:16px;margin-top:18px;overflow:hidden;border:1px solid rgba(0,0,0,0.05)}
+.trp-detail{margin-top:12px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;min-height:64px;font-size:0.82rem}
+.trp-detail-empty{font-size:0.78rem;color:#9ca3af;font-style:italic;text-align:center;padding:8px}
+.trp-detail-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.trp-detail-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0}
+.trp-detail-title{font-size:0.95rem;font-weight:700;color:#111827;margin:0}
+.trp-detail-meta{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
+.trp-detail-desc{font-size:0.82rem;color:#374151;line-height:1.55;margin:6px 0 0}
+.trp-detail-tags{margin-top:8px;display:flex;flex-wrap:wrap;gap:5px}
+.trp-detail-tag{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;background:rgba(23,68,53,0.1);color:#174435;padding:3px 8px;border-radius:10px}
+</style>
+
+<section class="section obs" id="data-architecture">
+  <div class="section-num">06.5 / DATA ARCHITECTURE</div>
+  <div class="section-title">How Data Moves at the Firm</div>
+  <div class="section-desc">Salesforce-centric integration map showing every system, sync direction, and frequency. Hover or click any node to inspect its data flows. Built so any team member can see how data moves end-to-end.</div>
+  <div class="dap-frame">
+    <div class="da-canvas" id="dap-canvas">
+      <svg class="da-svg" id="dap-svg" viewBox="0 0 700 480" preserveAspectRatio="none"></svg>
+    </div>
+    <aside class="da-sidebar" id="dap-sidebar">
+      <div class="da-side-empty">Hover or tap any node to inspect its data flows.</div>
+    </aside>
+  </div>
+  <div class="dap-cta">
+    <button class="card-demo-btn" onclick="window.openShowcaseDemo('dataarch')">&#x1F5A5; Launch Full-Screen Interactive Demo</button>
+    <span class="dap-cta-hint">Same diagram, full-screen, with category filters</span>
+  </div>
+</section>
+<div class="divider"><hr></div>
+
+<section class="section obs" id="tech-roadmap">
+  <div class="section-num">06.7 / TECHNOLOGY ROADMAP</div>
+  <div class="section-title">Strategic Initiatives Since 2022</div>
+  <div class="section-desc">100+ milestones across 8 epics with status, impact, and timing. Click any milestone for detail. Replaced status decks with a living timeline pulled from the operations DB.</div>
+  <div class="trp-frame">
+    <div class="tr-axis">
+      <div></div>
+      <div class="tr-axis-cells" id="trp-axis-cells"></div>
+    </div>
+    <div id="trp-rows"></div>
+    <div class="tr-legend">
+      <div class="tr-leg-item"><span class="tr-leg-dot" style="background:#dc2626"></span>Critical</div>
+      <div class="tr-leg-item"><span class="tr-leg-dot" style="background:#f59e0b"></span>High</div>
+      <div class="tr-leg-item"><span class="tr-leg-dot" style="background:#65906B"></span>Medium</div>
+      <div class="tr-leg-item"><span class="tr-leg-dot" style="background:rgba(255,255,255,0.4)"></span>Future / planned</div>
+    </div>
+  </div>
+  <div class="trp-detail" id="trp-detail"><div class="trp-detail-empty">Click any milestone above for detail.</div></div>
+  <div class="dap-cta">
+    <button class="card-demo-btn" onclick="window.openShowcaseDemo('roadmap')">&#x1F5A5; Launch Full-Screen Interactive Demo</button>
+    <span class="dap-cta-hint">Same data, full-screen, with status filter</span>
+  </div>
+</section>
+<div class="divider"><hr></div>
+
+<script id="preview-sections-script">
+(function(){
+  function render(){
+    const data=window.__SHOWCASE_DATA__;
+    if(!data)return;
+    const DA_NODES=data.DA_NODES,DA_LINKS=data.DA_LINKS,TR_PERIODS=data.TR_PERIODS,TR_EPICS=data.TR_EPICS;
+
+    // ── Data Arch Preview ──
+    const dapCanvas=document.getElementById('dap-canvas');
+    if(dapCanvas&&!dapCanvas.dataset.inited){
+      dapCanvas.dataset.inited='1';
+      const dapSvg=document.getElementById('dap-svg');
+      const dapSidebar=document.getElementById('dap-sidebar');
+      function showDap(id){
+        const n=DA_NODES.find(x=>x.id===id);
+        if(!n)return;
+        dapCanvas.querySelectorAll('.da-node').forEach(el=>el.classList.toggle('active',el.dataset.id===id));
+        dapSvg.querySelectorAll('path').forEach(p=>p.classList.toggle('active',p.dataset.from===id||p.dataset.to===id));
+        dapSidebar.innerHTML=`
+          <div class="da-side-name">${n.name}</div>
+          <div class="da-side-cat">${n.cat}</div>
+          <div class="da-side-desc">${n.desc}</div>
+          <div class="da-side-section">
+            <h5>Data Flows</h5>
+            ${n.flows.map(f=>`<div class="da-side-flow"><span>${f.f}</span><span class="da-side-flow-arrow">&rarr;</span></div><div class="da-side-meta">${f.m}</div>`).join('')}
+          </div>`;
+      }
+      DA_NODES.forEach(n=>{
+        const el=document.createElement('div');
+        el.className='da-node'+(n.hub?' da-hub':'');
+        el.style.left=n.x+'%';el.style.top=n.y+'%';
+        el.dataset.id=n.id;
+        el.innerHTML=`${n.name}<span class="da-node-tag">${n.cat}</span>`;
+        el.addEventListener('mouseenter',()=>showDap(n.id));
+        el.addEventListener('click',()=>showDap(n.id));
+        dapCanvas.appendChild(el);
+      });
+      DA_LINKS.forEach(function(L){
+        const a=L[0],b=L[1],cls=L[2];
+        const A=DA_NODES.find(n=>n.id===a),B=DA_NODES.find(n=>n.id===b);
+        if(!A||!B)return;
+        const x1=A.x*7,y1=A.y*4.8,x2=B.x*7,y2=B.y*4.8;
+        const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+        const cx=(x1+x2)/2,cy=(y1+y2)/2-30;
+        path.setAttribute('d',`M${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`);
+        if(cls)path.setAttribute('class',cls);
+        path.dataset.from=a;path.dataset.to=b;
+        dapSvg.appendChild(path);
+      });
+      showDap('sf');
+    }
+
+    // ── Tech Roadmap Preview ──
+    const trpRows=document.getElementById('trp-rows');
+    if(trpRows&&!trpRows.dataset.inited){
+      trpRows.dataset.inited='1';
+      const axis=document.getElementById('trp-axis-cells');
+      TR_PERIODS.forEach(p=>{const c=document.createElement('div');c.className='tr-axis-cell';c.textContent=p;axis.appendChild(c)});
+      TR_EPICS.forEach(epic=>{
+        const row=document.createElement('div');
+        row.className='tr-row';
+        const startPct=(epic.start/(TR_PERIODS.length-1))*100;
+        const endPct=(epic.end/(TR_PERIODS.length-1))*100;
+        const status=epic.end<=4?'tr-completed':(epic.start<=4?'tr-progress':'tr-planned');
+        const barBg=status==='tr-completed'?'linear-gradient(90deg,'+epic.color+'aa,'+epic.color+'66)':'';
+        row.innerHTML=`
+          <div class="tr-row-label">
+            <div class="tr-row-title">${epic.title}</div>
+            <div class="tr-row-cat" style="color:${epic.color}cc">${epic.cat}</div>
+          </div>
+          <div class="tr-track">
+            ${TR_PERIODS.map(()=>`<div class="tr-track-gridline"></div>`).join('')}
+            <div class="tr-bar ${status}" style="left:${startPct}%;width:${endPct-startPct}%;${barBg?'background:'+barBg:''}"></div>
+            ${epic.milestones.map((m,i)=>{
+              const left=(m.p/(TR_PERIODS.length-1))*100;
+              const cls='tr-milestone tr-'+m.impact;
+              return `<button class="${cls}" style="left:${left}%" data-epic="${epic.id}" data-mile="${i}" title="${m.title}"></button>`;
+            }).join('')}
+          </div>`;
+        trpRows.appendChild(row);
+      });
+      trpRows.querySelectorAll('.tr-milestone').forEach(b=>{
+        b.addEventListener('click',()=>{
+          const epic=TR_EPICS.find(e=>e.id===b.dataset.epic);
+          const m=epic.milestones[+b.dataset.mile];
+          const det=document.getElementById('trp-detail');
+          const color=m.impact==='crit'?'#dc2626':m.impact==='high'?'#f59e0b':'#65906B';
+          det.innerHTML=`
+            <div class="trp-detail-head">
+              <span class="trp-detail-dot" style="background:${color}"></span>
+              <div>
+                <h4 class="trp-detail-title">${m.title}</h4>
+                <div class="trp-detail-meta">${epic.cat} &middot; ${m.impact.toUpperCase()} impact &middot; ${TR_PERIODS[m.p]}</div>
+              </div>
+            </div>
+            <p class="trp-detail-desc">${m.desc}</p>
+            <div class="trp-detail-tags">${m.tags.map(t=>`<span class="trp-detail-tag">${t}</span>`).join('')}</div>`;
+        });
+      });
+    }
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',render)}else{setTimeout(render,0)}
+})();
+</script>
+
 <section class="section obs" id="impact">
   <div class="section-num">07 / FINANCIAL IMPACT</div>
   <div class="section-title">Value Delivered</div>
@@ -3588,6 +3759,8 @@ maInput.addEventListener('keydown',function(e){
       });
     });
   }
+  // Expose data for inline previews
+  window.__SHOWCASE_DATA__={DA_NODES:DA_NODES,DA_LINKS:DA_LINKS,TR_PERIODS:TR_PERIODS,TR_EPICS:TR_EPICS};
 })();
 </script>
 <!-- /INTERACTIVE DEMOS -->
