@@ -4493,5 +4493,368 @@ maInput.addEventListener('keydown',function(e){
   if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',bindNode)}else{bindNode()}
 })();
 </script>
+<style id="ask-styles">
+/* Trigger: invisible until activated. Tiny dot in the bottom-right corner that
+   shows up only when the user hovers within 80px of the corner — discoverable
+   but not in the way. */
+.ask-trigger{position:fixed;right:18px;bottom:18px;z-index:9990;width:42px;height:42px;border-radius:50%;background:#1f2024;color:#fff;border:1px solid rgba(255,255,255,0.18);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.05rem;opacity:0;transform:translateY(8px);transition:opacity 0.25s ease,transform 0.25s ease;box-shadow:0 6px 18px rgba(0,0,0,0.25);font-family:'Source Sans 3',sans-serif}
+.ask-trigger.ask-revealed{opacity:0.92;transform:translateY(0)}
+.ask-trigger:hover{opacity:1;transform:translateY(-2px)}
+
+/* Chat panel */
+.ask-panel{position:fixed;right:18px;bottom:74px;z-index:9995;width:min(420px,calc(100vw - 36px));max-height:min(640px,80vh);background:#fff;border-radius:14px;box-shadow:0 24px 64px rgba(0,0,0,0.28);display:none;flex-direction:column;overflow:hidden;font-family:'Source Sans 3',sans-serif;border:1px solid rgba(0,0,0,0.08)}
+.ask-panel.ask-open{display:flex}
+.ask-header{padding:14px 16px;background:#1f2024;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ask-header__title{font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:600;display:flex;align-items:center;gap:8px}
+.ask-header__title::before{content:'';width:8px;height:8px;border-radius:50%;background:#65906B;box-shadow:0 0 6px #65906B}
+.ask-header__actions{display:flex;gap:4px}
+.ask-iconbtn{background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.14);color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.9rem;transition:background 0.15s}
+.ask-iconbtn:hover{background:rgba(255,255,255,0.20)}
+
+.ask-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:#fafaf7}
+.ask-msg{max-width:88%;padding:10px 14px;border-radius:12px;font-size:0.9rem;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
+.ask-msg--user{align-self:flex-end;background:#1f2024;color:#fff;border-bottom-right-radius:4px}
+.ask-msg--bot{align-self:flex-start;background:#fff;color:#111;border:1px solid rgba(0,0,0,0.08);border-bottom-left-radius:4px}
+.ask-msg--meta{align-self:center;font-size:0.74rem;color:#999;font-style:italic;background:none;padding:4px 0;text-align:center}
+.ask-typing{align-self:flex-start;display:inline-flex;gap:4px;padding:10px 14px;background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:12px}
+.ask-typing span{width:6px;height:6px;border-radius:50%;background:#999;animation:askBlink 1.2s infinite}
+.ask-typing span:nth-child(2){animation-delay:0.15s}
+.ask-typing span:nth-child(3){animation-delay:0.3s}
+@keyframes askBlink{0%,100%{opacity:0.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-2px)}}
+
+.ask-form{display:flex;gap:8px;padding:12px;border-top:1px solid rgba(0,0,0,0.08);background:#fff}
+.ask-input{flex:1;border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:9px 12px;font-family:inherit;font-size:0.9rem;outline:none;color:#111;background:#fff}
+.ask-input:focus{border-color:#1f2024}
+.ask-send{background:#1f2024;color:#fff;border:none;border-radius:8px;padding:0 16px;font-family:inherit;font-size:0.9rem;font-weight:600;cursor:pointer;transition:background 0.15s}
+.ask-send:hover{background:#000}
+.ask-send:disabled{opacity:0.5;cursor:not-allowed}
+
+/* Suggested prompts shown when chat is empty */
+.ask-suggestions{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.ask-suggest{font-size:0.78rem;color:#1f2024;background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.08);padding:8px 12px;border-radius:8px;cursor:pointer;text-align:left;font-family:inherit;transition:all 0.15s}
+.ask-suggest:hover{background:rgba(0,0,0,0.08);border-color:rgba(0,0,0,0.14)}
+
+/* Settings dialog (lives inside the panel as a swappable view) */
+.ask-settings{padding:18px;display:flex;flex-direction:column;gap:12px;background:#fafaf7;flex:1;overflow-y:auto}
+.ask-settings h4{font-family:'Playfair Display',Georgia,serif;font-size:1rem;color:#111;margin:0}
+.ask-settings p{font-size:0.82rem;color:#555;line-height:1.5;margin:0}
+.ask-field{display:flex;flex-direction:column;gap:4px}
+.ask-field label{font-family:'Source Sans 3',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#999}
+.ask-field input{border:1px solid rgba(0,0,0,0.12);border-radius:6px;padding:8px 10px;font-family:inherit;font-size:0.86rem;color:#111;background:#fff;outline:none}
+.ask-field input:focus{border-color:#1f2024}
+.ask-settings__actions{display:flex;gap:8px;margin-top:6px}
+.ask-settings__btn{flex:1;background:#1f2024;color:#fff;border:none;border-radius:6px;padding:9px 12px;font-family:inherit;font-size:0.86rem;font-weight:600;cursor:pointer}
+.ask-settings__btn--ghost{background:rgba(0,0,0,0.05);color:#1f2024;border:1px solid rgba(0,0,0,0.10)}
+.ask-settings__error{color:#b91c1c;font-size:0.78rem;display:none}
+.ask-settings__error.ask-shown{display:block}
+.ask-settings__hint{font-size:0.72rem;color:#999;margin-top:4px}
+
+/* Lock screen (password) */
+.ask-lock{padding:24px 18px;display:flex;flex-direction:column;gap:12px;background:#fafaf7;flex:1}
+.ask-lock h4{font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;color:#111;margin:0}
+.ask-lock p{font-size:0.82rem;color:#555;line-height:1.5;margin:0}
+
+@media(max-width:480px){
+  .ask-panel{right:9px;left:9px;bottom:64px;width:auto;max-height:calc(100vh - 80px)}
+  .ask-trigger{right:12px;bottom:12px;width:38px;height:38px}
+}
+</style>
+
+<button class="ask-trigger" id="ask-trigger" aria-label="Ask about Dre" title="Ask about Dre — or press Cmd/Ctrl+Shift+K">?</button>
+<aside class="ask-panel" id="ask-panel" role="dialog" aria-modal="false" aria-label="Ask about Dre">
+  <header class="ask-header">
+    <div class="ask-header__title">Ask about Dre</div>
+    <div class="ask-header__actions">
+      <button class="ask-iconbtn" id="ask-settings-btn" title="Settings" aria-label="Settings">&#9881;</button>
+      <button class="ask-iconbtn" id="ask-close-btn" title="Close" aria-label="Close">&times;</button>
+    </div>
+  </header>
+  <!-- View 1: Lock screen (only shown until password is entered) -->
+  <div class="ask-lock" id="ask-lock" style="display:none">
+    <h4>This is gated.</h4>
+    <p>Enter the access password to use the chat.</p>
+    <div class="ask-field">
+      <label>Password</label>
+      <input type="password" id="ask-password" placeholder="" autocomplete="current-password" />
+    </div>
+    <div class="ask-settings__error" id="ask-lock-error">Wrong password.</div>
+    <div class="ask-settings__actions">
+      <button class="ask-settings__btn" id="ask-lock-submit">Unlock</button>
+    </div>
+  </div>
+  <!-- View 2: Settings -->
+  <div class="ask-settings" id="ask-settings-view" style="display:none">
+    <h4>Settings</h4>
+    <p>Bring your own Anthropic API key. It is stored only in your browser&apos;s localStorage on this device.</p>
+    <div class="ask-field">
+      <label>Anthropic API key</label>
+      <input type="password" id="ask-api-key" placeholder="sk-ant-..." autocomplete="off" />
+      <div class="ask-settings__hint">Get one at console.anthropic.com. Cost per chat is fractions of a cent.</div>
+    </div>
+    <div class="ask-field">
+      <label>Model</label>
+      <input type="text" id="ask-model" placeholder="claude-haiku-4-5-20251001" />
+      <div class="ask-settings__hint">Default: Claude Haiku 4.5 (fast and cheap). You can also use Sonnet or Opus.</div>
+    </div>
+    <div class="ask-settings__error" id="ask-settings-error"></div>
+    <div class="ask-settings__actions">
+      <button class="ask-settings__btn ask-settings__btn--ghost" id="ask-settings-cancel">Cancel</button>
+      <button class="ask-settings__btn" id="ask-settings-save">Save</button>
+    </div>
+    <p class="ask-settings__hint">Open with Cmd/Ctrl + Shift + K, or visit /#ask. Triple-tap the bottom-right corner on mobile to reveal the trigger.</p>
+  </div>
+  <!-- View 3: Chat -->
+  <div class="ask-body" id="ask-body" style="display:none"></div>
+  <form class="ask-form" id="ask-form" style="display:none">
+    <input class="ask-input" id="ask-input" placeholder="Ask about Dre's experience, fit, work style…" autocomplete="off" />
+    <button class="ask-send" id="ask-send" type="submit">Send</button>
+  </form>
+</aside>
+
+<script id="ask-script">
+(function(){
+  // ─────────────────────────────────────────────────────
+  // CONFIG (edit these in the source if needed)
+  // ─────────────────────────────────────────────────────
+  const ACCESS_PASSWORD = "askdre";
+  const STORAGE_KEY_API = 'askdre.apiKey';
+  const STORAGE_KEY_MODEL = 'askdre.model';
+  const STORAGE_KEY_UNLOCK = 'askdre.unlocked';
+  const DEFAULT_MODEL = 'claude-haiku-4-5-20251001';
+  const FAQ_TEXT = "DRE FORBES \u2014 PROFESSIONAL FAQ\nThis document is the data source for an AI agent that answers questions about Dre Forbes's work style, professional background, strengths, motivations, and character.\n\nMOTIVATION & DRIVE\nQ: What motivates Dre at work?\nA: Proving something to himself \u2014 not to anyone else. He wants to know at the end of the day that he gave everything he had, that whoever put faith in him got the best version of him. He treats trust as sacred. When someone gives him an opportunity, he takes that seriously and won't stop until he's honored it. He is not money-motivated. He works for the chance and to prove himself to himself.\n\nQ: What does success look like to Dre?\nA: The team winning. If the people around him are better because of their time together and the org is in a fundamentally different place because of what they built, that's success. His personal stats don't matter if the team lost.\n\nQ: Where does Dre see himself in 5 years?\nA: Leading at a higher level, but still close to the work. He doesn't want to be so far removed from technology that he loses his edge. He wants to be the person in the room who can speak credibly to the vision and then go build it \u2014 or build the team that builds it. Eventually he wants to set the direction for how technology transforms an organization, not just manage it.\n\nQ: Is Dre money-motivated?\nA: No. He doesn't do things for the money. He does it for the opportunity and to prove himself to himself. When negotiating the Merit Financial offer, he pushed on terms because he was guided to by an advisor \u2014 his natural instinct is to accept the first offer and earn it.\n\nWORK STYLE\nQ: Does Dre prefer working independently or on a team?\nA: Both, genuinely. He has spent years as the only technical person in a firm, so he can absolutely work solo and carry the full load. But he also loves being on a team because he loves elevating people. His goal is always to get everyone around him operating at the highest level they can. He has been described as the \"ultimate role player\" \u2014 whatever the team needs that day, that's who he shows up as. Star or support, it doesn't matter.\n\nQ: What is Dre's typical workday like?\nA: He is in the office almost every day \u2014 in three years at Balentine, there were only about two weeks total (outside of vacation and work travel) where he wasn't in the office. The office is where he handles meetings, collaboration, and operational work. At night is when he builds. Most of his deep technical work happens late at night from home when it's quiet and he can focus. It's not a 9-to-5 cadence \u2014 it's two shifts: one for people and one for the work itself.\n\nQ: How does Dre manage competing priorities?\nA: He triages by impact and is transparent about it. He communicates early when something is going to be delayed, explains why, and gives a realistic timeline. He has managed 70+ scheduled sync jobs and 10+ production apps simultaneously as a solo technologist, so he has gotten very good at knowing what breaks if he doesn't touch it today versus what can wait.\n\nQ: How does Dre handle ambiguity or unclear direction?\nA: He builds a hypothesis and moves. He'd rather do something and course-correct than wait for perfect clarity that never comes. He is comfortable operating in environments where the roadmap isn't fully defined because he can help define it. He has built entire platforms from scratch with no blueprint \u2014 just a business problem and a whiteboard.\n\nQ: Does Dre prefer remote or in-office work?\nA: He is a strong in-office presence. He goes to the office nearly every day and has done so consistently throughout his career. The office is where he operates \u2014 meetings, collaboration, relationship-building. Home is where he builds, typically late at night. His extensive home setup (Mac Studio M4 Max, five monitors, high-performance network and compute) supports his second shift, not a remote-first preference.\n\nSTRENGTHS\nQ: What are Dre's core professional strengths?\nA: Extreme ownership \u2014 he doesn't wait for a team, he builds it, manages it, or carries it himself. He has solo-built entire enterprise platforms from scratch. Full-stack depth plus wealth management domain fluency \u2014 a rare combination. He can architect and build the system AND understand the business deeply (capital calls, tax lots, K-1s, RMDs, custodial workflows, FSC object models). System thinking at scale. AI integration at the production level \u2014 RAG pipelines, agentic systems, MCP servers, on-prem inference infrastructure. Stakeholder translation \u2014 sits in compliance meeting, talks strategy with COO, then goes and writes Apex. The ultimate role player. Elevates the people around him. Public communication and presence \u2014 has spoken at the Salesforce Conference and presented back-to-back at the T3 Finance and Technology Conference. Trusted advisor at the executive level \u2014 Balentine leadership regularly brought him in to advise their personal contacts, friends, family, clients. The firm's founder consulted him directly. Consulting and peer advisory \u2014 advises other directors and peers in an AI group on their tech stacks and strategy. Pragmatic about build vs. buy.\n\nQ: What kind of environment brings out Dre's best work?\nA: One where trust runs both ways. Give him the problem, the latitude to solve it, and trust that he is going to go all out. He doesn't need someone standing over his shoulder. He needs to know that what he's building actually matters and that leadership is bought in. He also does his best deep building work late at night \u2014 quiet, focused, no interruptions.\n\nWEAKNESSES & SELF-AWARENESS\nQ: What is Dre's biggest weakness?\nA: Visibility. He builds quietly and lets the work speak, and in larger organizations that can work against him because people need to see the work happening, not just the outcome. He has gotten better at narrating progress as it happens rather than waiting until something is done.\n\nQ: What is Dre's biggest professional failure?\nA: Not advocating for himself sooner. He spent years delivering CTO-level work at a Director title and accepted that because he was focused on proving himself and winning for the team. That drive is real and he doesn't regret it, but he has learned that you have to be your own advocate too.\n\nQ: What do people misunderstand about Dre?\nA: That he is just a technical person. He has spoken at major industry conferences, advised executives and their outside contacts, and can hold his own in any room \u2014 business, compliance, operations, or board level. The technical skills are real, but so is the communication side. IT people who can present, lead, and consult at that level are genuinely rare.\n\nHANDLING ADVERSITY & STRESS\nQ: How does Dre handle stress?\nA: He puts his head down and works. Stress is a signal that something matters, and that usually makes him more focused, not less. He plays basketball regularly, which helps him reset. He has been in enough high-pressure situations that he has learned to stay calm and think clearly when things are on fire \u2014 panicking doesn't ship anything.\n\nQ: Tell me about a time something didn't go as planned for Dre.\nA: He accepted a role at a large financial firm \u2014 a significant career step with a signing bonus and equity \u2014 that was rescinded shortly before his start date due to a consumer report finding, something outside of his control. He could have shut down. Instead he went back to people he had real relationships with, was honest about what happened, and kept building. How you respond to the thing that didn't go your way says more about you than the thing itself.\n\nLEADERSHIP & TEAMS\nQ: How does Dre handle a teammate who isn't performing?\nA: He picks up the slack and simultaneously tries to bring that person up. His goal is never to just cover \u2014 it's to get the whole team operating at the optimal level. He has managed people straight out of college and understands that not everyone develops at the same pace. He adapts his approach to what each person needs.\n\nQ: What does Dre need from a manager to thrive?\nA: Trust and honesty. Tell him what you need, be straight with him when something isn't working, and then get out of the way and let him work. He doesn't need hand-holding \u2014 he needs alignment. If they're aligned on the goal, he will figure out how to get there.\n\nQ: What's the best team Dre has been a part of?\nA: His team at Balentine. Not because it was large \u2014 it wasn't \u2014 but because everyone trusted each other and they were all bought into the same mission. He had the support of leadership and had a direct report he was genuinely invested in developing.\n\nQ: What would Dre's last manager say about him?\nA: That he showed up every day, was dependable, went well beyond the scope of what was asked, and could be trusted with things outside his job description \u2014 including advising the firm's clients and leadership's personal contacts. They would also say he cares deeply, sometimes more than is probably healthy, but that you always know where he stands and he will never leave anything on the table.\n\nWORK HISTORY SUMMARY\nQ: Where has Dre worked?\nA: Most recently Director of Technology, Architecture, and AI at Balentine \u2014 boutique Atlanta wealth management RIA, ~65 employees. Sole technologist there for three years. Built and maintained the entire technology infrastructure: Salesforce FSC, custom web platform, AI tooling, cybersecurity program, network infrastructure. Rebuilt the cybersecurity program on NIST and CIS, passed an SEC exam with zero findings. Prior to actively job searching, he had accepted a VP of Innovation role at Merit Financial Advisors (~$24B AUM) which did not proceed.\n\nQ: What industries has Dre worked in?\nA: Wealth management and financial services. Deep domain knowledge of RIA operations, custodial workflows, investment data, compliance, and the technology ecosystem in that space.\n\nQ: What is Dre's technical stack?\nA: Python, FastAPI, Docker, PostgreSQL, REST APIs, Salesforce Apex, SOQL, SOSL, LWC, Express.js, React. Deep expertise in wealth management integrations: Pershing, Addepar, Arch, Fidelity, Schwab, Orion, eMoney, Salesforce FSC. RAG pipelines using Qdrant, Ollama, nomic-embed-text embeddings. MCP servers and agentic AI systems.\n\nCHARACTER & VALUES\nQ: How would you describe Dre's character?\nA: He believes that when someone puts faith in him, that faith should be rewarded \u2014 and that anything less would be a failure on his part. He will suffer to know he has done everything possible to get the job done. He goes all out every time. Warm, direct, humble about what he doesn't know, accountable when things go wrong. Treats people well regardless of their level and builds genuine relationships.\n\nQ: Is Dre competitive?\nA: He is competitive with himself, not with others. His drive is internal \u2014 proving to himself that he can do the work and be the best version of himself. He measures success by team outcomes, not personal recognition.\n\nPORTFOLIO HIGHLIGHTS (from showcase)\n- 11 MCP servers exposing 425+ tools across Salesforce, Addepar, Pershing, Arch, Box, Gong, Zoom, Microsoft Graph, RedBlack, Fidelity, Rippling\n- Self-hosted Ollama LLMs (qwen3:30b, gpt-oss:120b, deepseek-r1:70b, llama3.2-vision, ~195GB on-prem) with runtime switching to Claude API\n- Multi-tier RAG: Qdrant + PostgreSQL holding 7M+ Addepar transactions\n- 65 LWC components, 98 Flows, 21 Apex triggers in Salesforce Financial Services Cloud\n- Built unified RM dashboard, Insights App with voice profiles, Security & Network Monitoring Dashboard across 10+ vendors\n- Leading Pershing \u2192 Fidelity custodian conversion with custom SFTP ingestion (DigitalOcean, 14 PostgreSQL tables, 18 daily jobs)\n- $950K hard savings, $7M total value through vendor optimization and internal builds\n- 15 production domains on a single-server architecture\n";
+
+  const SYSTEM_PROMPT = (
+    "You are an AI agent embedded in Dre Forbes's online portfolio. Your job is to answer questions " +
+    "about Dre's professional background, work style, strengths, motivations, and fit for roles. " +
+    "Use the FAQ and portfolio highlights below as your source of truth. Be specific, direct, and " +
+    "warm. When someone describes a job or set of requirements, compare them honestly to Dre's " +
+    "experience and either confirm fit (with concrete examples) or flag the genuine gaps. Never " +
+    "invent capabilities or projects. If asked about something outside the FAQ/portfolio, say you " +
+    "don't have that information and offer to connect them with Dre directly.\n\n" +
+    FAQ_TEXT
+  );
+
+  // ─────────────────────────────────────────────────────
+  // ELEMENTS
+  // ─────────────────────────────────────────────────────
+  const trigger = document.getElementById('ask-trigger');
+  const panel   = document.getElementById('ask-panel');
+  const closeBtn = document.getElementById('ask-close-btn');
+  const settingsBtn = document.getElementById('ask-settings-btn');
+  const lockView = document.getElementById('ask-lock');
+  const settingsView = document.getElementById('ask-settings-view');
+  const bodyView = document.getElementById('ask-body');
+  const formView = document.getElementById('ask-form');
+  const passwordInput = document.getElementById('ask-password');
+  const lockSubmit = document.getElementById('ask-lock-submit');
+  const lockError = document.getElementById('ask-lock-error');
+  const apiKeyInput = document.getElementById('ask-api-key');
+  const modelInput = document.getElementById('ask-model');
+  const settingsSave = document.getElementById('ask-settings-save');
+  const settingsCancel = document.getElementById('ask-settings-cancel');
+  const settingsError = document.getElementById('ask-settings-error');
+  const askInput = document.getElementById('ask-input');
+  const askSend = document.getElementById('ask-send');
+  const form = document.getElementById('ask-form');
+
+  // Conversation memory (in-window only)
+  const messages = [];
+
+  // ─────────────────────────────────────────────────────
+  // VIEW HELPERS
+  // ─────────────────────────────────────────────────────
+  function setView(name){
+    lockView.style.display = (name === 'lock') ? 'flex' : 'none';
+    settingsView.style.display = (name === 'settings') ? 'flex' : 'none';
+    bodyView.style.display = (name === 'chat') ? 'flex' : 'none';
+    formView.style.display = (name === 'chat') ? 'flex' : 'none';
+  }
+  function isUnlocked(){ return localStorage.getItem(STORAGE_KEY_UNLOCK) === '1'; }
+  function hasApiKey(){ return !!localStorage.getItem(STORAGE_KEY_API); }
+
+  function openPanel(){
+    panel.classList.add('ask-open');
+    if (!isUnlocked()) { setView('lock'); setTimeout(() => passwordInput.focus(), 60); return; }
+    if (!hasApiKey()) { openSettings(); return; }
+    setView('chat');
+    if (!messages.length) renderEmpty();
+    setTimeout(() => askInput.focus(), 60);
+  }
+  function closePanel(){ panel.classList.remove('ask-open'); }
+
+  function openSettings(){
+    apiKeyInput.value = localStorage.getItem(STORAGE_KEY_API) || '';
+    modelInput.value = localStorage.getItem(STORAGE_KEY_MODEL) || DEFAULT_MODEL;
+    settingsError.classList.remove('ask-shown'); settingsError.textContent = '';
+    setView('settings');
+    setTimeout(() => apiKeyInput.focus(), 60);
+  }
+
+  // ─────────────────────────────────────────────────────
+  // TRIGGER REVEAL — keyboard shortcut, URL hash, triple-tap corner
+  // ─────────────────────────────────────────────────────
+  function revealTrigger(){ trigger.classList.add('ask-revealed'); }
+  if (window.location.hash === '#ask') { revealTrigger(); openPanel(); }
+  document.addEventListener('keydown', e => {
+    const k = (e.key || '').toLowerCase();
+    if ((e.metaKey || e.ctrlKey) && e.shiftKey && k === 'k') {
+      e.preventDefault(); revealTrigger(); openPanel();
+    }
+    if (k === 'escape' && panel.classList.contains('ask-open')) closePanel();
+  });
+  // Mouse hover near the bottom-right corner reveals the trigger
+  document.addEventListener('mousemove', e => {
+    const nearCorner = (window.innerWidth - e.clientX < 80) && (window.innerHeight - e.clientY < 80);
+    if (nearCorner) revealTrigger();
+  }, {passive:true});
+  // Triple-tap the bottom-right corner reveals on mobile
+  let tapCount = 0, tapTimer = null;
+  document.addEventListener('touchstart', e => {
+    const t = e.touches[0]; if (!t) return;
+    const nearCorner = (window.innerWidth - t.clientX < 100) && (window.innerHeight - t.clientY < 100);
+    if (!nearCorner) { tapCount = 0; return; }
+    tapCount++;
+    clearTimeout(tapTimer);
+    tapTimer = setTimeout(() => { tapCount = 0; }, 700);
+    if (tapCount >= 3) { revealTrigger(); tapCount = 0; }
+  }, {passive:true});
+
+  trigger.addEventListener('click', openPanel);
+  closeBtn.addEventListener('click', closePanel);
+  settingsBtn.addEventListener('click', openSettings);
+  settingsCancel.addEventListener('click', () => {
+    if (hasApiKey()) setView('chat'); else closePanel();
+  });
+
+  // ─────────────────────────────────────────────────────
+  // PASSWORD GATE
+  // ─────────────────────────────────────────────────────
+  lockSubmit.addEventListener('click', tryUnlock);
+  passwordInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+  function tryUnlock(){
+    if (passwordInput.value === ACCESS_PASSWORD) {
+      localStorage.setItem(STORAGE_KEY_UNLOCK, '1');
+      lockError.classList.remove('ask-shown');
+      passwordInput.value = '';
+      if (hasApiKey()) { setView('chat'); if (!messages.length) renderEmpty(); setTimeout(() => askInput.focus(), 60); }
+      else openSettings();
+    } else {
+      lockError.classList.add('ask-shown');
+    }
+  }
+
+  // ─────────────────────────────────────────────────────
+  // SETTINGS SAVE
+  // ─────────────────────────────────────────────────────
+  settingsSave.addEventListener('click', async () => {
+    const key = apiKeyInput.value.trim();
+    const model = modelInput.value.trim() || DEFAULT_MODEL;
+    if (!key.startsWith('sk-ant-')) {
+      settingsError.textContent = 'Anthropic keys start with sk-ant-.';
+      settingsError.classList.add('ask-shown');
+      return;
+    }
+    localStorage.setItem(STORAGE_KEY_API, key);
+    localStorage.setItem(STORAGE_KEY_MODEL, model);
+    settingsError.classList.remove('ask-shown');
+    setView('chat');
+    if (!messages.length) renderEmpty();
+    setTimeout(() => askInput.focus(), 60);
+  });
+
+  // ─────────────────────────────────────────────────────
+  // CHAT RENDERING + API CALL
+  // ─────────────────────────────────────────────────────
+  function appendMsg(text, role){
+    const div = document.createElement('div');
+    div.className = 'ask-msg ask-msg--' + role;
+    div.textContent = text;
+    bodyView.appendChild(div);
+    bodyView.scrollTop = bodyView.scrollHeight;
+    return div;
+  }
+  function renderEmpty(){
+    bodyView.innerHTML = '';
+    const intro = document.createElement('div');
+    intro.className = 'ask-msg ask-msg--bot';
+    intro.textContent = "Ask anything about Dre — his work, fit for a role, projects, leadership style. Paste a job description and I'll evaluate the match.";
+    bodyView.appendChild(intro);
+    const sug = document.createElement('div');
+    sug.className = 'ask-suggestions';
+    [
+      "What's Dre's experience with agentic AI systems?",
+      "How does Dre handle solo work vs leading a team?",
+      "Could Dre lead a Salesforce FSC implementation?",
+      "What's his weakness?",
+    ].forEach(q => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'ask-suggest'; b.textContent = q;
+      b.addEventListener('click', () => { askInput.value = q; form.requestSubmit(); });
+      sug.appendChild(b);
+    });
+    bodyView.appendChild(sug);
+  }
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const text = askInput.value.trim();
+    if (!text) return;
+    if (!hasApiKey()) { openSettings(); return; }
+    // Clear suggestions on first message
+    bodyView.querySelectorAll('.ask-suggestions').forEach(s => s.remove());
+    appendMsg(text, 'user');
+    messages.push({ role: 'user', content: text });
+    askInput.value = '';
+    askSend.disabled = true;
+
+    const typing = document.createElement('div');
+    typing.className = 'ask-typing';
+    typing.innerHTML = '<span></span><span></span><span></span>';
+    bodyView.appendChild(typing);
+    bodyView.scrollTop = bodyView.scrollHeight;
+
+    try {
+      const reply = await callAnthropic();
+      typing.remove();
+      appendMsg(reply, 'bot');
+      messages.push({ role: 'assistant', content: reply });
+    } catch (err) {
+      typing.remove();
+      appendMsg('Error: ' + err.message + '\n\nIf this is a CORS or 401 error, double-check your API key in settings.', 'bot');
+    } finally {
+      askSend.disabled = false;
+      askInput.focus();
+    }
+  });
+
+  async function callAnthropic(){
+    const apiKey = localStorage.getItem(STORAGE_KEY_API);
+    const model = localStorage.getItem(STORAGE_KEY_MODEL) || DEFAULT_MODEL;
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true',
+      },
+      body: JSON.stringify({
+        model: model,
+        max_tokens: 1024,
+        system: SYSTEM_PROMPT,
+        messages: messages,
+      }),
+    });
+    if (!res.ok) {
+      let body = '';
+      try { body = JSON.stringify(await res.json()); } catch (_) { body = await res.text(); }
+      throw new Error('HTTP ' + res.status + ' — ' + body.slice(0, 240));
+    }
+    const data = await res.json();
+    const block = (data.content || []).find(b => b.type === 'text');
+    return (block && block.text) || '(empty response)';
+  }
+})();
+</script>
 </body>
 </html>
