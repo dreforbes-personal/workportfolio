@@ -58,6 +58,28 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
   .hero-quote::before{font-size:5.5rem;top:-44px;left:14px}
   .hero-quote__text{font-size:clamp(1.1rem,3.6vw,1.5rem);font-weight:500;line-height:1.35}
 }
+@media(max-width:600px){
+  .hero{padding:48px 22px;row-gap:28px}
+  .hero h1{font-size:clamp(2.4rem,11vw,3.4rem);margin-bottom:14px}
+  .hero-eyebrow{font-size:0.6rem;letter-spacing:2.5px;margin-bottom:16px}
+  .hero-eyebrow::before{width:20px}
+  .hero-role{font-size:0.92rem;line-height:1.6}
+  .hero-aside{max-width:none;margin-top:8px}
+  .hero-quote{padding:16px 0 16px 22px;border-left-width:2px}
+  .hero-quote::before{font-size:4rem;top:-30px;left:10px}
+  .hero-quote__text{font-size:clamp(1rem,4.4vw,1.25rem);line-height:1.45}
+  .hero-quote__attr{font-size:0.65rem;letter-spacing:2px;margin-top:18px}
+  .hero-quote__attr::before{width:22px}
+  .hero-metrics{gap:0}
+  .hero-metrics .metric{padding:14px 14px}
+  .hero-metrics .val{font-size:1.5rem}
+  .hero-metrics .lbl{font-size:0.6rem;letter-spacing:1.5px}
+}
+@media(max-width:380px){
+  .hero{padding:40px 16px}
+  .hero h1{font-size:clamp(2rem,12vw,2.8rem)}
+  .hero-quote::before{font-size:3.4rem;top:-26px}
+}
 
 .hero-eyebrow{
   font-family:'Source Sans 3',sans-serif;font-size:0.72rem;letter-spacing:4px;
