@@ -628,7 +628,8 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
 .dap-frame .da-canvas{position:relative;background:linear-gradient(135deg,#f9fafb,#f3f4f6);border-radius:10px;min-height:440px;overflow:hidden}
 .dap-frame .da-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .dap-frame .da-sidebar{background:#fafafa;border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;flex-direction:column;min-width:0;max-height:440px;overflow-y:auto}
-.dap-cta{margin-top:18px;text-align:center;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+.dap-cta{margin-top:18px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.trp-detail:empty,.tr-detail:empty{display:none}
 .dap-cta-hint{font-size:0.72rem;color:#9e9a90;font-family:'Source Sans 3',sans-serif}
 .dap-cta .card-demo-btn{font-size:0.85rem;padding:10px 22px;border-radius:18px}
 
@@ -820,7 +821,7 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
       <div class="tr-leg-item"><span class="tr-leg-dot" style="background:rgba(255,255,255,0.4)"></span>Future / planned</div>
     </div>
   </div>
-  <div class="trp-detail" id="trp-detail"><div class="trp-detail-empty">Click any milestone above for detail.</div></div>
+  <div class="trp-detail" id="trp-detail"></div>
   <div class="dap-cta">
     <button class="card-demo-btn" onclick="window.openShowcaseDemo('roadmap')">&#x1F5A5; Launch Full-Screen Interactive Demo</button>
     <span class="dap-cta-hint">Same data, full-screen, with status filter</span>
@@ -3631,7 +3632,7 @@ maInput.addEventListener('keydown',function(e){
             <div class="tr-leg-item"><span class="tr-leg-dot" style="background:rgba(255,255,255,0.4)"></span>Future / planned</div>
           </div>
         </div>
-        <div class="tr-detail" id="tr-detail"><div class="tr-detail-empty">Click any milestone above for detail.</div></div>
+        <div class="tr-detail" id="tr-detail"></div>
       </div>
     </div>
   </div>
