@@ -3440,8 +3440,8 @@ maInput.addEventListener('keydown',function(e){
 .da-svg path.active{opacity:1;stroke-width:2.5;filter:drop-shadow(0 0 4px currentColor)}
 .da-node{position:absolute;background:#fff;border:1.5px solid #e5e7eb;border-radius:10px;padding:8px 11px;font-size:0.74rem;font-weight:600;color:#111827;cursor:pointer;transform:translate(-50%,-50%);transition:all 0.18s;box-shadow:0 2px 8px rgba(0,0,0,0.05);text-align:center;min-width:84px;user-select:none}
 .da-node:hover,.da-node.active{border-color:#174435;background:#f0fdf4;transform:translate(-50%,-50%) scale(1.06);box-shadow:0 4px 14px rgba(23,68,53,0.18);z-index:5}
-.da-node.da-hub{background:linear-gradient(135deg,#174435,#1f5a44);color:#fff;border-color:#174435;font-size:0.82rem;padding:14px 18px;min-width:120px}
-.da-node.da-hub:hover{background:linear-gradient(135deg,#1f5a44,#266b53);transform:translate(-50%,-50%) scale(1.04)}
+.da-node.da-hub{background:linear-gradient(135deg,#00A1E0,#1798C1);color:#fff;border-color:#00A1E0;font-size:0.82rem;padding:14px 18px;min-width:120px}
+.da-node.da-hub:hover{background:linear-gradient(135deg,#1798C1,#0078A8);transform:translate(-50%,-50%) scale(1.04)}
 .da-node-tag{display:block;font-size:0.58rem;font-weight:500;opacity:0.75;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
 .da-sidebar{background:#fafafa;border:1px solid #e5e7eb;border-radius:10px;padding:14px;display:flex;flex-direction:column;min-width:0}
 .da-side-empty{font-size:0.78rem;color:#9ca3af;text-align:center;margin:auto 0;font-style:italic}
@@ -3463,12 +3463,12 @@ maInput.addEventListener('keydown',function(e){
 /* ── TECH ROADMAP ── */
 .tr-shell{padding:22px;background:linear-gradient(135deg,rgba(255,255,255,0.78) 0%,rgba(255,255,255,0.55) 50%,rgba(255,255,255,0.72) 100%);backdrop-filter:blur(28px) saturate(140%);-webkit-backdrop-filter:blur(28px) saturate(140%);color:#0a1f33;min-height:560px;border-radius:16px;border:1px solid rgba(0,0,0,0.08);box-shadow:0 16px 48px rgba(0,0,0,0.10),inset 0 1px 0 rgba(255,255,255,0.85)}
 .tr-intro{margin-bottom:18px;display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap}
-.tr-intro h3{font-size:1.05rem;font-weight:700;color:#fff;margin:0 0 4px}
-.tr-intro p{font-size:0.82rem;color:rgba(231,240,235,0.75);margin:0;max-width:640px}
+.tr-intro h3{font-size:1.05rem;font-weight:700;color:#0a1f33;margin:0 0 4px}
+.tr-intro p{font-size:0.82rem;color:rgba(10,31,51,0.75);margin:0;max-width:640px}
 .tr-controls{display:flex;gap:6px;flex-wrap:wrap}
-.tr-filter{font-family:'Source Sans 3',sans-serif;font-size:0.66rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:#e7f0eb;padding:5px 10px;border-radius:14px;cursor:pointer;transition:all 0.15s}
-.tr-filter:hover{background:rgba(255,255,255,0.12)}
-.tr-filter.active{background:#65906B;border-color:#65906B;color:#fff}
+.tr-filter{font-family:'Source Sans 3',sans-serif;font-size:0.66rem;background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.12);color:#0a1f33;padding:5px 10px;border-radius:14px;cursor:pointer;transition:all 0.15s}
+.tr-filter:hover{background:rgba(0,0,0,0.08);border-color:rgba(0,0,0,0.20)}
+.tr-filter.active{background:#1f2024;border-color:#1f2024;color:#fff}
 
 .tr-board{background:rgba(0,0,0,0.18);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px;overflow:hidden}
 .tr-axis{display:grid;grid-template-columns:170px 1fr;border-bottom:1px solid rgba(10,31,51,0.18);padding-bottom:8px;margin-bottom:10px;font-family:'Source Sans 3',sans-serif;font-size:0.62rem;color:rgba(10,31,51,0.65);text-transform:uppercase;letter-spacing:1px}
@@ -3787,8 +3787,9 @@ maInput.addEventListener('keydown',function(e){
   // ─────────────────────────────────────────
   const DA_NODES=[
     {id:'sf',name:'Salesforce',cat:'CRM Hub',hub:true,x:50,y:50,desc:'Unified client data layer and central CRM. Every major system connects to Salesforce as the source of truth for households, contacts, accounts, opportunities, and cases.',
-      flows:[{f:'Pershing → SF',m:'MCP · intraday 4×',cls:'da-mcp'},{f:'Addepar ↔ SF',m:'MCP · nightly two-way',cls:'da-two-way'},{f:'Box ↔ SF',m:'Native · real-time',cls:'da-two-way'},{f:'Gong → SF',m:'Webhook · near real-time',cls:''},{f:'Office 365 ↔ SF',m:'Native · two-way',cls:'da-two-way'},{f:'SF → Concur',m:'One-way · daily',cls:''},{f:'Redblack → SF',m:'Manual CSV',cls:'da-manual'}]},
-    {id:'pershing',name:'Pershing',cat:'Custodian',x:18,y:14,desc:'Primary custodian. Live account data, balances, holdings, transactions, RMDs, beneficiaries. Cert-auth APIs into custom MCP server.',flows:[{f:'Pershing → SF',m:'Intraday 4×',cls:'da-mcp'},{f:'Pershing → Addepar',m:'Daily feed',cls:''},{f:'Pershing → PostgreSQL',m:'Nightly + intraday',cls:'da-mcp'}]},
+      flows:[{f:'Pershing → SF',m:'MCP · intraday 4×',cls:'da-mcp'},{f:'Fidelity → SF',m:'MCP · daily (in conversion)',cls:'da-mcp'},{f:'Addepar ↔ SF',m:'MCP · nightly two-way',cls:'da-two-way'},{f:'Box ↔ SF',m:'Native · real-time',cls:'da-two-way'},{f:'Gong → SF',m:'Webhook · near real-time',cls:''},{f:'Office 365 ↔ SF',m:'Native · two-way',cls:'da-two-way'},{f:'SF → Concur',m:'One-way · daily',cls:''},{f:'Redblack → SF',m:'Manual CSV',cls:'da-manual'}]},
+    {id:'pershing',name:'Pershing',cat:'Custodian',x:14,y:10,desc:'Legacy custodian. Live account data, balances, holdings, transactions, RMDs, beneficiaries. Cert-auth APIs into custom MCP server. Migrating to Fidelity.',flows:[{f:'Pershing → SF',m:'Intraday 4×',cls:'da-mcp'},{f:'Pershing → Addepar',m:'Daily feed',cls:''},{f:'Pershing → PostgreSQL',m:'Nightly + intraday',cls:'da-mcp'}]},
+    {id:'fidelity',name:'Fidelity',cat:'Custodian',x:30,y:6,desc:'Incoming primary custodian. Cert-auth API + custom SFTP ingestion server (DigitalOcean file watcher, 14 PostgreSQL tables, 18 daily jobs). Active conversion from Pershing.',flows:[{f:'Fidelity → SF',m:'SFTP + cert API · daily',cls:'da-mcp'},{f:'Fidelity → Addepar',m:'Daily feed',cls:''},{f:'Fidelity → PostgreSQL',m:'Daily ingestion (18 jobs)',cls:'da-mcp'}]},
     {id:'addepar',name:'Addepar',cat:'Portfolio Mgmt',x:50,y:14,desc:'Portfolio aggregator. Positions, transactions, AUM, tax lots, entity hierarchies. Two-way SF sync for performance and account hierarchy.',flows:[{f:'Addepar ↔ SF',m:'Nightly',cls:'da-two-way'},{f:'Addepar → eMoney',m:'One-way · planning',cls:''},{f:'Addepar → Redblack',m:'Feed',cls:''},{f:'Addepar → PostgreSQL',m:'Nightly 2-4 AM',cls:'da-mcp'}]},
     {id:'arch',name:'Arch',cat:'Private Capital',x:82,y:14,desc:'Private capital aggregator. Capital calls, K1s, private holdings. Custom integration with Salesforce for cash flows.',flows:[{f:'Arch ↔ SF',m:'Daily',cls:'da-two-way'},{f:'Arch → Addepar',m:'One-way feed',cls:''},{f:'Arch → PostgreSQL',m:'Daily 4 AM',cls:'da-mcp'}]},
     {id:'box',name:'Box',cat:'Document Storage',x:14,y:42,desc:'Document storage backbone. Two-way SF sync for household docs. Powers client portal, document vault, and onboarding doc collection.',flows:[{f:'Box ↔ SF',m:'Real-time',cls:'da-two-way'},{f:'Box → clients.balentine',m:'One-way',cls:''},{f:'Box → documents.balentine',m:'One-way',cls:''}]},
@@ -3805,7 +3806,7 @@ maInput.addEventListener('keydown',function(e){
     ['sf','concur',''],['rippling','sf',''],['ai','sf','da-mcp'],
     ['ai','pershing','da-mcp'],['ai','addepar','da-mcp'],['ai','arch','da-mcp'],
     ['ai','box','da-mcp'],['ai','rippling','da-mcp'],['qb','sf','da-manual'],
-    ['pershing','addepar',''],['arch','addepar',''],
+    ['pershing','addepar',''],['arch','addepar',''],['sf','fidelity','da-mcp'],['ai','fidelity','da-mcp'],['fidelity','addepar',''],
   ];
   let daInited=false;
   function initDataArch(){
