@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Ask-About-Dre — Settings</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#FFFFFF;--surface:#FAFAFA;--border:#E5E5E5;--border-light:#F0F0F0;--text:#111;--mid:#555;--muted:#999;--accent:#B91C1C}
+html,body{height:100%}
+body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;display:flex;align-items:center;justify-content:center;padding:24px}
+.shell{width:100%;max-width:520px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:36px 32px;box-shadow:0 24px 64px rgba(0,0,0,0.06)}
+.eyebrow{font-size:0.7rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+h1{font-family:'Playfair Display',Georgia,serif;font-size:1.6rem;font-weight:700;letter-spacing:-0.01em;color:var(--text);margin-bottom:8px}
+.lede{font-size:0.92rem;color:var(--mid);margin-bottom:28px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:18px}
+.field label{font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.field input{border:1px solid var(--border);border-radius:6px;padding:10px 12px;font-family:inherit;font-size:0.92rem;color:var(--text);background:#fff;outline:none;transition:border-color 0.15s}
+.field input:focus{border-color:var(--text)}
+.field .hint{font-size:0.78rem;color:var(--muted);line-height:1.5}
+.btnrow{display:flex;gap:10px;margin-top:22px}
+.btn{flex:1;padding:11px 16px;border-radius:6px;font-family:inherit;font-size:0.92rem;font-weight:600;border:none;cursor:pointer;transition:background 0.15s}
+.btn-primary{background:var(--text);color:#fff}
+.btn-primary:hover{background:#000}
+.btn-ghost{background:rgba(0,0,0,0.04);color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{background:rgba(0,0,0,0.08)}
+.notice{padding:10px 12px;border-radius:6px;font-size:0.84rem;margin-bottom:14px}
+.notice-error{background:rgba(185,28,28,0.06);color:var(--accent);border:1px solid rgba(185,28,28,0.25);display:none}
+.notice-error.shown{display:block}
+.notice-success{background:rgba(31,122,77,0.06);color:#1F7A4D;border:1px solid rgba(31,122,77,0.25);display:none}
+.notice-success.shown{display:block}
+.divider{height:1px;background:var(--border-light);margin:24px 0}
+.foot{font-size:0.78rem;color:var(--muted);margin-top:20px;text-align:center}
+.foot a{color:var(--text);text-decoration:none;border-bottom:1px solid var(--border)}
+.foot a:hover{color:#000}
+.section-h{font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:600;color:var(--text);margin-bottom:6px}
+.section-sub{font-size:0.82rem;color:var(--mid);margin-bottom:16px}
+.kbd{display:inline-block;border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-size:0.78rem;font-family:'IBM Plex Mono',monospace;background:#fafafa}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- ── LOCKED VIEW ── -->
+  <div id="lock-view">
+    <div class="eyebrow">Restricted</div>
+    <h1>Ask-About-Dre Settings</h1>
+    <p class="lede">Enter the access password to manage the chat configuration.</p>
+    <div class="notice notice-error" id="lock-error">Wrong password.</div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="lock-password" autocomplete="current-password" autofocus>
+    </div>
+    <div class="btnrow">
+      <button class="btn btn-primary" id="lock-submit">Unlock</button>
+    </div>
+    <div class="foot"><a href="./">Back to portfolio</a></div>
+  </div>
+
+  <!-- ── SETTINGS VIEW ── -->
+  <div id="settings-view" style="display:none">
+    <div class="eyebrow">Settings</div>
+    <h1>Ask-About-Dre</h1>
+    <p class="lede">Configure how the chat panel reaches an LLM. Stored in this browser&apos;s localStorage on this device.</p>
+
+    <div class="notice notice-success" id="save-notice">Saved.</div>
+    <div class="notice notice-error" id="save-error"></div>
+
+    <div class="section-h">Cloudflare Worker proxy (recommended)</div>
+    <div class="section-sub">Visitors hit your worker; the worker holds your API key. Lets the chat work for everyone without anyone bringing a key.</div>
+
+    <div class="field">
+      <label>Worker endpoint URL</label>
+      <input type="url" id="endpoint" placeholder="https://askdre-proxy.your-account.workers.dev" autocomplete="off">
+      <div class="hint">Paste the URL Cloudflare gives you after deploying <code>cf-worker.js</code>. Leave empty to fall back to direct browser → Anthropic.</div>
+    </div>
+
+    <div class="field">
+      <label>Worker shared token (optional)</label>
+      <input type="password" id="ask-token" placeholder="(leave blank if not using ASK_TOKEN)" autocomplete="off">
+      <div class="hint">If you set the optional <code>ASK_TOKEN</code> secret on the worker, paste it here so chats can authenticate.</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section-h">Direct API key (fallback)</div>
+    <div class="section-sub">Used only if the worker URL above is empty. Visitors will need their own keys to chat.</div>
+
+    <div class="field">
+      <label>Anthropic API key</label>
+      <input type="password" id="api-key" placeholder="sk-ant-..." autocomplete="off">
+      <div class="hint">Stored locally only. Never sent anywhere except api.anthropic.com.</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field">
+      <label>Model</label>
+      <input type="text" id="model" placeholder="claude-haiku-4-5-20251001">
+      <div class="hint">Default: Claude Haiku 4.5 (fast, cheap). Try <code>claude-sonnet-4-6</code> for higher quality, <code>claude-opus-4-7</code> for the deepest answers.</div>
+    </div>
+
+    <div class="btnrow">
+      <button class="btn btn-ghost" id="clear-btn">Clear all</button>
+      <button class="btn btn-primary" id="save-btn">Save</button>
+    </div>
+
+    <div class="foot">
+      <a href="./">Back to portfolio</a> &middot;
+      Open chat with <span class="kbd">Cmd/Ctrl + Shift + K</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  // ─────────────────────────────────────────────────
+  // EDIT THIS PASSWORD to whatever you want.
+  // It is in the page source, so treat as soft access control.
+  // ─────────────────────────────────────────────────
+  const ACCESS_PASSWORD = 'askdre';
+
+  const KEYS = {
+    endpoint: 'askdre.endpoint',
+    askToken: 'askdre.askToken',
+    apiKey:   'askdre.apiKey',
+    model:    'askdre.model',
+    unlocked: 'askdre.settings.unlocked',
+  };
+  const DEFAULT_MODEL = 'claude-haiku-4-5-20251001';
+
+  const $ = id => document.getElementById(id);
+
+  function showSettings(){
+    $('lock-view').style.display = 'none';
+    $('settings-view').style.display = 'block';
+    $('endpoint').value = localStorage.getItem(KEYS.endpoint) || '';
+    $('ask-token').value = localStorage.getItem(KEYS.askToken) || '';
+    $('api-key').value  = localStorage.getItem(KEYS.apiKey)  || '';
+    $('model').value    = localStorage.getItem(KEYS.model)   || DEFAULT_MODEL;
+  }
+
+  if (localStorage.getItem(KEYS.unlocked) === '1') {
+    showSettings();
+  }
+
+  $('lock-submit').addEventListener('click', tryUnlock);
+  $('lock-password').addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+  function tryUnlock(){
+    const pw = $('lock-password').value;
+    if (pw === ACCESS_PASSWORD) {
+      localStorage.setItem(KEYS.unlocked, '1');
+      $('lock-error').classList.remove('shown');
+      showSettings();
+    } else {
+      $('lock-error').classList.add('shown');
+    }
+  }
+
+  function flash(el, ms){
+    el.classList.add('shown');
+    setTimeout(() => el.classList.remove('shown'), ms || 2400);
+  }
+
+  $('save-btn').addEventListener('click', () => {
+    const endpoint = $('endpoint').value.trim();
+    const askToken = $('ask-token').value.trim();
+    const apiKey   = $('api-key').value.trim();
+    const model    = $('model').value.trim() || DEFAULT_MODEL;
+
+    if (endpoint && !/^https?:\/\//.test(endpoint)) {
+      $('save-error').textContent = 'Worker endpoint must start with http:// or https://';
+      flash($('save-error'));
+      return;
+    }
+    if (apiKey && !apiKey.startsWith('sk-ant-')) {
+      $('save-error').textContent = 'Anthropic keys start with sk-ant-.';
+      flash($('save-error'));
+      return;
+    }
+    localStorage.setItem(KEYS.endpoint, endpoint);
+    localStorage.setItem(KEYS.askToken, askToken);
+    localStorage.setItem(KEYS.apiKey,  apiKey);
+    localStorage.setItem(KEYS.model,   model);
+    $('save-error').classList.remove('shown');
+    flash($('save-notice'));
+  });
+
+  $('clear-btn').addEventListener('click', () => {
+    if (!confirm('Clear all saved chat configuration on this device?')) return;
+    [KEYS.endpoint, KEYS.askToken, KEYS.apiKey, KEYS.model].forEach(k => localStorage.removeItem(k));
+    $('endpoint').value = ''; $('ask-token').value = ''; $('api-key').value = ''; $('model').value = DEFAULT_MODEL;
+    $('save-notice').textContent = 'Cleared.';
+    flash($('save-notice'));
+    setTimeout(() => $('save-notice').textContent = 'Saved.', 2400);
+  });
+})();
+</script>
+</body>
+</html>
