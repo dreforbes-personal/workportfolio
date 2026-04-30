@@ -39,21 +39,20 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
   mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,black 10%,transparent 70%);
 }
 .hero-content{position:relative;z-index:1;max-width:1100px}
-/* Hero pullquote (right column on wide viewports) */
-.hero-content{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,360px);gap:80px;align-items:start;max-width:1400px;width:100%}
-.hero-aside{position:relative;align-self:end;padding-bottom:40px;opacity:0;animation:fadeUp 0.9s 0.7s forwards}
+/* Hero pullquote — pinned to top-right of hero so it occupies the empty upper area */
+.hero-aside{position:absolute;top:60px;right:60px;width:min(340px,30vw);z-index:2;opacity:0;animation:fadeUp 0.9s 0.7s forwards}
 .hero-quote{position:relative;padding:18px 4px 18px 28px;border-left:2px solid var(--accent-light)}
 .hero-quote::before{content:'\201C';position:absolute;top:-44px;left:14px;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:6rem;line-height:1;color:var(--accent-light);opacity:0.4;pointer-events:none}
 .hero-quote__text{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;font-size:1.05rem;line-height:1.55;color:rgba(255,255,255,0.86);margin:0}
 .hero-quote__attr{font-family:'Source Sans 3',sans-serif;font-size:0.66rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-top:18px;display:flex;align-items:center;gap:10px}
 .hero-quote__attr::before{content:'';width:24px;height:1px;background:rgba(255,255,255,0.3)}
 @media(max-width:1100px){
-  .hero-content{grid-template-columns:minmax(0,1fr) minmax(0,300px);gap:48px}
+  .hero-aside{top:40px;right:40px;width:min(300px,32vw)}
   .hero-quote__text{font-size:0.95rem}
 }
 @media(max-width:840px){
-  .hero-content{grid-template-columns:1fr;gap:36px}
-  .hero-aside{align-self:start;padding-bottom:0}
+  /* Drop back into flow on small screens so it doesn't overlap the title */
+  .hero-aside{position:static;width:auto;max-width:520px;margin-top:32px;top:auto;right:auto}
   .hero-quote{padding:14px 0 14px 24px}
   .hero-quote::before{top:-36px;font-size:4.5rem}
 }
@@ -482,7 +481,6 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
 <section class="hero">
   <div class="hero-grid-bg"></div>
   <div class="hero-content">
-    <div class="hero-main">
     <div class="hero-eyebrow">Director of Technology, Architecture, &amp; AI</div>
     <h1>Dre <span class="accent">Forbes</span></h1>
     <p class="hero-role">Technology leader owning cybersecurity, IT operations, enterprise software development, and AI strategy at a wealth management RIA. Builder and systems architect. 15 production domains, 425+ AI agent tools across 11 MCP servers, and a full infrastructure stack supporting a 65-person firm.</p>
@@ -495,14 +493,13 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
       <div class="metric"><div class="val"><span style="background:#F5E642;color:#141422;padding:0 6px;border-radius:4px">$950K</span></div><div class="lbl">Hard Savings</div></div>
       <div class="metric"><div class="val"><span style="background:#F5E642;color:#141422;padding:0 6px;border-radius:4px">$6M+</span></div><div class="lbl">Value Delivered</div></div>
     </div>
-    </div>
-    <aside class="hero-aside">
+  </div>
+  <aside class="hero-aside">
       <blockquote class="hero-quote">
         <p class="hero-quote__text">Nothing is built solo. I take the vision of our advisors, relationship managers, traders, and leadership, and architect their ideas into reality. They are the portrait, I am the painter. My team provides the bandwidth to focus on these builds, understanding that every cog in the machine is needed for it to run.</p>
         <div class="hero-quote__attr">Dre Forbes</div>
       </blockquote>
     </aside>
-  </div>
 </section>
 
 <nav class="nav" id="nav">
