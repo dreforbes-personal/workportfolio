@@ -785,6 +785,172 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
 </section>
 <div class="divider"><hr></div>
 
+<style id="panorama-styles">
+.pano-section{padding-top:18px}
+.pano-summary{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px 28px;margin:0 0 24px;box-shadow:0 4px 18px rgba(0,0,0,0.04)}
+.pano-summary h3{font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:#111;margin:0 0 10px;letter-spacing:-0.01em}
+.pano-summary p{font-size:0.94rem;color:#333;line-height:1.7;margin:0}
+
+/* Architecture diagram */
+.pano-diagram{background:linear-gradient(180deg,#1f2024 0%,#2a2c33 100%);border-radius:16px;padding:28px 22px;color:#fff;position:relative;overflow:hidden}
+.pano-diagram::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+.pano-tier{position:relative;z-index:1;margin-bottom:14px}
+.pano-tier:last-of-type{margin-bottom:0}
+.pano-tier-label{font-family:'Source Sans 3',sans-serif;font-size:0.62rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:8px;text-align:center;font-weight:600}
+.pano-nodes{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.pn{background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.18);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:#fff;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:background 0.18s,transform 0.18s}
+.pn:hover{background:rgba(255,255,255,0.18);transform:translateY(-2px)}
+
+.pano-arrow{text-align:center;color:rgba(255,255,255,0.45);font-size:1.1rem;line-height:1;margin:8px 0;letter-spacing:8px}
+
+.pano-warehouse{background:linear-gradient(135deg,rgba(106,192,241,0.18),rgba(106,192,241,0.06));border:1px solid rgba(106,192,241,0.32);border-radius:10px;padding:16px 20px;text-align:center}
+.pano-warehouse .pano-tier-label{color:rgba(106,192,241,0.85);margin-bottom:6px}
+.pw-text{font-family:'Playfair Display',Georgia,serif;font-size:1.15rem;font-weight:600;color:#fff}
+.pw-sub{font-size:0.74rem;color:rgba(255,255,255,0.6);margin-top:4px}
+
+.pano-core{background:linear-gradient(135deg,#3b5ec9,#5b3eb9);border-radius:10px;padding:18px 20px;text-align:center;border:1px solid rgba(255,255,255,0.20);box-shadow:0 0 24px rgba(59,94,201,0.22)}
+.pano-core .pano-tier-label{color:rgba(255,255,255,0.7);margin-bottom:8px}
+.pano-core-content{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.pc-pillar{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.30);border-radius:6px;padding:6px 12px;font-size:0.78rem;font-weight:600;color:#fff}
+
+.pano-feedback{margin-top:18px;text-align:center;font-family:'Source Sans 3',sans-serif;font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.55);border-top:1px dashed rgba(255,255,255,0.12);padding-top:14px}
+
+/* Six principles */
+.pano-principles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+.pp-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:18px 20px;position:relative;transition:all 0.18s}
+.pp-card:hover{border-color:rgba(0,0,0,0.18);box-shadow:0 6px 18px rgba(0,0,0,0.06);transform:translateY(-2px)}
+.pp-num{font-family:'Playfair Display',Georgia,serif;font-size:1.6rem;font-weight:700;color:var(--accent);line-height:1;margin-bottom:6px}
+.pp-title{font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:700;color:#111;margin-bottom:6px;letter-spacing:-0.005em}
+.pp-desc{font-size:0.84rem;color:#444;line-height:1.6}
+
+.pano-portability{background:#fff;border:2px dashed rgba(0,0,0,0.18);border-radius:12px;padding:18px 22px;margin-top:24px}
+.pano-portability h4{font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-weight:700;color:#111;margin:0 0 6px}
+.pano-portability p{font-size:0.86rem;color:#444;line-height:1.6;margin:0}
+.pano-portability strong{color:#111}
+
+@media(max-width:880px){
+  .pano-principles{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+  .pano-principles{grid-template-columns:1fr}
+  .pano-summary{padding:18px 20px}
+  .pano-diagram{padding:20px 14px}
+  .pn{font-size:0.7rem;padding:6px 10px}
+  .pc-pillar{font-size:0.7rem}
+  .pw-text{font-size:1rem}
+}
+</style>
+
+<section class="section obs pano-section" id="ai-architect">
+  <div class="section-num">06.4 / AI ARCHITECT</div>
+  <div class="section-title">Panorama &mdash; Agentic Intelligence Architecture</div>
+  <div class="section-desc">A complete agentic AI architecture I designed end-to-end &mdash; the kind of org-wide intelligence platform a firm builds once and runs forever. Originally scoped for a 415-person multi-office RIA, but the architecture itself is portable: it works for any organization whose email and CRM expose APIs, regardless of which specific vendors they use.</div>
+
+  <div class="pano-summary">
+    <h3>Panorama, in one paragraph.</h3>
+    <p>Panorama pulls every system in the firm &mdash; CRM, custodians, portfolio management, email, documents, HR, communications &mdash; into a single nightly-synced warehouse, then deploys a hierarchy of specialist agents on top of it. It does not start with infrastructure. It starts with a department-by-department recon to map how work actually flows. From there, a Simulation Think Tank models the org and replaces its assumptions with real data as the warehouse fills in. Specialist agents handle ops, compliance, client service, business development, strategy, training, and security &mdash; all querying the warehouse, never production. The recon phase becomes a continuous loop. The system gets sharper every week.</p>
+  </div>
+
+  <div class="pano-diagram">
+    <div class="pano-tier">
+      <div class="pano-tier-label">Data Sources &middot; Whatever Your Stack Is</div>
+      <div class="pano-nodes">
+        <div class="pn">&#9993; Email &middot; M365 / Google</div>
+        <div class="pn">&#128203; CRM &middot; Salesforce / Dynamics / HubSpot</div>
+        <div class="pn">&#127960; Custodians &middot; Schwab / Fidelity / LPL / Pershing</div>
+        <div class="pn">&#128202; Portfolio Mgmt &middot; Orion / Addepar / Eclipse</div>
+        <div class="pn">&#128193; Documents &middot; SharePoint / Box / Drive</div>
+        <div class="pn">&#128101; HR &middot; Workday / Rippling / BambooHR</div>
+        <div class="pn">&#128222; Comms &middot; Zoom / Gong / Teams / Slack</div>
+      </div>
+    </div>
+
+    <div class="pano-arrow">&#8675; &#8675; &#8675;</div>
+
+    <div class="pano-tier">
+      <div class="pano-warehouse">
+        <div class="pano-tier-label">Unified Data Warehouse</div>
+        <div class="pw-text">PostgreSQL &middot; Qdrant Vector DB</div>
+        <div class="pw-sub">Nightly sync from every source. Agents query the warehouse, never production systems.</div>
+      </div>
+    </div>
+
+    <div class="pano-arrow">&#8675;</div>
+
+    <div class="pano-tier">
+      <div class="pano-core">
+        <div class="pano-tier-label">Panorama &middot; Intelligence Layer</div>
+        <div class="pano-core-content">
+          <div class="pc-pillar">Orchestrator</div>
+          <div class="pc-pillar">Simulation Think Tank</div>
+          <div class="pc-pillar">11+ MCP Servers &middot; 425+ Tools</div>
+          <div class="pc-pillar">Multi-tier RAG</div>
+          <div class="pc-pillar">Voice Profiles</div>
+          <div class="pc-pillar">Learning Loop</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pano-arrow">&#8675;</div>
+
+    <div class="pano-tier">
+      <div class="pano-tier-label">Specialist Agents &middot; One Per Department</div>
+      <div class="pano-nodes">
+        <div class="pn">&#9878; Compliance</div>
+        <div class="pn">&#128188; Operations</div>
+        <div class="pn">&#128100; Client Service</div>
+        <div class="pn">&#128200; Business Development</div>
+        <div class="pn">&#127919; Strategy</div>
+        <div class="pn">&#128218; Training</div>
+        <div class="pn">&#128274; Security</div>
+        <div class="pn">&#128181; Finance</div>
+        <div class="pn">&#128101; HR</div>
+      </div>
+    </div>
+
+    <div class="pano-feedback">&#8634; Recon loop continuously feeds new discoveries back into Panorama</div>
+  </div>
+
+  <div class="pano-principles">
+    <div class="pp-card">
+      <div class="pp-num">01</div>
+      <div class="pp-title">Recon First, Build Second</div>
+      <div class="pp-desc">Sit with each department. Understand how they actually work. Surface quick wins before writing a line of agent code. Recon never ends &mdash; it becomes the loop that keeps Panorama relevant.</div>
+    </div>
+    <div class="pp-card">
+      <div class="pp-num">02</div>
+      <div class="pp-title">One Warehouse, Many Agents</div>
+      <div class="pp-desc">Every system syncs nightly. Agents query the warehouse, never production. Adding a new agent is a query against existing data, not a brand-new integration project.</div>
+    </div>
+    <div class="pp-card">
+      <div class="pp-num">03</div>
+      <div class="pp-title">Simulation Think Tank</div>
+      <div class="pp-desc">An org model that starts with assumptions and replaces them with real data as Panorama fills in. Confidence scores climb every week. Strategy decisions get backed by measured reality, not gut feel.</div>
+    </div>
+    <div class="pp-card">
+      <div class="pp-num">04</div>
+      <div class="pp-title">Behavioral UI</div>
+      <div class="pp-desc">Each agent's interface is shaped by how the user actually works, not how engineers think they should. The system adapts to the human, not the other way around.</div>
+    </div>
+    <div class="pp-card">
+      <div class="pp-num">05</div>
+      <div class="pp-title">SEC-Ready by Design</div>
+      <div class="pp-desc">NIST CSF and SOC 2 alignment built into the architecture from day one. Full audit trail on every agent action. Built so the next regulator exam comes back with zero findings.</div>
+    </div>
+    <div class="pp-card">
+      <div class="pp-num">06</div>
+      <div class="pp-title">Platform Agnostic</div>
+      <div class="pp-desc">The architecture is portable. Only the connectors change. Drop in M365 or Google Workspace for email; Salesforce, Dynamics, or HubSpot for CRM; any custodian or HR platform with an API. The pattern is what matters.</div>
+    </div>
+  </div>
+
+  <div class="pano-portability">
+    <h4>Not exclusive to any one stack.</h4>
+    <p>Panorama was scoped against a specific firm&apos;s stack &mdash; <strong>Salesforce FSC, Orion, Eclipse, eMoney, Schwab, Fidelity, LPL, Microsoft 365, SharePoint, Workday</strong> &mdash; but the architecture is not. Anywhere there is an email system with an API (Microsoft Graph, Google Workspace) and a CRM with an API (Salesforce, Microsoft Dynamics, HubSpot, custom), Panorama can plug in. The warehouse, the agent hierarchy, the recon loop, the think tank &mdash; all reusable. The vendor list is what changes; the design does not.</p>
+  </div>
+</section>
+<div class="divider"><hr></div>
+
 <section class="section obs" id="data-architecture">
   <div class="section-num">06.5 / DATA ARCHITECTURE</div>
   <div class="section-title">How Data Moves at the Firm</div>
