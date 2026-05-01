@@ -1312,127 +1312,9 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
   <div class="name">Dre Forbes</div>
   <p>Director of Technology, Architecture, &amp; AI · Atlanta, GA</p>
 </footer>
-
-<!-- ── M&A HIDDEN GATE ── -->
-<div class="ma-gate" id="ma-gate">
-  <div class="ma-gate-label">Restricted Access</div>
-  <input type="password" class="ma-gate-input" id="ma-password" placeholder="Enter access code" autocomplete="off">
+<input type="password" class="ma-gate-input" id="ma-password" placeholder="Enter access code" autocomplete="off">
   <div class="ma-gate-hint">Authorized personnel only</div>
 </div>
-
-<section class="ma-section" id="ma-section">
-  <div class="ma-section-header">
-    <div class="ma-section-num">09 / STRATEGIC INITIATIVE</div>
-    <div class="ma-section-title">Mergers & Acquisition Plans</div>
-    <div class="ma-section-desc">An AI-driven integration framework built on a centralized Snowflake data warehouse, MCP-connected pipelines, and an exploratory agent that learns to map incoming organizations to our data model with increasing precision over time.</div>
-  </div>
-
-  <div class="ma-arch">
-    <div class="ma-arch-title">Central Data Architecture</div>
-    <div class="ma-arch-sub">All source systems feed into a Snowflake data warehouse via API-connected MCP servers. An AI agent builds and refines the canonical data model that serves as the integration blueprint for every acquisition.</div>
-    <div class="ma-flow">
-      <div class="ma-flow-node">
-        <div class="node-icon">☁️</div>
-        <div class="node-label">Salesforce</div>
-        <div class="node-desc">CRM records, contacts, opportunities, accounts</div>
-      </div>
-      <div class="ma-flow-arrow">&rarr;</div>
-      <div class="ma-flow-node">
-        <div class="node-icon">🔌</div>
-        <div class="node-label">MCP Servers</div>
-        <div class="node-desc">API connectors orchestrating data sync pipelines</div>
-      </div>
-      <div class="ma-flow-arrow">&rarr;</div>
-      <div class="ma-flow-node central">
-        <div class="node-icon">&#10052;</div>
-        <div class="node-label">Snowflake DB</div>
-        <div class="node-desc">Centralized warehouse &mdash; single source of truth</div>
-      </div>
-      <div class="ma-flow-arrow">&larr;</div>
-      <div class="ma-flow-node">
-        <div class="node-icon">🤖</div>
-        <div class="node-label">AI Agent</div>
-        <div class="node-desc">Builds canonical data map model from all sources</div>
-      </div>
-      <div class="ma-flow-arrow">&larr;</div>
-      <div class="ma-flow-node">
-        <div class="node-icon">📊</div>
-        <div class="node-label">Source Systems</div>
-        <div class="node-desc">Addepar, Pershing, Rippling, QuickBooks, etc.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="ma-phases">
-    <div class="ma-phase">
-      <div class="ma-phase-num">PHASE 1</div>
-      <div class="ma-phase-title">Foundation &mdash; Canonical Data Model</div>
-      <div class="ma-phase-desc">MCP servers connect to all internal source systems via API. An AI agent ingests schemas, relationships, and data flows to build a canonical data map model of our entire organization.</div>
-      <ul class="ma-phase-items">
-        <li>Deploy MCP servers with API connections to Salesforce, Addepar, Pershing, Rippling, and all source systems</li>
-        <li>AI agent analyzes schemas, field mappings, and data relationships across systems</li>
-        <li>Agent generates a unified data model representing how all entities relate</li>
-        <li>Organization reviews the model to verify accuracy and alignment with real-world data</li>
-        <li>Validated model syncs to Snowflake as the canonical reference</li>
-      </ul>
-    </div>
-    <div class="ma-phase">
-      <div class="ma-phase-num">PHASE 2</div>
-      <div class="ma-phase-title">Acquisition &mdash; Exploratory Agent</div>
-      <div class="ma-phase-desc">When a new firm is acquired, the exploratory agent connects to their systems via API. It compares their data structures against our canonical model to find the best integration path.</div>
-      <ul class="ma-phase-items">
-        <li>Exploratory agent connects to the acquired firm's systems via API</li>
-        <li>Agent maps their data schemas, user structures, and system topology</li>
-        <li>Compares against our canonical model to identify overlaps, gaps, and conflicts</li>
-        <li>Generates a recommended mapping: how their users, accounts, and data map to ours</li>
-        <li>Leadership reviews and confirms the proposed integration plan</li>
-      </ul>
-    </div>
-    <div class="ma-phase">
-      <div class="ma-phase-num">PHASE 3</div>
-      <div class="ma-phase-title">Integration &mdash; Pipeline Automation</div>
-      <div class="ma-phase-desc">Once the mapping is confirmed, the agent builds the necessary data pipelines to sync the acquired firm's data into our Snowflake warehouse and connected systems.</div>
-      <ul class="ma-phase-items">
-        <li>Agent auto-generates ETL pipelines based on the confirmed mapping</li>
-        <li>Pipelines sync incoming users, accounts, holdings, and records to Snowflake</li>
-        <li>Downstream systems (Salesforce, Addepar, etc.) receive mapped data via existing MCP connectors</li>
-        <li>Validation checks ensure data integrity post-migration</li>
-        <li>Personnel onboarded into our identity and access systems (Rippling, Duo, Keycloak)</li>
-      </ul>
-    </div>
-    <div class="ma-phase">
-      <div class="ma-phase-num">PHASE 4</div>
-      <div class="ma-phase-title">Learning &mdash; Agent Improvement</div>
-      <div class="ma-phase-desc">Each acquisition teaches the exploratory agent more about how different organizations structure their data. Over time, it becomes faster and more accurate at mapping new firms.</div>
-      <ul class="ma-phase-items">
-        <li>Every confirmed mapping becomes training data for the agent</li>
-        <li>Agent learns patterns: common CRM schemas, custodian structures, reporting hierarchies</li>
-        <li>Future acquisitions produce higher-confidence mappings with less manual review</li>
-        <li>Reduces integration timeline from weeks to days as the agent matures</li>
-        <li>Builds institutional knowledge that persists beyond any individual team member</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="ma-flywheel">
-    <div class="ma-flywheel-title">The Integration Flywheel</div>
-    <div class="ma-flywheel-desc">Each acquisition strengthens the system. The exploratory agent gets smarter, the canonical model gets richer, and integration timelines compress. What starts as a manual process becomes a competitive advantage.</div>
-    <div class="ma-flywheel-steps">
-      <div class="ma-flywheel-step"><span class="step-num">1</span>Connect via API</div>
-      <div class="ma-flywheel-arrow">&rarr;</div>
-      <div class="ma-flywheel-step"><span class="step-num">2</span>Agent Maps Data</div>
-      <div class="ma-flywheel-arrow">&rarr;</div>
-      <div class="ma-flywheel-step"><span class="step-num">3</span>Review & Confirm</div>
-      <div class="ma-flywheel-arrow">&rarr;</div>
-      <div class="ma-flywheel-step"><span class="step-num">4</span>Build Pipelines</div>
-      <div class="ma-flywheel-arrow">&rarr;</div>
-      <div class="ma-flywheel-step"><span class="step-num">5</span>Sync to Snowflake</div>
-      <div class="ma-flywheel-arrow">&rarr;</div>
-      <div class="ma-flywheel-step"><span class="step-num">6</span>Agent Learns</div>
-      <div class="ma-flywheel-arrow">&#8635;</div>
-    </div>
-  </div>
-</section>
 
 <div class="detail-overlay" id="detail-overlay">
   <div class="detail-panel" id="detail-panel"></div>
@@ -1760,24 +1642,6 @@ const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.targe
 document.querySelectorAll('.obs').forEach(el=>obs.observe(el));
 const sids=['roles','ops','dev','salesforce','integrations','architecture','impact','timeline'];
 window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<=130)c=id});document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.section===c))});
-
-// ── M&A PASSWORD GATE ──
-const maInput=document.getElementById('ma-password');
-const maSection=document.getElementById('ma-section');
-const maGate=document.getElementById('ma-gate');
-maInput.addEventListener('keydown',function(e){
-  if(e.key==='Enter'){
-    if(this.value==='dreforbesmna2027!'){
-      maGate.style.display='none';
-      maSection.classList.add('revealed');
-      maSection.scrollIntoView({behavior:'smooth',block:'start'});
-    } else {
-      this.classList.add('error');
-      this.value='';
-      setTimeout(()=>this.classList.remove('error'),500);
-    }
-  }
-});
 </script>
 
 <style id="ah-styles">
