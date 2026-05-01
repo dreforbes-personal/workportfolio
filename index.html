@@ -837,6 +837,41 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
 .pano-portability p{font-size:0.86rem;color:#33446b;line-height:1.6;margin:0}
 .pano-portability strong{color:var(--pn-ink)}
 
+
+.pano-experience,.pano-hierarchy{margin-top:28px}
+.pano-h3{font-family:'Playfair Display',Georgia,serif;font-size:1.3rem;font-weight:700;color:var(--pn-ink);margin:0 0 8px;letter-spacing:-0.01em}
+.pano-intro{font-size:0.94rem;color:#33446b;line-height:1.7;margin:0 0 18px}
+
+.pano-example{background:#fff;border:1px solid var(--pn-l2);border-radius:12px;padding:22px 24px}
+.pano-example__head{font-family:'Source Sans 3',sans-serif;font-size:0.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--pn-l5);margin-bottom:14px;font-weight:700}
+.pano-example__steps{display:flex;flex-direction:column}
+.pe-step{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;padding:12px 0;border-bottom:1px dashed var(--pn-l2)}
+.pe-step:last-child{border-bottom:none;padding-bottom:4px}
+.pe-step__num{font-family:'Playfair Display',Georgia,serif;font-size:1.4rem;font-weight:700;color:var(--pn-l5);line-height:1}
+.pe-step__title{font-weight:700;color:var(--pn-ink);font-size:0.94rem;margin-bottom:4px}
+.pe-step__desc{font-size:0.86rem;color:#33446b;line-height:1.55}
+.pano-example__caption{margin-top:14px;font-size:0.84rem;color:var(--pn-l5);font-style:italic;padding-top:12px;border-top:1px dashed var(--pn-l2)}
+
+.pano-pyramid{background:#fff;border:1px solid var(--pn-l2);border-radius:12px;padding:22px 24px}
+.pano-pyramid__row{display:grid;grid-template-columns:130px 1fr 280px;gap:16px;align-items:center;padding:12px 0}
+.pp-row__label{font-family:'Source Sans 3',sans-serif;font-size:0.66rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--pn-l5);font-weight:700}
+.pp-row__pills{display:flex;flex-wrap:wrap;gap:6px}
+.pp-pill{padding:6px 10px;border-radius:6px;font-size:0.74rem;font-weight:500;border:1px solid;line-height:1.2;transition:transform 0.15s}
+.pp-pill:hover{transform:translateY(-1px)}
+.pp-pill--member{background:var(--pn-l1);border-color:var(--pn-l2);color:var(--pn-ink)}
+.pp-pill--team{background:var(--pn-l2);border-color:var(--pn-l3);color:var(--pn-ink)}
+.pp-pill--dept{background:var(--pn-l3);border-color:var(--pn-l4);color:var(--pn-ink)}
+.pp-pill--exec{background:var(--pn-l5);border-color:var(--pn-l6);color:#fff}
+.pp-row__what{font-size:0.82rem;color:#33446b;line-height:1.55}
+.pano-pyramid__arrow{text-align:center;color:var(--pn-l4);font-size:1rem;line-height:1;padding:4px 0;letter-spacing:0}
+
+.pano-process-note{margin-top:14px;font-size:0.86rem;color:var(--pn-ink);line-height:1.6;padding:14px 18px;background:var(--pn-l1);border-left:3px solid var(--pn-l4);border-radius:4px}
+
+@media(max-width:780px){
+  .pano-pyramid__row{grid-template-columns:1fr;gap:6px;padding:14px 0;border-bottom:1px dashed var(--pn-l2)}
+  .pano-pyramid__row:last-of-type{border-bottom:none}
+  .pp-row__what{font-size:0.78rem}
+}
 @media(max-width:880px){
   .pano-principles{grid-template-columns:repeat(2,1fr)}
 }
@@ -893,7 +928,7 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
         <div class="pano-core-content">
           <div class="pc-pillar">Orchestrator</div>
           <div class="pc-pillar">Simulation Think Tank</div>
-          <div class="pc-pillar">11+ MCP Servers &middot; 425+ Tools</div>
+          <div class="pc-pillar">MCP Servers &middot; Tools</div>
           <div class="pc-pillar">Multi-tier RAG</div>
           <div class="pc-pillar">Voice Profiles</div>
           <div class="pc-pillar">Learning Loop</div>
@@ -952,6 +987,95 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
       <div class="pp-title">Platform Agnostic</div>
       <div class="pp-desc">The architecture is portable. Only the connectors change. Drop in M365 or Google Workspace for email; Salesforce, Dynamics, or HubSpot for CRM; any custodian or HR platform with an API. The pattern is what matters.</div>
     </div>
+  </div>
+
+  <div class="pano-experience">
+    <h3 class="pano-h3">What It Feels Like, Day to Day</h3>
+    <p class="pano-intro">Each person at the firm has their own agent. It is primed with their email, their role, the documents they touch, the people they work with. ACL-scoped to what they can already see. Prompt-injection-protected by design. Aware of what they are working on right now, and ready to help in ways that do not require asking.</p>
+    <div class="pano-example">
+      <div class="pano-example__head">A scenario.</div>
+      <div class="pano-example__steps">
+        <div class="pe-step">
+          <div class="pe-step__num">01</div>
+          <div class="pe-step__body">
+            <div class="pe-step__title">An email lands.</div>
+            <div class="pe-step__desc">"Hi Carol, can you send me the proposal from last year for the Henderson account?"</div>
+          </div>
+        </div>
+        <div class="pe-step">
+          <div class="pe-step__num">02</div>
+          <div class="pe-step__body">
+            <div class="pe-step__title">Carol&apos;s agent reads it before she does.</div>
+            <div class="pe-step__desc">It recognizes the request, identifies the account, and starts searching in the background &mdash; across email, document storage, the CRM, and the data warehouse. All within Carol&apos;s ACL scope.</div>
+          </div>
+        </div>
+        <div class="pe-step">
+          <div class="pe-step__num">03</div>
+          <div class="pe-step__body">
+            <div class="pe-step__title">It drops the proposal into Carol&apos;s Agent Folder.</div>
+            <div class="pe-step__desc">A folder her agent maintains all day, populated with documents and context the agent thinks she is about to need. Open the folder, the document is already there.</div>
+          </div>
+        </div>
+        <div class="pe-step">
+          <div class="pe-step__num">04</div>
+          <div class="pe-step__body">
+            <div class="pe-step__title">Carol reviews. Carol confirms.</div>
+            <div class="pe-step__desc">She glances at the document, confirms it is the right one, and approves. The agent ships the reply back to the requester in her voice.</div>
+          </div>
+        </div>
+      </div>
+      <div class="pano-example__caption">From email-arrival to reply-sent: a few minutes, mostly just Carol reading and approving. The retrieval, the assembly, the drafting &mdash; already happening before she would normally even see the request.</div>
+    </div>
+  </div>
+
+  <div class="pano-hierarchy">
+    <h3 class="pano-h3">Up the Stack &mdash; Agents Talking to Agents</h3>
+    <p class="pano-intro">Personal agents do not just serve their humans. They roll up. A team manager does not have to ask twelve people how their week is going &mdash; their agent already pulled it from the team&apos;s agents and prepared a summary. Same pattern up to department, then up to executive.</p>
+    <div class="pano-pyramid">
+      <div class="pano-pyramid__row">
+        <div class="pp-row__label">Executive</div>
+        <div class="pp-row__pills">
+          <div class="pp-pill pp-pill--exec">CEO Brief</div>
+          <div class="pp-pill pp-pill--exec">CFO Brief</div>
+          <div class="pp-pill pp-pill--exec">President Brief</div>
+        </div>
+        <div class="pp-row__what">Org-level signal. Cross-department friction. Strategic risks. The agent prepares the morning brief.</div>
+      </div>
+      <div class="pano-pyramid__arrow">&#8593;</div>
+      <div class="pano-pyramid__row">
+        <div class="pp-row__label">Department</div>
+        <div class="pp-row__pills">
+          <div class="pp-pill pp-pill--dept">IT</div>
+          <div class="pp-pill pp-pill--dept">Operations</div>
+          <div class="pp-pill pp-pill--dept">Compliance</div>
+          <div class="pp-pill pp-pill--dept">Advisory</div>
+        </div>
+        <div class="pp-row__what">Department-level rollups. Bigger issues only &mdash; broken processes, capacity problems, priority shifts. Routine noise stays at the team level.</div>
+      </div>
+      <div class="pano-pyramid__arrow">&#8593;</div>
+      <div class="pano-pyramid__row">
+        <div class="pp-row__label">Team Manager</div>
+        <div class="pp-row__pills">
+          <div class="pp-pill pp-pill--team">RM Team Briefs</div>
+          <div class="pp-pill pp-pill--team">Ops Team Briefs</div>
+          <div class="pp-pill pp-pill--team">CSM Briefs</div>
+        </div>
+        <div class="pp-row__what">Manager wakes up to a team summary. Who is blocked, what is slipping, who needs help. Pulled from team members&apos; agents, not from a status meeting.</div>
+      </div>
+      <div class="pano-pyramid__arrow">&#8593;</div>
+      <div class="pano-pyramid__row">
+        <div class="pp-row__label">Personal</div>
+        <div class="pp-row__pills">
+          <div class="pp-pill pp-pill--member">Carol</div>
+          <div class="pp-pill pp-pill--member">Marcus</div>
+          <div class="pp-pill pp-pill--member">Devon</div>
+          <div class="pp-pill pp-pill--member">Priya</div>
+          <div class="pp-pill pp-pill--member">+ everyone else</div>
+        </div>
+        <div class="pp-row__what">One agent per person. Primed with their role, their email, their docs, their workflow. The Carol scenario above &mdash; multiplied across the firm.</div>
+      </div>
+    </div>
+    <div class="pano-process-note">Agents are programmed with the firm&apos;s actual processes &mdash; communication flows, escalation paths, the natural ebbs and flows of the organization. They do not just summarize; they understand who needs to know what, when, and how it should be framed.</div>
   </div>
 
   <div class="pano-portability">
