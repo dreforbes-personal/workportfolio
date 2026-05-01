@@ -786,47 +786,56 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
 <div class="divider"><hr></div>
 
 <style id="panorama-styles">
-.pano-section{padding-top:18px}
-.pano-summary{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px 28px;margin:0 0 24px;box-shadow:0 4px 18px rgba(0,0,0,0.04)}
-.pano-summary h3{font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:#111;margin:0 0 10px;letter-spacing:-0.01em}
-.pano-summary p{font-size:0.94rem;color:#333;line-height:1.7;margin:0}
+/* Blue scale palette — single hue light → dark */
+.pano-section{padding-top:18px;--pn-l1:#EFF4FB;--pn-l2:#D9E5F6;--pn-l3:#B3CAEC;--pn-l4:#7FA1DB;--pn-l5:#3B5EC9;--pn-l6:#28489E;--pn-ink:#1B2C5A}
+.pano-summary{background:var(--pn-l1);border:1px solid var(--pn-l2);border-radius:14px;padding:24px 28px;margin:0 0 24px;box-shadow:0 1px 0 rgba(255,255,255,0.6) inset}
+.pano-summary h3{font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:var(--pn-ink);margin:0 0 10px;letter-spacing:-0.01em}
+.pano-summary p{font-size:0.94rem;color:#33446b;line-height:1.7;margin:0}
 
-/* Architecture diagram */
-.pano-diagram{background:linear-gradient(180deg,#1f2024 0%,#2a2c33 100%);border-radius:16px;padding:28px 22px;color:#fff;position:relative;overflow:hidden}
-.pano-diagram::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+/* Architecture diagram — light, airy */
+.pano-diagram{background:#FAFCFF;border:1px solid var(--pn-l2);border-radius:16px;padding:28px 22px;position:relative;overflow:hidden}
+.pano-diagram::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(59,94,201,0.06) 1px,transparent 1px);background-size:22px 22px;pointer-events:none}
 .pano-tier{position:relative;z-index:1;margin-bottom:14px}
 .pano-tier:last-of-type{margin-bottom:0}
-.pano-tier-label{font-family:'Source Sans 3',sans-serif;font-size:0.62rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:8px;text-align:center;font-weight:600}
+.pano-tier-label{font-family:'Source Sans 3',sans-serif;font-size:0.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--pn-l5);margin-bottom:10px;text-align:center;font-weight:700}
 .pano-nodes{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
-.pn{background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.18);border-radius:8px;padding:8px 12px;font-size:0.78rem;color:#fff;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:background 0.18s,transform 0.18s}
-.pn:hover{background:rgba(255,255,255,0.18);transform:translateY(-2px)}
 
-.pano-arrow{text-align:center;color:rgba(255,255,255,0.45);font-size:1.1rem;line-height:1;margin:8px 0;letter-spacing:8px}
+/* Pills — outer tiers use lighter blues, hover shifts darker */
+.pn{background:var(--pn-l2);border:1px solid var(--pn-l3);border-radius:8px;padding:9px 13px;font-size:0.78rem;color:var(--pn-ink);font-weight:500;transition:background 0.18s,transform 0.18s,border-color 0.18s,color 0.18s}
+.pn:hover{background:var(--pn-l4);border-color:var(--pn-l5);color:#fff;transform:translateY(-2px)}
 
-.pano-warehouse{background:linear-gradient(135deg,rgba(106,192,241,0.18),rgba(106,192,241,0.06));border:1px solid rgba(106,192,241,0.32);border-radius:10px;padding:16px 20px;text-align:center}
-.pano-warehouse .pano-tier-label{color:rgba(106,192,241,0.85);margin-bottom:6px}
-.pw-text{font-family:'Playfair Display',Georgia,serif;font-size:1.15rem;font-weight:600;color:#fff}
-.pw-sub{font-size:0.74rem;color:rgba(255,255,255,0.6);margin-top:4px}
+/* Specialist agents — darker tier (L4 base) to suggest deeper specialization */
+.pano-tier--agents .pn{background:var(--pn-l3);border-color:var(--pn-l4)}
+.pano-tier--agents .pn:hover{background:var(--pn-l5);border-color:var(--pn-l6);color:#fff}
 
-.pano-core{background:linear-gradient(135deg,#3b5ec9,#5b3eb9);border-radius:10px;padding:18px 20px;text-align:center;border:1px solid rgba(255,255,255,0.20);box-shadow:0 0 24px rgba(59,94,201,0.22)}
-.pano-core .pano-tier-label{color:rgba(255,255,255,0.7);margin-bottom:8px}
+.pano-arrow{text-align:center;color:var(--pn-l4);font-size:1.05rem;line-height:1;margin:8px 0;letter-spacing:8px}
+
+/* Warehouse — L3 hue, soft */
+.pano-warehouse{background:var(--pn-l1);border:1px solid var(--pn-l3);border-radius:10px;padding:16px 20px;text-align:center}
+.pano-warehouse .pano-tier-label{color:var(--pn-l5);margin-bottom:6px}
+.pw-text{font-family:'Playfair Display',Georgia,serif;font-size:1.15rem;font-weight:600;color:var(--pn-ink)}
+.pw-sub{font-size:0.78rem;color:#5b6e95;margin-top:4px}
+
+/* Panorama core — the strongest blue (L5/L6), the focal point */
+.pano-core{background:linear-gradient(135deg,var(--pn-l5),var(--pn-l6));border-radius:10px;padding:18px 20px;text-align:center;border:1px solid var(--pn-l6);box-shadow:0 8px 24px rgba(40,72,158,0.20)}
+.pano-core .pano-tier-label{color:rgba(255,255,255,0.75);margin-bottom:8px}
 .pano-core-content{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
-.pc-pillar{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.30);border-radius:6px;padding:6px 12px;font-size:0.78rem;font-weight:600;color:#fff}
+.pc-pillar{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.34);border-radius:6px;padding:7px 12px;font-size:0.78rem;font-weight:600;color:#fff}
 
-.pano-feedback{margin-top:18px;text-align:center;font-family:'Source Sans 3',sans-serif;font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.55);border-top:1px dashed rgba(255,255,255,0.12);padding-top:14px}
+.pano-feedback{margin-top:18px;text-align:center;font-family:'Source Sans 3',sans-serif;font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--pn-l5);border-top:1px dashed var(--pn-l3);padding-top:14px;font-weight:600}
 
 /* Six principles */
 .pano-principles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
-.pp-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:18px 20px;position:relative;transition:all 0.18s}
-.pp-card:hover{border-color:rgba(0,0,0,0.18);box-shadow:0 6px 18px rgba(0,0,0,0.06);transform:translateY(-2px)}
-.pp-num{font-family:'Playfair Display',Georgia,serif;font-size:1.6rem;font-weight:700;color:var(--accent);line-height:1;margin-bottom:6px}
-.pp-title{font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:700;color:#111;margin-bottom:6px;letter-spacing:-0.005em}
-.pp-desc{font-size:0.84rem;color:#444;line-height:1.6}
+.pp-card{background:#fff;border:1px solid var(--pn-l2);border-radius:10px;padding:18px 20px;position:relative;transition:all 0.18s}
+.pp-card:hover{border-color:var(--pn-l4);box-shadow:0 8px 22px rgba(40,72,158,0.10);transform:translateY(-2px)}
+.pp-num{font-family:'Playfair Display',Georgia,serif;font-size:1.6rem;font-weight:700;color:var(--pn-l5);line-height:1;margin-bottom:6px}
+.pp-title{font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:700;color:var(--pn-ink);margin-bottom:6px;letter-spacing:-0.005em}
+.pp-desc{font-size:0.84rem;color:#33446b;line-height:1.6}
 
-.pano-portability{background:#fff;border:2px dashed rgba(0,0,0,0.18);border-radius:12px;padding:18px 22px;margin-top:24px}
-.pano-portability h4{font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-weight:700;color:#111;margin:0 0 6px}
-.pano-portability p{font-size:0.86rem;color:#444;line-height:1.6;margin:0}
-.pano-portability strong{color:#111}
+.pano-portability{background:var(--pn-l1);border:2px dashed var(--pn-l3);border-radius:12px;padding:18px 22px;margin-top:24px}
+.pano-portability h4{font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-weight:700;color:var(--pn-ink);margin:0 0 6px}
+.pano-portability p{font-size:0.86rem;color:#33446b;line-height:1.6;margin:0}
+.pano-portability strong{color:var(--pn-ink)}
 
 @media(max-width:880px){
   .pano-principles{grid-template-columns:repeat(2,1fr)}
@@ -835,7 +844,7 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
   .pano-principles{grid-template-columns:1fr}
   .pano-summary{padding:18px 20px}
   .pano-diagram{padding:20px 14px}
-  .pn{font-size:0.7rem;padding:6px 10px}
+  .pn{font-size:0.7rem;padding:7px 11px}
   .pc-pillar{font-size:0.7rem}
   .pw-text{font-size:1rem}
 }
@@ -862,6 +871,7 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
         <div class="pn">&#128193; Documents &middot; SharePoint / Box / Drive</div>
         <div class="pn">&#128101; HR &middot; Workday / Rippling / BambooHR</div>
         <div class="pn">&#128222; Comms &middot; Zoom / Gong / Teams / Slack</div>
+        <div class="pn">&#128279; Any platform with an API</div>
       </div>
     </div>
 
@@ -870,8 +880,8 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
     <div class="pano-tier">
       <div class="pano-warehouse">
         <div class="pano-tier-label">Unified Data Warehouse</div>
-        <div class="pw-text">PostgreSQL &middot; Qdrant Vector DB</div>
-        <div class="pw-sub">Nightly sync from every source. Agents query the warehouse, never production systems.</div>
+        <div class="pw-text">Snowflake &middot; or Databricks &middot; or any modern warehouse</div>
+        <div class="pw-sub">Nightly sync from every source into one queryable layer. Agents query the warehouse, never production systems. Pair with a vector DB (Qdrant, pgvector) for RAG.</div>
       </div>
     </div>
 
@@ -893,7 +903,7 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
 
     <div class="pano-arrow">&#8675;</div>
 
-    <div class="pano-tier">
+    <div class="pano-tier pano-tier--agents">
       <div class="pano-tier-label">Specialist Agents &middot; One Per Department</div>
       <div class="pano-nodes">
         <div class="pn">&#9878; Compliance</div>
