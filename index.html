@@ -3909,7 +3909,7 @@ maInput.addEventListener('keydown',function(e){
   const DA_NODES=[
     {id:'mcp',name:'MCP Server',cat:'Sync + Feed Layer',hub:true,x:50,y:50,desc:'The central data sync + feed layer. Custom MCP server that ingests from every platform on staggered schedules, normalizes the payloads, and exposes them as tool calls. Salesforce, the agentic layer, and the internal knowledge base all read from MCP — they do not call vendor APIs directly. This is what makes the architecture portable: swap a custodian, swap an HRIS, the rest of the stack does not change.',
       flows:[{f:'Pershing → MCP',m:'Cert-auth · intraday 4×',cls:'da-mcp'},{f:'Fidelity → MCP',m:'Cert-auth + SFTP · daily',cls:'da-mcp'},{f:'Addepar ↔ MCP',m:'Two-way · nightly',cls:'da-two-way'},{f:'Arch ↔ MCP',m:'Two-way · daily',cls:'da-two-way'},{f:'Box ↔ MCP',m:'Two-way · real-time',cls:'da-two-way'},{f:'Office 365 ↔ MCP',m:'Graph · two-way',cls:'da-two-way'},{f:'Gong → MCP',m:'Webhook · near real-time',cls:''},{f:'Rippling → MCP',m:'Daily 7 AM',cls:''},{f:'QuickBooks ↔ MCP',m:'Two-way · scheduled',cls:'da-two-way'},{f:'Concur ↔ MCP',m:'Two-way · daily',cls:'da-two-way'},{f:'MCP → Salesforce',m:'Normalized payloads',cls:'da-mcp'},{f:'MCP → Knowledge Base',m:'Postgres + Qdrant ingestion',cls:'da-mcp'},{f:'MCP → AI Agents',m:'Tool calls',cls:'da-mcp'}]},
-    {id:'sf',name:'Salesforce',cat:'CRM',x:18,y:78,desc:'CRM and unified client data layer. Receives normalized data from MCP — does not call vendor APIs directly. Households, contacts, accounts, opportunities, cases all live here as the system of record for client relationships.',flows:[{f:'MCP → Salesforce',m:'All inbound vendor data',cls:'da-mcp'},{f:'Salesforce ↔ MCP',m:'Outbound writes via MCP',cls:'da-two-way'}]},
+    {id:'sf',name:'Salesforce',cat:'CRM',x:18,y:78,desc:'CRM and unified client data layer. Receives normalized data from MCP AND maintains direct native connections to several platforms (Box, Office 365, Arch, Rippling, Pershing, Gong, Concur). The MCP layer adds normalization and consistency; the native connections power Salesforce-specific workflows (Lightning components, Flows, Apex triggers).',flows:[{f:'MCP → Salesforce',m:'Normalized vendor data',cls:'da-mcp'},{f:'Salesforce ↔ MCP',m:'Outbound writes via MCP',cls:'da-two-way'},{f:'Box ↔ SF',m:'Native two-way · real-time',cls:'da-two-way'},{f:'Office 365 ↔ SF',m:'Native two-way (email/calendar)',cls:'da-two-way'},{f:'Arch ↔ SF',m:'Two-way (capital calls, cash flows)',cls:'da-two-way'},{f:'Pershing → SF',m:'Cert-auth · intraday',cls:'da-mcp'},{f:'Rippling → SF',m:'Employee + contact sync',cls:''},{f:'Gong → SF',m:'Webhook (call summaries)',cls:''},{f:'SF → Concur',m:'Outbound (client codes, attribution)',cls:''}]},
     {id:'corpus',name:'Knowledge Base',cat:'Internal Postgres + Qdrant',x:50,y:78,desc:'Internal documentation corpus. PostgreSQL for structured doc metadata, Qdrant for vector embeddings. Every project doc, decision log, post-mortem, runbook, and vendor evaluation gets ingested here. Both MCP feeds and human writes land in this same store. AI agents pull context from here alongside live MCP data.',flows:[{f:'MCP → Knowledge Base',m:'Document + decision ingestion',cls:'da-mcp'},{f:'Humans → Knowledge Base',m:'Direct writes (docs, runbooks)',cls:''},{f:'Knowledge Base → AI Agents',m:'RAG context',cls:'da-mcp'}]},
     {id:'ai',name:'AI Agents',cat:'Agentic Layer',x:82,y:78,desc:'Agentic platform. Pulls live data through MCP and historical/contextual data from the Knowledge Base. Does not talk to vendor APIs directly. Multi-tier RAG, self-hosted Ollama with runtime Claude API switching, Senior Reviewer pattern, learning loop.',flows:[{f:'MCP → AI Agents',m:'Live tool access',cls:'da-mcp'},{f:'Knowledge Base → AI Agents',m:'Historical + RAG context',cls:'da-mcp'}]},
     {id:'pershing',name:'Pershing',cat:'Custodian',x:6,y:10,desc:'Legacy custodian. Live account data, balances, holdings, transactions, RMDs, beneficiaries. Cert-auth APIs into the MCP layer.',flows:[{f:'Pershing → MCP',m:'Intraday 4×',cls:'da-mcp'}]},
@@ -3938,6 +3938,14 @@ maInput.addEventListener('keydown',function(e){
     ['mcp','corpus','da-mcp'],
     ['mcp','ai','da-mcp'],
     ['corpus','ai','da-mcp'],
+    // Salesforce native connections — Salesforce still talks directly to these platforms in addition to receiving normalized data via MCP
+    ['rippling','sf',''],
+    ['pershing','sf','da-mcp'],
+    ['arch','sf','da-two-way'],
+    ['box','sf','da-two-way'],
+    ['office','sf','da-two-way'],
+    ['gong','sf',''],
+    ['sf','concur',''],
   ];
   let daInited=false;
   function initDataArch(){
