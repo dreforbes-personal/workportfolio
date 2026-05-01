@@ -1193,7 +1193,7 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
         const startPct=(epic.start/(TR_PERIODS.length-1))*100;
         const endPct=(epic.end/(TR_PERIODS.length-1))*100;
         const status=epic.end<=4?'tr-completed':(epic.start<=4?'tr-progress':'tr-planned');
-        const barBg=status==='tr-completed'?'linear-gradient(90deg,'+epic.color+'aa,'+epic.color+'66)':'';
+        const barBg=status==='tr-completed'?'linear-gradient(90deg,'+epic.color+'ff,'+epic.color+'cc)':status==='tr-planned'?'repeating-linear-gradient(45deg,'+epic.color+'66 0,'+epic.color+'66 4px,'+epic.color+'22 4px,'+epic.color+'22 8px)':'';
         row.innerHTML=`
           <div class="tr-row-label">
             <div class="tr-row-title">${epic.title}</div>
@@ -3813,7 +3813,7 @@ maInput.addEventListener('keydown',function(e){
 .tr-track-gridline:last-child{border-right:none}
 .tr-bar{position:absolute;top:50%;height:8px;border-radius:4px;transform:translateY(-50%);transition:all 0.18s}
 .tr-bar.tr-completed{background:linear-gradient(90deg,#65906B,#86b890)}
-.tr-bar.tr-progress{background:linear-gradient(90deg,#1d4ed8,#3b82f6);box-shadow:0 0 8px rgba(29,78,216,0.4)}
+.tr-bar.tr-progress{background:linear-gradient(90deg,rgba(127,161,219,0.55),rgba(127,161,219,0.35));box-shadow:0 0 6px rgba(127,161,219,0.30)}
 .tr-bar.tr-planned{background:repeating-linear-gradient(45deg,rgba(10,31,51,0.18) 0,rgba(10,31,51,0.18) 4px,rgba(10,31,51,0.05) 4px,rgba(10,31,51,0.05) 8px)}
 .tr-milestone{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;transform:translate(-50%,-50%);border:2px solid rgba(10,31,51,0.65);cursor:pointer;transition:all 0.18s;z-index:2;box-shadow:0 1px 3px rgba(0,0,0,0.20)}
 .tr-milestone:hover{transform:translate(-50%,-50%) scale(1.4);z-index:3}
@@ -4207,7 +4207,7 @@ maInput.addEventListener('keydown',function(e){
   // ─────────────────────────────────────────
   const TR_PERIODS=['Pre-2022','2022','2023','2024','2025','2026','2027','Future'];
   const TR_EPICS=[
-    {id:'infra',title:'Infrastructure Modernization',cat:'Infrastructure',color:'#65906B',start:0,end:3,
+    {id:'infra',title:'Infrastructure Modernization',cat:'Infrastructure',color:'#BFD9C5',start:0,end:3,
       milestones:[
         {p:0,impact:'crit',title:'MSP-driven legacy state',desc:'High cost, low service. Obsolete hardware, fragmented systems.',tags:['Pre-2022']},
         {p:1,impact:'crit',title:'MSP exit decision',desc:'Strategic decision to bring all of IT in-house. Direct vendor relationships established.',tags:['2022','MSP']},
@@ -4216,7 +4216,7 @@ maInput.addEventListener('keydown',function(e){
         {p:2,impact:'high',title:'Raleigh office build',desc:'Built new office IT from scratch — MDF, networking, AV, endpoints, MDM.',tags:['2023','Office']},
         {p:3,impact:'crit',title:'IT associate hire',desc:'First IT hire to support infrastructure. Enabled focus on strategic builds.',tags:['2024','Hiring']},
       ]},
-    {id:'identity',title:'Identity, HR & Employee Experience',cat:'Identity',color:'#3b82f6',start:0,end:4,
+    {id:'identity',title:'Identity, HR & Employee Experience',cat:'Identity',color:'#BFD3E8',start:0,end:4,
       milestones:[
         {p:0,impact:'high',title:'HR system sprawl',desc:'11+ separate HR/benefits systems. Login confusion, fragmented data.',tags:['Pre-2022','HR']},
         {p:1,impact:'high',title:'SSO strategy defined',desc:'Federated identity strategy. Keycloak as IdP, SAML to all apps.',tags:['2022','SSO']},
@@ -4224,7 +4224,7 @@ maInput.addEventListener('keydown',function(e){
         {p:3,impact:'crit',title:'Rippling unified platform',desc:'Consolidated 12 employee systems into Rippling. Single source of truth for HR.',tags:['2024','Rippling']},
         {p:4,impact:'high',title:'Total rewards portal',desc:'Real-time comp, benefits, incentive visibility. SAML federated.',tags:['2025']},
       ]},
-    {id:'security',title:'Cybersecurity (NIST)',cat:'Security',color:'#dc2626',start:1,end:4,
+    {id:'security',title:'Cybersecurity (NIST)',cat:'Security',color:'#F2C8C8',start:1,end:4,
       milestones:[
         {p:1,impact:'crit',title:'SEC exam findings',desc:'Outsourced cybersecurity program failed SEC exam. Catalyst for in-house rebuild.',tags:['2022','SEC']},
         {p:2,impact:'crit',title:'NIST framework rebuild',desc:'Rebuilt cybersecurity from scratch on NIST CSF foundation. Identity, endpoints, network, data, alerting.',tags:['2023','NIST']},
@@ -4232,7 +4232,7 @@ maInput.addEventListener('keydown',function(e){
         {p:3,impact:'crit',title:'SEC exam — zero findings',desc:'Second SEC exam passed with zero cybersecurity findings.',tags:['2024','SEC','Win']},
         {p:4,impact:'high',title:'Built-in pen testing',desc:'Integrated pen testing scanner into the security stack with finding tracker.',tags:['2025']},
       ]},
-    {id:'apps',title:'Custom Applications',cat:'Development',color:'#7c3aed',start:1,end:5,
+    {id:'apps',title:'Custom Applications',cat:'Development',color:'#D3C5EC',start:1,end:5,
       milestones:[
         {p:1,impact:'high',title:'First production app',desc:'Onboarding portal launched. Replaced manual paper process.',tags:['2022','React']},
         {p:2,impact:'high',title:'Client + document portals',desc:'Clients.balentine.com and documents.balentine.com launched.',tags:['2023']},
@@ -4240,7 +4240,7 @@ maInput.addEventListener('keydown',function(e){
         {p:4,impact:'crit',title:'Budget app · QuickBooks bidirectional',desc:'Replaced spreadsheets across 20+ departments. SAML SSO, multi-stage approvals, AI summaries.',tags:['2025','QuickBooks']},
         {p:5,impact:'high',title:'Insights + Sound Like Me',desc:'Meeting intelligence, voice-profile rewriter, pre-meeting briefs.',tags:['2026','AI']},
       ]},
-    {id:'ai',title:'AI & Agentic Systems',cat:'AI',color:'#f59e0b',start:2,end:6,
+    {id:'ai',title:'AI & Agentic Systems',cat:'AI',color:'#F5E4A3',start:2,end:6,
       milestones:[
         {p:2,impact:'medium',title:'OpenAI summarization in CRM',desc:'First production AI use case. Summaries via OpenAI + Conga Orchestrate + Chatter.',tags:['2023','OpenAI']},
         {p:3,impact:'high',title:'Insights App launched',desc:'Meeting intelligence with Gong/Zoom sync, transcription, pre-meeting briefs.',tags:['2024']},
@@ -4249,20 +4249,20 @@ maInput.addEventListener('keydown',function(e){
         {p:5,impact:'high',title:'Voice profiles · Sound Like Me',desc:'Personal writing-style learning from sent emails. One-click rewrite preserving facts.',tags:['2026']},
         {p:6,impact:'medium',title:'Exploratory firm-mapping agents',desc:'Map how the firm actually works from comms + CRM activity.',tags:['2027','Future']},
       ]},
-    {id:'custodian',title:'Pershing → Fidelity Conversion',cat:'Operations',color:'#0ea5e9',start:4,end:6,
+    {id:'custodian',title:'Pershing → Fidelity Conversion',cat:'Operations',color:'#B8D4DC',start:4,end:6,
       milestones:[
         {p:4,impact:'crit',title:'Decision to convert',desc:'Strategic decision to migrate from Pershing to Fidelity custodian.',tags:['2025']},
         {p:5,impact:'high',title:'Custom SFTP ingestion server',desc:'DigitalOcean file watcher · 14 PostgreSQL tables · 18 daily jobs.',tags:['2026','In-progress']},
         {p:5,impact:'high',title:'Cert-auth API integration',desc:'New custodian cert-based API + ingestion plumbing.',tags:['2026','In-progress']},
         {p:6,impact:'crit',title:'Conversion complete',desc:'Full client base migrated. Pershing decommissioned.',tags:['2027','Planned']},
       ]},
-    {id:'data',title:'Data Orchestration Backbone',cat:'Data',color:'#10b981',start:5,end:7,
+    {id:'data',title:'Data Orchestration Backbone',cat:'Data',color:'#C5E0CB',start:5,end:7,
       milestones:[
         {p:5,impact:'medium',title:'Snowflake vs Databricks evaluation',desc:'Benchmarked both for the centralized data lake.',tags:['2026']},
         {p:6,impact:'high',title:'Centralized data lake',desc:'Unified backbone for all sync sources. Vector + relational hybrid.',tags:['2027','Planned']},
         {p:7,impact:'medium',title:'Predictive client analytics',desc:'Models on top of the data lake for client engagement, retention, opportunity scoring.',tags:['Future']},
       ]},
-    {id:'culture',title:'Adoption & Education',cat:'Culture',color:'#ec4899',start:2,end:6,
+    {id:'culture',title:'Adoption & Education',cat:'Culture',color:'#F0C8DC',start:2,end:6,
       milestones:[
         {p:2,impact:'medium',title:'Tech tip videos launched',desc:'Themed walkthrough videos to introduce new tech in approachable, fun ways.',tags:['2023','Video']},
         {p:3,impact:'medium',title:'Quarterly innovation sessions',desc:'Cross-department feedback on build-vs-buy decisions.',tags:['2024']},
