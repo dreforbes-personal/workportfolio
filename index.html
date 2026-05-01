@@ -615,120 +615,57 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
 <div class="divider"><hr></div>
 
 <section class="section obs" id="architecture">
-  <div class="section-num">06 / ARCHITECTURE</div>
+  <div class="section-num">06 / ARCHITECTURE & ROADMAP</div>
   <div class="section-title">Production Stack</div>
   <div class="section-desc">All 15 domains on a single Express.js backend with domain-based routing, nginx SSL termination, and PM2 process management.</div>
   <div class="arch-box" id="arch-box"></div>
 </section>
 <div class="divider"><hr></div>
 
-<style id="preview-sections-styles">
-.dap-frame{display:grid;grid-template-columns:1fr 280px;gap:14px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;min-height:480px;margin-top:18px}
-@media (max-width:900px){.dap-frame{grid-template-columns:1fr}}
-.dap-frame .da-canvas{position:relative;background:linear-gradient(135deg,#f9fafb,#f3f4f6);border-radius:10px;min-height:440px;overflow:hidden}
-.dap-frame .da-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.dap-frame .da-sidebar{background:#fafafa;border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;flex-direction:column;min-width:0;max-height:440px;overflow-y:auto}
-.dap-cta{margin-top:18px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
-.trp-detail:empty,.tr-detail:empty{display:none}
-.dap-cta-hint{font-size:0.72rem;color:#9e9a90;font-family:'Source Sans 3',sans-serif}
-.dap-cta .card-demo-btn{font-size:0.85rem;padding:10px 22px;border-radius:18px}
+<section class="section obs" id="tech-roadmap">
+  <div class="section-num">06.2 / STRATEGIC INITIATIVES</div>
+  <div class="section-title">Strategic Initiatives Since 2022</div>
+  <div class="section-desc">100+ milestones across 8 epics with status, impact, and timing. Click any milestone for detail. Replaced status decks with a living timeline pulled from the operations DB.</div>
+  <div class="trp-frame">
+    <div class="tr-axis">
+      <div></div>
+      <div class="tr-axis-cells" id="trp-axis-cells"></div>
+    </div>
+    <div id="trp-rows"></div>
+    <div class="tr-legend">
+      <div class="tr-leg-item"><span class="tr-leg-dot" style="background:#dc2626"></span>Critical</div>
+      <div class="tr-leg-item"><span class="tr-leg-dot" style="background:#f59e0b"></span>High</div>
+      <div class="tr-leg-item"><span class="tr-leg-dot" style="background:#65906B"></span>Medium</div>
+      <div class="tr-leg-item"><span class="tr-leg-dot" style="background:rgba(255,255,255,0.4)"></span>Future / planned</div>
+    </div>
+  </div>
+  <div class="trp-detail" id="trp-detail"></div>
+  <div class="dap-cta">
+    <button class="card-demo-btn" onclick="window.openShowcaseDemo('roadmap')">&#x1F5A5; Launch Full-Screen Interactive Demo</button>
+    <span class="dap-cta-hint">Same data, full-screen, with status filter</span>
+  </div>
+</section>
+<div class="divider"><hr></div>
 
-.trp-frame{background:linear-gradient(135deg,rgba(255,255,255,0.78) 0%,rgba(255,255,255,0.55) 50%,rgba(255,255,255,0.72) 100%);backdrop-filter:blur(28px) saturate(140%);-webkit-backdrop-filter:blur(28px) saturate(140%);color:#0a1f33;border-radius:16px;padding:20px;margin-top:18px;overflow:hidden;border:1px solid rgba(0,0,0,0.08);box-shadow:0 16px 48px rgba(0,0,0,0.10),inset 0 1px 0 rgba(255,255,255,0.85),inset 0 -1px 0 rgba(0,0,0,0.04)}
-.trp-detail{margin-top:12px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;min-height:64px;font-size:0.82rem}
-.trp-detail-empty{font-size:0.78rem;color:#9ca3af;font-style:italic;text-align:center;padding:8px}
-.trp-detail-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-.trp-detail-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0}
-.trp-detail-title{font-size:0.95rem;font-weight:700;color:#111827;margin:0}
-.trp-detail-meta{font-family:'Source Sans 3',sans-serif;font-size:0.65rem;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
-.trp-detail-desc{font-size:0.82rem;color:#374151;line-height:1.55;margin:6px 0 0}
-.trp-detail-tags{margin-top:8px;display:flex;flex-wrap:wrap;gap:5px}
-.trp-detail-tag{font-family:'Source Sans 3',sans-serif;font-size:0.62rem;background:rgba(23,68,53,0.1);color:#174435;padding:3px 8px;border-radius:10px}
-</style>
+<section class="section obs" id="data-architecture">
+  <div class="section-num">06.4 / DATA ARCHITECTURE</div>
+  <div class="section-title">How Data Moves at the Firm</div>
+  <div class="section-desc">Salesforce-centric integration map showing every system, sync direction, and frequency. Hover or click any node to inspect its data flows. Built so any team member can see how data moves end-to-end.</div>
+  <div class="dap-frame">
+    <div class="da-canvas" id="dap-canvas">
+      <svg class="da-svg" id="dap-svg" viewBox="0 0 700 480" preserveAspectRatio="none"></svg>
+    </div>
+    <aside class="da-sidebar" id="dap-sidebar">
+      <div class="da-side-empty">Hover or tap any node to inspect its data flows.</div>
+    </aside>
+  </div>
+  <div class="dap-cta">
+    <button class="card-demo-btn" onclick="window.openShowcaseDemo('dataarch')">&#x1F5A5; Launch Full-Screen Interactive Demo</button>
+    <span class="dap-cta-hint">Drag any node to reposition &middot; full-screen demo adds category filters</span>
+  </div>
+</section>
+<div class="divider"><hr></div>
 
-<style id="tdoc-styles">
-.tdoc-section{padding-top:18px}
-.tdoc-frame{background:linear-gradient(135deg,#fff,#f7f8f5);border:1px solid var(--border);border-radius:14px;padding:24px;overflow:hidden;position:relative}
-.tdoc-pipeline{display:flex;align-items:stretch;gap:0;flex-wrap:nowrap;position:relative}
-.tdoc-stage{flex:1;min-width:0;background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 12px 16px;text-align:center;position:relative;transition:all 0.25s;display:flex;flex-direction:column;align-items:center}
-.tdoc-stage:hover{border-color:#174435;box-shadow:0 6px 20px rgba(23,68,53,0.10);transform:translateY(-2px)}
-.tdoc-stage__icon{width:46px;height:46px;border-radius:50%;background:rgba(23,68,53,0.08);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:10px}
-.tdoc-stage__num{position:absolute;top:8px;left:10px;font-family:'Source Sans 3',sans-serif;font-size:0.6rem;color:rgba(23,68,53,0.45);letter-spacing:1px}
-.tdoc-stage__label{font-family:'Source Sans 3',sans-serif;font-size:0.62rem;color:#174435;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:4px}
-.tdoc-stage__title{font-size:0.92rem;font-weight:700;color:#111827;margin-bottom:6px;line-height:1.25}
-.tdoc-stage__desc{font-size:0.74rem;color:#6b7280;line-height:1.4}
-.tdoc-arrow{flex:0 0 28px;display:flex;align-items:center;justify-content:center;color:#65906B;font-size:1.4rem;font-weight:300;position:relative;overflow:hidden}
-.tdoc-arrow::before{content:'';position:absolute;left:50%;top:50%;width:6px;height:6px;background:#65906B;border-radius:50%;transform:translate(-50%,-50%);animation:tdocFlow 2.4s linear infinite;opacity:0}
-.tdoc-arrow:nth-of-type(2)::before{animation-delay:0s}
-.tdoc-arrow:nth-of-type(4)::before{animation-delay:0.6s}
-.tdoc-arrow:nth-of-type(6)::before{animation-delay:1.2s}
-.tdoc-arrow:nth-of-type(8)::before{animation-delay:1.8s}
-@keyframes tdocFlow{0%{opacity:0;transform:translate(-260%,-50%)}10%{opacity:1}90%{opacity:1}100%{opacity:0;transform:translate(160%,-50%)}}
-.tdoc-arrow__char{position:relative;z-index:1;background:linear-gradient(135deg,#fff,#f7f8f5);padding:0 4px}
-
-.tdoc-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px;padding-top:18px;border-top:1px dashed var(--border)}
-.tdoc-metric{text-align:center}
-.tdoc-metric__num{font-size:1.4rem;font-weight:800;color:#174435;font-family:'Source Sans 3',sans-serif;line-height:1.1}
-.tdoc-metric__lbl{font-family:'Source Sans 3',sans-serif;font-size:0.62rem;color:#6b7280;text-transform:uppercase;letter-spacing:1px;margin-top:4px}
-
-@media(max-width:780px){
-  .tdoc-pipeline{flex-direction:column}
-  .tdoc-stage{padding:14px}
-  .tdoc-arrow{flex:0 0 28px;height:28px;width:100%;transform:rotate(90deg);font-size:1.6rem}
-  .tdoc-arrow::before{animation:tdocFlowVert 2.4s linear infinite}
-  @keyframes tdocFlowVert{0%{opacity:0;transform:translate(-50%,-260%)}10%{opacity:1}90%{opacity:1}100%{opacity:0;transform:translate(-50%,160%)}}
-  .tdoc-metrics{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:480px){
-  .tdoc-frame{padding:16px}
-  .tdoc-stage__title{font-size:0.85rem}
-  .tdoc-metric__num{font-size:1.15rem}
-}
-</style>
-<style id="mobile-polish">
-@media(max-width:768px){
-  /* Tech roadmap: stack labels above tracks, tighter dot sizes */
-  .tr-row,.tr-axis{grid-template-columns:1fr!important}
-  .tr-axis>div:first-child{display:none}
-  .tr-row-label{margin-bottom:8px}
-  .tr-axis-cells{font-size:0.55rem}
-  .trp-frame,.tr-shell{padding:12px}
-  .tr-track{height:32px}
-  .tr-milestone{border-width:1.5px}
-  .tr-bar{height:6px}
-  /* Data arch preview: tighten node text */
-  .da-node{font-size:0.62rem;padding:5px 7px;min-width:64px}
-  .da-node.da-hub{font-size:0.7rem;padding:9px 12px;min-width:90px}
-  .da-node-tag{font-size:0.5rem;letter-spacing:0.4px}
-  .dap-frame{min-height:auto;padding:12px;gap:10px}
-  .dap-frame .da-canvas{min-height:340px}
-  .dap-frame .da-sidebar{max-height:none;padding:10px}
-  /* CTA buttons */
-  .dap-cta{flex-direction:column;gap:8px}
-  .dap-cta .card-demo-btn{width:100%}
-  /* Section spacing */
-  .section{padding-left:16px;padding-right:16px}
-  .section-title{font-size:1.5rem!important}
-  .section-desc{font-size:0.86rem;margin-bottom:32px}
-  .section-num{font-size:0.58rem;letter-spacing:2px}
-  /* Project cards: stack to single column on small phones */
-  .projects-grid{grid-template-columns:1fr!important}
-  .card-demo-btn{font-size:0.7rem;padding:6px 12px}
-  /* Demo modals: full-bleed on small screens */
-  .dm-overlay{padding:0}
-  .dm-shell{max-height:100vh;border-radius:0}
-}
-@media(max-width:480px){
-  .tdoc-stage__icon{width:38px;height:38px;font-size:1.15rem}
-  .da-node{font-size:0.56rem;padding:4px 5px;min-width:56px}
-  .da-node.da-hub{font-size:0.65rem;min-width:78px}
-  .dap-frame .da-canvas{min-height:280px}
-  /* Sm modal tabs scroll horizontally already; ensure overview metrics stack 2-up */
-  .sm-metrics{grid-template-columns:repeat(2,1fr)!important}
-  .sm-feed-grid,.sm-overview-grid{grid-template-columns:1fr!important}
-  .sm-systems{grid-template-columns:repeat(2,1fr)!important}
-  .scroll-hint{display:none}
-}
-</style>
 <section class="section obs tdoc-section" id="tax-document-automation">
   <div class="section-num">06.6 / TAX DOCUMENT AUTOMATION</div>
   <div class="section-title">From Custodian to Client, Untouched</div>
@@ -785,108 +722,8 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
 </section>
 <div class="divider"><hr></div>
 
-<style id="panorama-styles">
-/* Blue scale palette — single hue light → dark */
-.pano-section{padding-top:18px;--pn-l1:#EFF4FB;--pn-l2:#D9E5F6;--pn-l3:#B3CAEC;--pn-l4:#7FA1DB;--pn-l5:#3B5EC9;--pn-l6:#28489E;--pn-ink:#1B2C5A}
-.pano-summary{background:var(--pn-l1);border:1px solid var(--pn-l2);border-radius:14px;padding:24px 28px;margin:0 0 24px;box-shadow:0 1px 0 rgba(255,255,255,0.6) inset}
-.pano-summary h3{font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:var(--pn-ink);margin:0 0 10px;letter-spacing:-0.01em}
-.pano-summary p{font-size:0.94rem;color:#33446b;line-height:1.7;margin:0}
-
-/* Architecture diagram — light, airy */
-.pano-diagram{background:#FAFCFF;border:1px solid var(--pn-l2);border-radius:16px;padding:28px 22px;position:relative;overflow:hidden}
-.pano-diagram::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(59,94,201,0.06) 1px,transparent 1px);background-size:22px 22px;pointer-events:none}
-.pano-tier{position:relative;z-index:1;margin-bottom:14px}
-.pano-tier:last-of-type{margin-bottom:0}
-.pano-tier-label{font-family:'Source Sans 3',sans-serif;font-size:0.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--pn-l5);margin-bottom:10px;text-align:center;font-weight:700}
-.pano-nodes{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
-
-/* Pills — outer tiers use lighter blues, hover shifts darker */
-.pn{background:var(--pn-l2);border:1px solid var(--pn-l3);border-radius:8px;padding:9px 13px;font-size:0.78rem;color:var(--pn-ink);font-weight:500;transition:background 0.18s,transform 0.18s,border-color 0.18s,color 0.18s}
-.pn:hover{background:var(--pn-l4);border-color:var(--pn-l5);color:#fff;transform:translateY(-2px)}
-
-/* Specialist agents — darker tier (L4 base) to suggest deeper specialization */
-.pano-tier--agents .pn{background:var(--pn-l3);border-color:var(--pn-l4)}
-.pano-tier--agents .pn:hover{background:var(--pn-l5);border-color:var(--pn-l6);color:#fff}
-
-.pano-arrow{text-align:center;color:var(--pn-l4);font-size:1.05rem;line-height:1;margin:8px 0;letter-spacing:8px}
-
-/* Warehouse — L3 hue, soft */
-.pano-warehouse{background:var(--pn-l1);border:1px solid var(--pn-l3);border-radius:10px;padding:16px 20px;text-align:center}
-.pano-warehouse .pano-tier-label{color:var(--pn-l5);margin-bottom:6px}
-.pw-text{font-family:'Playfair Display',Georgia,serif;font-size:1.15rem;font-weight:600;color:var(--pn-ink)}
-.pw-sub{font-size:0.78rem;color:#5b6e95;margin-top:4px}
-
-/* Panorama core — the strongest blue (L5/L6), the focal point */
-.pano-core{background:linear-gradient(135deg,var(--pn-l5),var(--pn-l6));border-radius:10px;padding:18px 20px;text-align:center;border:1px solid var(--pn-l6);box-shadow:0 8px 24px rgba(40,72,158,0.20)}
-.pano-core .pano-tier-label{color:rgba(255,255,255,0.75);margin-bottom:8px}
-.pano-core-content{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
-.pc-pillar{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.34);border-radius:6px;padding:7px 12px;font-size:0.78rem;font-weight:600;color:#fff}
-
-.pano-feedback{margin-top:18px;text-align:center;font-family:'Source Sans 3',sans-serif;font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--pn-l5);border-top:1px dashed var(--pn-l3);padding-top:14px;font-weight:600}
-
-/* Six principles */
-.pano-principles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
-.pp-card{background:#fff;border:1px solid var(--pn-l2);border-radius:10px;padding:18px 20px;position:relative;transition:all 0.18s}
-.pp-card:hover{border-color:var(--pn-l4);box-shadow:0 8px 22px rgba(40,72,158,0.10);transform:translateY(-2px)}
-.pp-num{font-family:'Playfair Display',Georgia,serif;font-size:1.6rem;font-weight:700;color:var(--pn-l5);line-height:1;margin-bottom:6px}
-.pp-title{font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:700;color:var(--pn-ink);margin-bottom:6px;letter-spacing:-0.005em}
-.pp-desc{font-size:0.84rem;color:#33446b;line-height:1.6}
-
-.pano-portability{background:var(--pn-l1);border:2px dashed var(--pn-l3);border-radius:12px;padding:18px 22px;margin-top:24px}
-.pano-portability h4{font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-weight:700;color:var(--pn-ink);margin:0 0 6px}
-.pano-portability p{font-size:0.86rem;color:#33446b;line-height:1.6;margin:0}
-.pano-portability strong{color:var(--pn-ink)}
-
-
-.pano-experience,.pano-hierarchy{margin-top:28px}
-.pano-h3{font-family:'Playfair Display',Georgia,serif;font-size:1.3rem;font-weight:700;color:var(--pn-ink);margin:0 0 8px;letter-spacing:-0.01em}
-.pano-intro{font-size:0.94rem;color:#33446b;line-height:1.7;margin:0 0 18px}
-
-.pano-example{background:#fff;border:1px solid var(--pn-l2);border-radius:12px;padding:22px 24px}
-.pano-example__head{font-family:'Source Sans 3',sans-serif;font-size:0.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--pn-l5);margin-bottom:14px;font-weight:700}
-.pano-example__steps{display:flex;flex-direction:column}
-.pe-step{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;padding:12px 0;border-bottom:1px dashed var(--pn-l2)}
-.pe-step:last-child{border-bottom:none;padding-bottom:4px}
-.pe-step__num{font-family:'Playfair Display',Georgia,serif;font-size:1.4rem;font-weight:700;color:var(--pn-l5);line-height:1}
-.pe-step__title{font-weight:700;color:var(--pn-ink);font-size:0.94rem;margin-bottom:4px}
-.pe-step__desc{font-size:0.86rem;color:#33446b;line-height:1.55}
-.pano-example__caption{margin-top:14px;font-size:0.84rem;color:var(--pn-l5);font-style:italic;padding-top:12px;border-top:1px dashed var(--pn-l2)}
-
-.pano-pyramid{background:#fff;border:1px solid var(--pn-l2);border-radius:12px;padding:22px 24px}
-.pano-pyramid__row{display:grid;grid-template-columns:130px 1fr 280px;gap:16px;align-items:center;padding:12px 0}
-.pp-row__label{font-family:'Source Sans 3',sans-serif;font-size:0.66rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--pn-l5);font-weight:700}
-.pp-row__pills{display:flex;flex-wrap:wrap;gap:6px}
-.pp-pill{padding:6px 10px;border-radius:6px;font-size:0.74rem;font-weight:500;border:1px solid;line-height:1.2;transition:transform 0.15s}
-.pp-pill:hover{transform:translateY(-1px)}
-.pp-pill--member{background:var(--pn-l1);border-color:var(--pn-l2);color:var(--pn-ink)}
-.pp-pill--team{background:var(--pn-l2);border-color:var(--pn-l3);color:var(--pn-ink)}
-.pp-pill--dept{background:var(--pn-l3);border-color:var(--pn-l4);color:var(--pn-ink)}
-.pp-pill--exec{background:var(--pn-l5);border-color:var(--pn-l6);color:#fff}
-.pp-row__what{font-size:0.82rem;color:#33446b;line-height:1.55}
-.pano-pyramid__arrow{text-align:center;color:var(--pn-l4);font-size:1rem;line-height:1;padding:4px 0;letter-spacing:0}
-
-.pano-process-note{margin-top:14px;font-size:0.86rem;color:var(--pn-ink);line-height:1.6;padding:14px 18px;background:var(--pn-l1);border-left:3px solid var(--pn-l4);border-radius:4px}
-
-@media(max-width:780px){
-  .pano-pyramid__row{grid-template-columns:1fr;gap:6px;padding:14px 0;border-bottom:1px dashed var(--pn-l2)}
-  .pano-pyramid__row:last-of-type{border-bottom:none}
-  .pp-row__what{font-size:0.78rem}
-}
-@media(max-width:880px){
-  .pano-principles{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:600px){
-  .pano-principles{grid-template-columns:1fr}
-  .pano-summary{padding:18px 20px}
-  .pano-diagram{padding:20px 14px}
-  .pn{font-size:0.7rem;padding:7px 11px}
-  .pc-pillar{font-size:0.7rem}
-  .pw-text{font-size:1rem}
-}
-</style>
-
 <section class="section obs pano-section" id="ai-architect">
-  <div class="section-num">06.4 / AI ARCHITECT</div>
+  <div class="section-num">06.8 / AI ARCHITECT</div>
   <div class="section-title">Panorama &mdash; Agentic Intelligence Architecture</div>
   <div class="section-desc">A complete agentic AI architecture I designed end-to-end &mdash; the kind of org-wide intelligence platform a firm builds once and runs forever. Originally scoped for a 415-person multi-office RIA, but the architecture itself is portable: it works for any organization whose email and CRM expose APIs, regardless of which specific vendors they use.</div>
 
@@ -1081,50 +918,6 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
   <div class="pano-portability">
     <h4>Not exclusive to any one stack.</h4>
     <p>Panorama was scoped against a specific firm&apos;s stack &mdash; <strong>Salesforce FSC, Orion, Eclipse, eMoney, Schwab, Fidelity, LPL, Microsoft 365, SharePoint, Workday</strong> &mdash; but the architecture is not. Anywhere there is an email system with an API (Microsoft Graph, Google Workspace) and a CRM with an API (Salesforce, Microsoft Dynamics, HubSpot, custom), Panorama can plug in. The warehouse, the agent hierarchy, the recon loop, the think tank &mdash; all reusable. The vendor list is what changes; the design does not.</p>
-  </div>
-</section>
-<div class="divider"><hr></div>
-
-<section class="section obs" id="data-architecture">
-  <div class="section-num">06.5 / DATA ARCHITECTURE</div>
-  <div class="section-title">How Data Moves at the Firm</div>
-  <div class="section-desc">Salesforce-centric integration map showing every system, sync direction, and frequency. Hover or click any node to inspect its data flows. Built so any team member can see how data moves end-to-end.</div>
-  <div class="dap-frame">
-    <div class="da-canvas" id="dap-canvas">
-      <svg class="da-svg" id="dap-svg" viewBox="0 0 700 480" preserveAspectRatio="none"></svg>
-    </div>
-    <aside class="da-sidebar" id="dap-sidebar">
-      <div class="da-side-empty">Hover or tap any node to inspect its data flows.</div>
-    </aside>
-  </div>
-  <div class="dap-cta">
-    <button class="card-demo-btn" onclick="window.openShowcaseDemo('dataarch')">&#x1F5A5; Launch Full-Screen Interactive Demo</button>
-    <span class="dap-cta-hint">Drag any node to reposition &middot; full-screen demo adds category filters</span>
-  </div>
-</section>
-<div class="divider"><hr></div>
-
-<section class="section obs" id="tech-roadmap">
-  <div class="section-num">06.7 / TECHNOLOGY ROADMAP</div>
-  <div class="section-title">Strategic Initiatives Since 2022</div>
-  <div class="section-desc">100+ milestones across 8 epics with status, impact, and timing. Click any milestone for detail. Replaced status decks with a living timeline pulled from the operations DB.</div>
-  <div class="trp-frame">
-    <div class="tr-axis">
-      <div></div>
-      <div class="tr-axis-cells" id="trp-axis-cells"></div>
-    </div>
-    <div id="trp-rows"></div>
-    <div class="tr-legend">
-      <div class="tr-leg-item"><span class="tr-leg-dot" style="background:#dc2626"></span>Critical</div>
-      <div class="tr-leg-item"><span class="tr-leg-dot" style="background:#f59e0b"></span>High</div>
-      <div class="tr-leg-item"><span class="tr-leg-dot" style="background:#65906B"></span>Medium</div>
-      <div class="tr-leg-item"><span class="tr-leg-dot" style="background:rgba(255,255,255,0.4)"></span>Future / planned</div>
-    </div>
-  </div>
-  <div class="trp-detail" id="trp-detail"></div>
-  <div class="dap-cta">
-    <button class="card-demo-btn" onclick="window.openShowcaseDemo('roadmap')">&#x1F5A5; Launch Full-Screen Interactive Demo</button>
-    <span class="dap-cta-hint">Same data, full-screen, with status filter</span>
   </div>
 </section>
 <div class="divider"><hr></div>
@@ -4114,27 +3907,37 @@ maInput.addEventListener('keydown',function(e){
   // DATA ARCHITECTURE MAP
   // ─────────────────────────────────────────
   const DA_NODES=[
-    {id:'sf',name:'Salesforce',cat:'CRM Hub',hub:true,x:50,y:50,desc:'Unified client data layer and central CRM. Every major system connects to Salesforce as the source of truth for households, contacts, accounts, opportunities, and cases.',
-      flows:[{f:'Pershing → SF',m:'MCP · intraday 4×',cls:'da-mcp'},{f:'Fidelity → SF',m:'MCP · daily (in conversion)',cls:'da-mcp'},{f:'Addepar ↔ SF',m:'MCP · nightly two-way',cls:'da-two-way'},{f:'Box ↔ SF',m:'Native · real-time',cls:'da-two-way'},{f:'Gong → SF',m:'Webhook · near real-time',cls:''},{f:'Office 365 ↔ SF',m:'Native · two-way',cls:'da-two-way'},{f:'SF → Concur',m:'One-way · daily',cls:''},{f:'Redblack → SF',m:'Manual CSV',cls:'da-manual'}]},
-    {id:'pershing',name:'Pershing',cat:'Custodian',x:14,y:10,desc:'Legacy custodian. Live account data, balances, holdings, transactions, RMDs, beneficiaries. Cert-auth APIs into custom MCP server. Migrating to Fidelity.',flows:[{f:'Pershing → SF',m:'Intraday 4×',cls:'da-mcp'},{f:'Pershing → Addepar',m:'Daily feed',cls:''},{f:'Pershing → PostgreSQL',m:'Nightly + intraday',cls:'da-mcp'}]},
-    {id:'fidelity',name:'Fidelity',cat:'Custodian',x:30,y:6,desc:'Incoming primary custodian. Cert-auth API + custom SFTP ingestion server (DigitalOcean file watcher, 14 PostgreSQL tables, 18 daily jobs). Active conversion from Pershing.',flows:[{f:'Fidelity → SF',m:'SFTP + cert API · daily',cls:'da-mcp'},{f:'Fidelity → Addepar',m:'Daily feed',cls:''},{f:'Fidelity → PostgreSQL',m:'Daily ingestion (18 jobs)',cls:'da-mcp'}]},
-    {id:'addepar',name:'Addepar',cat:'Portfolio Mgmt',x:50,y:14,desc:'Portfolio aggregator. Positions, transactions, AUM, tax lots, entity hierarchies. Two-way SF sync for performance and account hierarchy.',flows:[{f:'Addepar ↔ SF',m:'Nightly',cls:'da-two-way'},{f:'Addepar → eMoney',m:'One-way · planning',cls:''},{f:'Addepar → Redblack',m:'Feed',cls:''},{f:'Addepar → PostgreSQL',m:'Nightly 2-4 AM',cls:'da-mcp'}]},
-    {id:'arch',name:'Arch',cat:'Private Capital',x:82,y:14,desc:'Private capital aggregator. Capital calls, K1s, private holdings. Custom integration with Salesforce for cash flows.',flows:[{f:'Arch ↔ SF',m:'Daily',cls:'da-two-way'},{f:'Arch → Addepar',m:'One-way feed',cls:''},{f:'Arch → PostgreSQL',m:'Daily 4 AM',cls:'da-mcp'}]},
-    {id:'box',name:'Box',cat:'Document Storage',x:14,y:42,desc:'Document storage backbone. Two-way SF sync for household docs. Powers client portal, document vault, and onboarding doc collection.',flows:[{f:'Box ↔ SF',m:'Real-time',cls:'da-two-way'},{f:'Box → clients.balentine',m:'One-way',cls:''},{f:'Box → documents.balentine',m:'One-way',cls:''}]},
-    {id:'office',name:'Office 365',cat:'Productivity',x:86,y:42,desc:'Email, calendar, contacts, Teams. Native two-way Salesforce sync. MS Graph powers email automations, sign-in security, calendar mgmt.',flows:[{f:'Office 365 ↔ SF',m:'Native · two-way',cls:'da-two-way'},{f:'Graph → projects.balentine',m:'Email automations',cls:''}]},
-    {id:'gong',name:'Gong',cat:'Comms Intelligence',x:30,y:78,desc:'Meeting recordings, transcripts, AI summaries. Pushes to SF for activity timeline and AI prep briefs.',flows:[{f:'Zoom → Gong',m:'Recording sync',cls:''},{f:'Gong → SF',m:'Near real-time',cls:''}]},
-    {id:'rippling',name:'Rippling',cat:'HR / Identity',x:70,y:78,desc:'HR, payroll, devices, SAML SSO. Source of truth for employees. Drives projects.balentine total rewards and contact sync.',flows:[{f:'Rippling → projects.balentine',m:'One-way',cls:''},{f:'Rippling → PostgreSQL',m:'Daily 7 AM',cls:'da-mcp'},{f:'Rippling → SAML',m:'SSO for all apps',cls:''}]},
-    {id:'qb',name:'QuickBooks',cat:'Accounting',x:6,y:68,desc:'Accounting backbone. Bidirectional sync with budgets.balentine for accounts, bills, vendors, expenses.',flows:[{f:'QuickBooks → budgets.balentine',m:'Two-way',cls:'da-two-way'}]},
-    {id:'concur',name:'Concur',cat:'Expense',x:94,y:68,desc:'Expense management and travel. Receives client codes from SF for proper attribution.',flows:[{f:'SF → Concur',m:'Daily',cls:''}]},
-    {id:'ai',name:'AI Agents',cat:'Agentic Layer',x:50,y:88,desc:'11 MCP servers exposing 425+ tools. Multi-tier RAG (Qdrant + PostgreSQL). Self-hosted Ollama LLMs with runtime Claude API switching. Senior RIA reviewer pattern.',flows:[{f:'AI ↔ all MCPs',m:'Live tool access',cls:'da-mcp'},{f:'AI → PostgreSQL data lake',m:'Vector + relational',cls:''}]},
+    {id:'mcp',name:'MCP Server',cat:'Sync + Feed Layer',hub:true,x:50,y:50,desc:'The central data sync + feed layer. Custom MCP server that ingests from every platform on staggered schedules, normalizes the payloads, and exposes them as tool calls. Salesforce, the agentic layer, and the internal knowledge base all read from MCP — they do not call vendor APIs directly. This is what makes the architecture portable: swap a custodian, swap an HRIS, the rest of the stack does not change.',
+      flows:[{f:'Pershing → MCP',m:'Cert-auth · intraday 4×',cls:'da-mcp'},{f:'Fidelity → MCP',m:'Cert-auth + SFTP · daily',cls:'da-mcp'},{f:'Addepar ↔ MCP',m:'Two-way · nightly',cls:'da-two-way'},{f:'Arch ↔ MCP',m:'Two-way · daily',cls:'da-two-way'},{f:'Box ↔ MCP',m:'Two-way · real-time',cls:'da-two-way'},{f:'Office 365 ↔ MCP',m:'Graph · two-way',cls:'da-two-way'},{f:'Gong → MCP',m:'Webhook · near real-time',cls:''},{f:'Rippling → MCP',m:'Daily 7 AM',cls:''},{f:'QuickBooks ↔ MCP',m:'Two-way · scheduled',cls:'da-two-way'},{f:'Concur ↔ MCP',m:'Two-way · daily',cls:'da-two-way'},{f:'MCP → Salesforce',m:'Normalized payloads',cls:'da-mcp'},{f:'MCP → Knowledge Base',m:'Postgres + Qdrant ingestion',cls:'da-mcp'},{f:'MCP → AI Agents',m:'Tool calls',cls:'da-mcp'}]},
+    {id:'sf',name:'Salesforce',cat:'CRM',x:18,y:78,desc:'CRM and unified client data layer. Receives normalized data from MCP — does not call vendor APIs directly. Households, contacts, accounts, opportunities, cases all live here as the system of record for client relationships.',flows:[{f:'MCP → Salesforce',m:'All inbound vendor data',cls:'da-mcp'},{f:'Salesforce ↔ MCP',m:'Outbound writes via MCP',cls:'da-two-way'}]},
+    {id:'corpus',name:'Knowledge Base',cat:'Internal Postgres + Qdrant',x:50,y:78,desc:'Internal documentation corpus. PostgreSQL for structured doc metadata, Qdrant for vector embeddings. Every project doc, decision log, post-mortem, runbook, and vendor evaluation gets ingested here. Both MCP feeds and human writes land in this same store. AI agents pull context from here alongside live MCP data.',flows:[{f:'MCP → Knowledge Base',m:'Document + decision ingestion',cls:'da-mcp'},{f:'Humans → Knowledge Base',m:'Direct writes (docs, runbooks)',cls:''},{f:'Knowledge Base → AI Agents',m:'RAG context',cls:'da-mcp'}]},
+    {id:'ai',name:'AI Agents',cat:'Agentic Layer',x:82,y:78,desc:'Agentic platform. Pulls live data through MCP and historical/contextual data from the Knowledge Base. Does not talk to vendor APIs directly. Multi-tier RAG, self-hosted Ollama with runtime Claude API switching, Senior Reviewer pattern, learning loop.',flows:[{f:'MCP → AI Agents',m:'Live tool access',cls:'da-mcp'},{f:'Knowledge Base → AI Agents',m:'Historical + RAG context',cls:'da-mcp'}]},
+    {id:'pershing',name:'Pershing',cat:'Custodian',x:6,y:10,desc:'Legacy custodian. Live account data, balances, holdings, transactions, RMDs, beneficiaries. Cert-auth APIs into the MCP layer.',flows:[{f:'Pershing → MCP',m:'Intraday 4×',cls:'da-mcp'}]},
+    {id:'fidelity',name:'Fidelity',cat:'Custodian',x:22,y:6,desc:'Incoming primary custodian. Cert-auth API + custom SFTP ingestion server (DigitalOcean file watcher, 14 PostgreSQL tables, 18 daily jobs). All flows through MCP.',flows:[{f:'Fidelity → MCP',m:'SFTP + cert API · daily',cls:'da-mcp'}]},
+    {id:'addepar',name:'Addepar',cat:'Portfolio Mgmt',x:38,y:6,desc:'Portfolio aggregator. Positions, transactions, AUM, tax lots, entity hierarchies. Two-way exchange with MCP.',flows:[{f:'Addepar ↔ MCP',m:'Two-way · nightly',cls:'da-two-way'}]},
+    {id:'arch',name:'Arch',cat:'Private Capital',x:54,y:6,desc:'Private capital aggregator. Capital calls, K1s, private holdings.',flows:[{f:'Arch ↔ MCP',m:'Two-way · daily',cls:'da-two-way'}]},
+    {id:'box',name:'Box',cat:'Document Storage',x:70,y:6,desc:'Document storage backbone. Two-way exchange with MCP for household docs.',flows:[{f:'Box ↔ MCP',m:'Two-way · real-time',cls:'da-two-way'}]},
+    {id:'office',name:'Office 365',cat:'Productivity',x:86,y:6,desc:'Email, calendar, contacts, Teams. MS Graph data flows through MCP for downstream consumption.',flows:[{f:'Office 365 ↔ MCP',m:'Graph · two-way',cls:'da-two-way'}]},
+    {id:'gong',name:'Gong',cat:'Comms Intelligence',x:94,y:30,desc:'Meeting recordings, transcripts, AI summaries. Pushed to MCP for downstream use.',flows:[{f:'Gong → MCP',m:'Near real-time',cls:''}]},
+    {id:'rippling',name:'Rippling',cat:'HR / Identity',x:6,y:30,desc:'HR, payroll, devices, SAML SSO. Source of truth for employees. Flows into MCP nightly.',flows:[{f:'Rippling → MCP',m:'Daily 7 AM',cls:''}]},
+    {id:'qb',name:'QuickBooks',cat:'Accounting',x:18,y:50,desc:'Accounting backbone. Bidirectional sync via MCP only — never touches Salesforce directly.',flows:[{f:'QuickBooks ↔ MCP',m:'Two-way · scheduled',cls:'da-two-way'}]},
+    {id:'concur',name:'Concur',cat:'Expense',x:82,y:50,desc:'Expense management and travel. Two-way through MCP.',flows:[{f:'Concur ↔ MCP',m:'Two-way · daily',cls:'da-two-way'}]},
   ];
   const DA_LINKS=[
-    ['sf','pershing','da-mcp'],['sf','addepar','da-two-way'],['sf','arch','da-two-way'],
-    ['sf','box','da-two-way'],['sf','office','da-two-way'],['sf','gong',''],
-    ['sf','concur',''],['rippling','sf',''],['ai','sf','da-mcp'],
-    ['ai','pershing','da-mcp'],['ai','addepar','da-mcp'],['ai','arch','da-mcp'],
-    ['ai','box','da-mcp'],['ai','rippling','da-mcp'],['qb','sf','da-manual'],
-    ['pershing','addepar',''],['arch','addepar',''],['sf','fidelity','da-mcp'],['ai','fidelity','da-mcp'],['fidelity','addepar',''],
+    ['pershing','mcp','da-mcp'],
+    ['fidelity','mcp','da-mcp'],
+    ['addepar','mcp','da-two-way'],
+    ['arch','mcp','da-two-way'],
+    ['box','mcp','da-two-way'],
+    ['office','mcp','da-two-way'],
+    ['gong','mcp',''],
+    ['rippling','mcp',''],
+    ['qb','mcp','da-two-way'],
+    ['concur','mcp','da-two-way'],
+    ['mcp','sf','da-two-way'],
+    ['mcp','corpus','da-mcp'],
+    ['mcp','ai','da-mcp'],
+    ['corpus','ai','da-mcp'],
   ];
   let daInited=false;
   function initDataArch(){
