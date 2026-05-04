@@ -1256,6 +1256,185 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
 })();
 </script>
 
+<style id="gov-styles">
+.gov-section{padding-top:18px;--gv-l1:#EFF4FB;--gv-l2:#D9E5F6;--gv-l3:#B3CAEC;--gv-l4:#7FA1DB;--gv-l5:#3B5EC9;--gv-l6:#28489E;--gv-ink:#1B2C5A}
+.gov-layers{display:flex;flex-direction:column;gap:18px;margin-top:6px}
+.gov-layer{background:#fff;border:1px solid var(--gv-l2);border-radius:14px;padding:22px 24px;border-top:4px solid var(--gv-l4)}
+.gov-layer:nth-child(1){border-top-color:var(--gv-l3)}
+.gov-layer:nth-child(2){border-top-color:var(--gv-l4)}
+.gov-layer:nth-child(3){border-top-color:var(--gv-l5)}
+.gov-layer:nth-child(4){border-top-color:var(--gv-l6)}
+.gov-layer__header{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px dashed var(--gv-l2)}
+.gov-layer__num{font-family:'Playfair Display',Georgia,serif;font-size:1.5rem;font-weight:700;color:var(--gv-l5);line-height:1;background:var(--gv-l1);padding:8px 14px;border-radius:8px;letter-spacing:-0.01em}
+.gov-layer__title{font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;font-weight:700;color:var(--gv-ink);letter-spacing:-0.01em}
+.gov-layer__items{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.gov-item{padding:14px;background:var(--gv-l1);border:1px solid var(--gv-l2);border-radius:10px}
+.gov-item__pill{display:inline-block;font-family:'Source Sans 3',sans-serif;font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--gv-l5);font-weight:700;background:#fff;border:1px solid var(--gv-l3);padding:3px 9px;border-radius:5px;margin-bottom:8px}
+.gov-item__title{font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-weight:700;color:var(--gv-ink);margin-bottom:6px;letter-spacing:-0.005em}
+.gov-item__desc{font-size:0.83rem;color:#33446b;line-height:1.55}
+
+.gov-regs{margin-top:24px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:22px 24px}
+.gov-regs h3,.gov-foundation h3{font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:#111;margin:0 0 4px;letter-spacing:-0.005em}
+.gov-regs > .gov-h-sub,.gov-foundation > .gov-h-sub{font-size:0.82rem;color:#666;margin:0 0 14px}
+.gov-reg-list{display:flex;flex-direction:column;gap:10px}
+.gov-reg{font-size:0.86rem;color:#333;line-height:1.6;padding:8px 0;border-bottom:1px dashed rgba(0,0,0,0.06)}
+.gov-reg:last-child{border-bottom:none;padding-bottom:0}
+.gov-reg__name{font-weight:700;color:var(--gv-ink)}
+
+.gov-foundation{margin-top:16px;background:var(--gv-l1);border:1px solid var(--gv-l2);border-radius:12px;padding:22px 24px}
+.gov-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.gov-pill{font-family:'Source Sans 3',sans-serif;font-size:0.78rem;font-weight:500;background:#fff;border:1px solid var(--gv-l3);color:var(--gv-ink);padding:7px 12px;border-radius:6px;transition:all 0.15s}
+.gov-pill:hover{border-color:var(--gv-l5);background:var(--gv-l2)}
+
+@media(max-width:600px){
+  .gov-layer{padding:18px}
+  .gov-layer__num{font-size:1.2rem;padding:6px 11px}
+  .gov-layer__title{font-size:1.05rem}
+  .gov-layer__items{grid-template-columns:1fr}
+  .gov-regs,.gov-foundation{padding:18px}
+}
+</style>
+
+<section class="section obs gov-section" id="ai-governance">
+  <div class="section-num">06.9 / AI GOVERNANCE</div>
+  <div class="section-title">AI Governance Framework</div>
+  <div class="section-desc">Financial services / RIA &mdash; structured across four governance layers. The framework that lets AI scale at the firm without compromising compliance, fiduciary duty, or client trust.</div>
+
+  <div class="gov-layers">
+
+    <!-- Layer 1 -->
+    <div class="gov-layer">
+      <div class="gov-layer__header">
+        <div class="gov-layer__num">L1</div>
+        <div class="gov-layer__title">Strategy &amp; Accountability</div>
+      </div>
+      <div class="gov-layer__items">
+        <div class="gov-item">
+          <div class="gov-item__pill">Oversight</div>
+          <div class="gov-item__title">Executive steering</div>
+          <div class="gov-item__desc">Board-level AI committee with quarterly review cadence. Defines risk appetite, investment thesis, and sunset criteria for AI initiatives.</div>
+        </div>
+        <div class="gov-item">
+          <div class="gov-item__pill">Ownership</div>
+          <div class="gov-item__title">Responsible AI owner</div>
+          <div class="gov-item__desc">Named executive (e.g. CPO or CTO) accountable for all production AI systems. Signs off on model deployment and incident escalation.</div>
+        </div>
+        <div class="gov-item">
+          <div class="gov-item__pill">Policy</div>
+          <div class="gov-item__title">AI use policy</div>
+          <div class="gov-item__desc">Covers permitted use cases, prohibited applications (e.g. unsupervised client advice), data handling requirements, and employee obligations.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Layer 2 -->
+    <div class="gov-layer">
+      <div class="gov-layer__header">
+        <div class="gov-layer__num">L2</div>
+        <div class="gov-layer__title">Risk Management</div>
+      </div>
+      <div class="gov-layer__items">
+        <div class="gov-item">
+          <div class="gov-item__pill">Pre-deploy</div>
+          <div class="gov-item__title">Use-case risk tiering</div>
+          <div class="gov-item__desc">High / medium / low tiers mapped to review depth. Client-facing gen AI = high; internal summarization = low.</div>
+        </div>
+        <div class="gov-item">
+          <div class="gov-item__pill">Bias</div>
+          <div class="gov-item__title">Fairness testing</div>
+          <div class="gov-item__desc">Pre-launch bias audits on model outputs. Equal Credit Opportunity Act (ECOA) and Reg B alignment for any credit-adjacent use.</div>
+        </div>
+        <div class="gov-item">
+          <div class="gov-item__pill">Vendor</div>
+          <div class="gov-item__title">Third-party due diligence</div>
+          <div class="gov-item__desc">AI vendor SOC 2, data residency, model training disclosures, and contractual liability for model errors reviewed before procurement.</div>
+        </div>
+        <div class="gov-item">
+          <div class="gov-item__pill">Incident</div>
+          <div class="gov-item__title">Escalation playbook</div>
+          <div class="gov-item__desc">Defined triggers (hallucination in client doc, PII leak, model drift &gt;X%) with SLA for containment, root cause, and disclosure.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Layer 3 -->
+    <div class="gov-layer">
+      <div class="gov-layer__header">
+        <div class="gov-layer__num">L3</div>
+        <div class="gov-layer__title">Operations &amp; Controls</div>
+      </div>
+      <div class="gov-layer__items">
+        <div class="gov-item">
+          <div class="gov-item__pill">Access</div>
+          <div class="gov-item__title">Identity &amp; authorization</div>
+          <div class="gov-item__desc">Role-based access to AI tools. Audit log for all LLM queries touching client data. MCP / API key lifecycle management.</div>
+        </div>
+        <div class="gov-item">
+          <div class="gov-item__pill">Monitoring</div>
+          <div class="gov-item__title">Model observability</div>
+          <div class="gov-item__desc">Output sampling, drift alerts, token cost anomalies, and latency SLOs tracked in dashboards. Human review queue for flagged outputs.</div>
+        </div>
+        <div class="gov-item">
+          <div class="gov-item__pill">Change</div>
+          <div class="gov-item__title">Model change management</div>
+          <div class="gov-item__desc">Version-controlled prompts, regression test suite before model upgrades, and rollback runbook for production AI systems.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Layer 4 -->
+    <div class="gov-layer">
+      <div class="gov-layer__header">
+        <div class="gov-layer__num">L4</div>
+        <div class="gov-layer__title">Trust, Transparency &amp; Compliance</div>
+      </div>
+      <div class="gov-layer__items">
+        <div class="gov-item">
+          <div class="gov-item__pill">Explainability</div>
+          <div class="gov-item__title">Client disclosure</div>
+          <div class="gov-item__desc">Clients informed when AI materially influences advice, portfolio construction, or document generation. Form ADV language updated to reflect AI usage and limitations.</div>
+        </div>
+        <div class="gov-item">
+          <div class="gov-item__pill">Human-in-loop</div>
+          <div class="gov-item__title">Supervised autonomy</div>
+          <div class="gov-item__desc">Agentic workflows require human approval for actions above defined thresholds &mdash; trades, data writes, client communications. Full override capability at all times.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="gov-regs">
+    <h3>Regulatory alignment</h3>
+    <div class="gov-h-sub">The frameworks and rules this governance maps to.</div>
+    <div class="gov-reg-list">
+      <div class="gov-reg"><span class="gov-reg__name">SEC Marketing Rule</span> &mdash; AI-generated performance claims, testimonials, and back-tested data require the same disclosures as manual equivalents.</div>
+      <div class="gov-reg"><span class="gov-reg__name">Reg BI / Fiduciary</span> &mdash; AI cannot replace human best-interest analysis; must document how AI-assisted recommendations remain compliant.</div>
+      <div class="gov-reg"><span class="gov-reg__name">NIST AI RMF</span> &mdash; Govern &rarr; Map &rarr; Measure &rarr; Manage cycle is the operational backbone for internal controls.</div>
+      <div class="gov-reg"><span class="gov-reg__name">EU AI Act</span> &mdash; If serving EU-domiciled clients, high-risk classification likely applies to client-advisory AI use cases.</div>
+      <div class="gov-reg"><span class="gov-reg__name">GLBA / privacy</span> &mdash; AI training and inference pipelines must comply with Safeguards Rule; no client NPI fed to public models without consent.</div>
+      <div class="gov-reg"><span class="gov-reg__name">FINRA (if applicable)</span> &mdash; Supervisory procedures must cover AI tools used in communication, suitability, and trade surveillance.</div>
+    </div>
+  </div>
+
+  <div class="gov-foundation">
+    <h3>Data governance foundation</h3>
+    <div class="gov-h-sub">Cross-cutting controls every layer above depends on.</div>
+    <div class="gov-pills">
+      <span class="gov-pill">Data lineage</span>
+      <span class="gov-pill">PII classification</span>
+      <span class="gov-pill">Training data inventory</span>
+      <span class="gov-pill">Retention schedules</span>
+      <span class="gov-pill">Consent &amp; data sharing agreements</span>
+      <span class="gov-pill">RAG source attribution</span>
+      <span class="gov-pill">Embedding versioning</span>
+      <span class="gov-pill">Prompt logging</span>
+      <span class="gov-pill">Output redaction controls</span>
+    </div>
+  </div>
+</section>
+<div class="divider"><hr></div>
+
 <section class="section obs" id="impact">
   <div class="section-num">07 / FINANCIAL IMPACT</div>
   <div class="section-title">Value Delivered</div>
