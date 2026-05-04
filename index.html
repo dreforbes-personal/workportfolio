@@ -1710,6 +1710,40 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
   <div class="timeline" id="timeline-track"></div>
 </section>
 
+<style id="edu-styles">
+.edu-section{padding-top:18px}
+.edu-list{display:flex;flex-direction:column;gap:14px;margin-top:6px}
+.edu-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;border-top:3px solid var(--accent);display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center}
+.edu-degree{font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:var(--text);letter-spacing:-0.005em;margin-bottom:4px}
+.edu-school{font-size:0.9rem;color:var(--text-secondary)}
+.edu-dates{font-family:'Source Sans 3',sans-serif;font-size:0.78rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);font-weight:600;white-space:nowrap}
+@media(max-width:600px){
+  .edu-card{grid-template-columns:1fr;padding:16px 18px}
+  .edu-dates{font-size:0.7rem}
+}
+</style>
+<section class="section obs edu-section" id="education">
+  <div class="section-num">09 / EDUCATION</div>
+  <div class="section-title">Education</div>
+  <div class="section-desc">Both degrees from Kennesaw State University.</div>
+  <div class="edu-list">
+    <div class="edu-card">
+      <div>
+        <div class="edu-degree">Master of Science, Management Information Systems</div>
+        <div class="edu-school">Kennesaw State University</div>
+      </div>
+      <div class="edu-dates">2013 &mdash; 2015</div>
+    </div>
+    <div class="edu-card">
+      <div>
+        <div class="edu-degree">Bachelor of Science, Health Science</div>
+        <div class="edu-school">Kennesaw State University</div>
+      </div>
+      <div class="edu-dates">2005 &mdash; 2009</div>
+    </div>
+  </div>
+</section>
+
 <footer class="footer">
   <div class="name">Dre Forbes</div>
   <p>Director of Technology, Architecture, &amp; AI · Atlanta, GA</p>
@@ -1984,24 +2018,25 @@ const TL=[
   {dates:'Jul 2021 – Sep 2022',role:'IT Manager',company:'Gearbox Solutions / Turner Studios (TBS, TNT, CNN, Cartoon Network, Adult Swim)',current:false,
     items:[
       'Led IT management for 200+ clients across Turner divisions',
-      'Managed servers, deployment pipelines, automation, endpoint and network operations',
-      'Built internal tools and automation for high-velocity media workflows',
-      'Oversaw AD/OD auth, Exchange/IMAP, SMB/AFP/NFS shares, VPN, firewalls, large-scale Mac/Windows fleets',
+      'Managed server environments, deployment pipelines, automation, endpoint management, and network operations',
+      'Built internal software tools and automation for high-velocity media workflows',
+      'Oversaw AD/OD auth, Exchange/IMAP, SMB/AFP/NFS shares, VPN, firewalls, and large-scale Mac/Windows environments',
+      'Provided leadership, mentoring, and technical guidance to engineering support teams',
     ]},
   {dates:'Sep 2014 – Sep 2022',role:'Senior IT Engineer',company:'Cartoon Network',current:false,
     items:[
-      'Supported enterprise infrastructure across Turner Studios. Server admin, automation, macOS/Windows fleet, networking, software deployment',
+      'Supported enterprise infrastructure across Turner Studios: server admin, automation workflows, macOS/Windows fleet management, networking, and software deployment',
       'Built internal tools, deployment systems, and automation scripts for fast-moving production teams',
     ]},
   {dates:'Nov 2014 – Jun 2021',role:'Apple Support Engineer',company:'Finished Art, Inc.',current:false,
     items:[
-      'Apple ecosystem support, enterprise Mac management, workflow automation, and creative team support',
-      'Built internal tools, managed JAMF, supported complex creative production pipelines',
+      'Delivered Apple ecosystem support, enterprise Mac management, workflow automation, and creative team support',
+      'Built internal tools, managed JAMF, and supported complex creative production pipelines',
     ]},
-  {dates:'Dec 2007 – Aug 2014',role:'IT System Support Professional V – TSS Apple Administrator',company:'Kennesaw State University. Kennesaw, GA',current:false,
+  {dates:'Dec 2007 – Aug 2014',role:'IT System Support Professional V, TSS Apple Administrator',company:'Kennesaw State University',current:false,
     items:[
-      'Led Apple enterprise support. Deployment, imaging, automation, device management, lab infrastructure for 400+ machines',
-      'Designed and maintained macOS environments, built FileMaker-based internal tools, provided L3 support',
+      'Led Apple enterprise support: deployment, imaging, automation, device management, and lab infrastructure for 400+ machines',
+      'Designed and maintained macOS desktop and laptop environments, built FileMaker-based internal tools, and provided L3 support',
       'Mentored junior team members who later moved into leadership roles',
     ]},
 ];
