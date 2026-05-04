@@ -553,6 +553,193 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
 </section>
 <div class="divider"><hr></div>
 
+<style id="skills-styles">
+.skills-section{padding-top:18px}
+.skills-grid{display:flex;flex-direction:column;gap:18px}
+.skill-cat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 22px;border-top:3px solid var(--accent)}
+.skill-cat__head{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px dashed var(--border)}
+.skill-cat__title{font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:700;color:var(--text);letter-spacing:-0.005em}
+.skill-cat__count{font-family:'Source Sans 3',sans-serif;font-size:0.66rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);font-weight:600}
+.skill-pills{display:flex;flex-wrap:wrap;gap:6px}
+.skill-pill{font-family:'Source Sans 3',sans-serif;font-size:0.78rem;font-weight:500;background:var(--surface-2);border:1px solid var(--border);color:var(--text);padding:6px 11px;border-radius:6px;display:inline-flex;align-items:center;gap:6px;transition:all 0.15s}
+.skill-pill:hover{border-color:var(--accent);background:var(--accent-dim);color:var(--accent)}
+.skill-pill--accent{background:rgba(185,28,28,0.06);border-color:rgba(185,28,28,0.25);color:var(--accent)}
+.skill-pill__qual{font-size:0.66rem;color:var(--text-muted);font-style:italic;font-weight:400}
+
+@media(max-width:600px){
+  .skill-cat{padding:14px 16px}
+  .skill-cat__head{flex-direction:column;align-items:flex-start;gap:4px}
+  .skill-pill{font-size:0.74rem;padding:5px 10px}
+}
+</style>
+
+<section class="section obs skills-section" id="skills">
+  <div class="section-num">02.5 / SKILLS</div>
+  <div class="section-title">Capabilities</div>
+  <div class="section-desc">A working inventory of what I actually use day-to-day. Pulled from production work, not a bullet list. Pills marked with a qualifier indicate depth honestly &mdash; some I am expert at, some I have solid working knowledge of.</div>
+
+  <div class="skills-grid">
+
+    <div class="skill-cat">
+      <div class="skill-cat__head">
+        <div class="skill-cat__title">Languages &amp; Frameworks</div>
+        <div class="skill-cat__count">9</div>
+      </div>
+      <div class="skill-pills">
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">JavaScript / TypeScript</span>
+        <span class="skill-pill">React</span>
+        <span class="skill-pill">Node.js / Express.js</span>
+        <span class="skill-pill">FastAPI</span>
+        <span class="skill-pill">Apex</span>
+        <span class="skill-pill">SOQL / SOSL</span>
+        <span class="skill-pill">Salesforce LWC</span>
+        <span class="skill-pill">Tailwind CSS</span>
+      </div>
+    </div>
+
+    <div class="skill-cat">
+      <div class="skill-cat__head">
+        <div class="skill-cat__title">AI / ML / Agents</div>
+        <div class="skill-cat__count">14</div>
+      </div>
+      <div class="skill-pills">
+        <span class="skill-pill skill-pill--accent">Agentic system design</span>
+        <span class="skill-pill skill-pill--accent">MCP servers (custom)</span>
+        <span class="skill-pill">Multi-tier RAG</span>
+        <span class="skill-pill">Vector embeddings (bge-m3, Qwen3-Embedding-8B)</span>
+        <span class="skill-pill">Voice profiles ("Sound Like Me")</span>
+        <span class="skill-pill">Prompt engineering</span>
+        <span class="skill-pill">Multi-provider LLM routing</span>
+        <span class="skill-pill">Self-hosted LLMs (Ollama, LM Studio)</span>
+        <span class="skill-pill">PyTorch <span class="skill-pill__qual">(working)</span></span>
+        <span class="skill-pill">Fine-tuning <span class="skill-pill__qual">(slight)</span></span>
+        <span class="skill-pill">Inference training <span class="skill-pill__qual">(working)</span></span>
+        <span class="skill-pill">Senior reviewer pattern</span>
+        <span class="skill-pill">Behavioral UI</span>
+        <span class="skill-pill">Knowledge-base / corpus design</span>
+      </div>
+    </div>
+
+    <div class="skill-cat">
+      <div class="skill-cat__head">
+        <div class="skill-cat__title">Data &amp; Infrastructure</div>
+        <div class="skill-cat__count">12</div>
+      </div>
+      <div class="skill-pills">
+        <span class="skill-pill">PostgreSQL</span>
+        <span class="skill-pill">Qdrant</span>
+        <span class="skill-pill">Snowflake</span>
+        <span class="skill-pill">Databricks</span>
+        <span class="skill-pill">Docker</span>
+        <span class="skill-pill">nginx</span>
+        <span class="skill-pill">PM2</span>
+        <span class="skill-pill">AWS (S3, IAM, Bedrock)</span>
+        <span class="skill-pill">GCP (Vertex AI)</span>
+        <span class="skill-pill">Azure / Entra ID</span>
+        <span class="skill-pill">DigitalOcean</span>
+        <span class="skill-pill">Vercel / Replit</span>
+      </div>
+    </div>
+
+    <div class="skill-cat">
+      <div class="skill-cat__head">
+        <div class="skill-cat__title">Salesforce / CRM</div>
+        <div class="skill-cat__count">8</div>
+      </div>
+      <div class="skill-pills">
+        <span class="skill-pill skill-pill--accent">Salesforce FSC (production scale)</span>
+        <span class="skill-pill">Apex triggers (21+ in production)</span>
+        <span class="skill-pill">LWC (65+ components)</span>
+        <span class="skill-pill">Flows (98+ active)</span>
+        <span class="skill-pill">Conga Orchestrate</span>
+        <span class="skill-pill">Custom Salesforce MCP server</span>
+        <span class="skill-pill">Microsoft Dynamics (working)</span>
+        <span class="skill-pill">HubSpot</span>
+      </div>
+    </div>
+
+    <div class="skill-cat">
+      <div class="skill-cat__head">
+        <div class="skill-cat__title">Integrations &amp; APIs</div>
+        <div class="skill-cat__count">10</div>
+      </div>
+      <div class="skill-pills">
+        <span class="skill-pill">REST APIs (designed 120+)</span>
+        <span class="skill-pill">Microsoft Graph (deep)</span>
+        <span class="skill-pill">Cert-auth integrations (Pershing, Fidelity)</span>
+        <span class="skill-pill">Custom SFTP ingestion servers</span>
+        <span class="skill-pill">Webhook orchestration</span>
+        <span class="skill-pill">OAuth / SAML federation</span>
+        <span class="skill-pill">Box / SharePoint / OneDrive</span>
+        <span class="skill-pill">Gong / Zoom / Teams</span>
+        <span class="skill-pill">QuickBooks / Concur</span>
+        <span class="skill-pill">Twilio / DocuSign</span>
+      </div>
+    </div>
+
+    <div class="skill-cat">
+      <div class="skill-cat__head">
+        <div class="skill-cat__title">Security, Compliance &amp; Governance</div>
+        <div class="skill-cat__count">12</div>
+      </div>
+      <div class="skill-pills">
+        <span class="skill-pill skill-pill--accent">NIST CSF (rebuilt program from scratch)</span>
+        <span class="skill-pill skill-pill--accent">NIST AI RMF</span>
+        <span class="skill-pill">CIS Controls</span>
+        <span class="skill-pill">SOC 2 <span class="skill-pill__qual">(working knowledge)</span></span>
+        <span class="skill-pill">HIPAA <span class="skill-pill__qual">(working knowledge)</span></span>
+        <span class="skill-pill">SEC Marketing Rule</span>
+        <span class="skill-pill">Reg BI / Fiduciary</span>
+        <span class="skill-pill">GLBA / Safeguards Rule</span>
+        <span class="skill-pill">EU AI Act</span>
+        <span class="skill-pill">FINRA supervision</span>
+        <span class="skill-pill">SSO / SAML / Conditional Access</span>
+        <span class="skill-pill">Pen-testing program design</span>
+      </div>
+    </div>
+
+    <div class="skill-cat">
+      <div class="skill-cat__head">
+        <div class="skill-cat__title">Leadership &amp; Strategy</div>
+        <div class="skill-cat__count">10</div>
+      </div>
+      <div class="skill-pills">
+        <span class="skill-pill">Build-vs-buy analysis</span>
+        <span class="skill-pill">Vendor management &amp; due diligence</span>
+        <span class="skill-pill">KPI tracking (productivity, data quality, AI usage)</span>
+        <span class="skill-pill">Executive &amp; board presentations</span>
+        <span class="skill-pill">Conference speaking (Salesforce, T3)</span>
+        <span class="skill-pill">Cross-functional team leadership</span>
+        <span class="skill-pill">Quarterly innovation sessions</span>
+        <span class="skill-pill">Mentorship (Director / Chief of Staff promotions)</span>
+        <span class="skill-pill">Authored AI Policy + Governance Framework</span>
+        <span class="skill-pill">Stakeholder translation (compliance &lt;&gt; engineering)</span>
+      </div>
+    </div>
+
+    <div class="skill-cat">
+      <div class="skill-cat__head">
+        <div class="skill-cat__title">Domain Expertise &mdash; Wealth Management</div>
+        <div class="skill-cat__count">9</div>
+      </div>
+      <div class="skill-pills">
+        <span class="skill-pill skill-pill--accent">RIA operations end-to-end</span>
+        <span class="skill-pill">Custodial workflows (Pershing, Fidelity, Schwab)</span>
+        <span class="skill-pill">Portfolio mgmt (Addepar, Orion, Eclipse)</span>
+        <span class="skill-pill">Tax doc lifecycle (1099, K-1, statements)</span>
+        <span class="skill-pill">Capital calls / private capital (Arch)</span>
+        <span class="skill-pill">RMD &amp; retirement-account workflows</span>
+        <span class="skill-pill">Standing instructions / billing</span>
+        <span class="skill-pill">Financial planning data (eMoney)</span>
+        <span class="skill-pill">FSC object model &amp; data hierarchy</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+<div class="divider"><hr></div>
+
 <section class="section obs" id="dev">
   <div class="section-num">03 / DEVELOPMENT</div>
   <div class="section-title">Applications I've Built</div>
