@@ -828,6 +828,42 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
 </section>
 <div class="divider"><hr></div>
 
+<style id="innovation-styles">
+.innov-section{padding-top:18px}
+.innov-frame{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px 28px}
+.innov-lede{font-size:0.9rem;color:#33446b;line-height:1.7;margin-bottom:18px}
+.innov-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.innov-grid .tech-chip{font-weight:500}
+@media(max-width:600px){
+  .innov-frame{padding:18px}
+  .innov-grid{grid-template-columns:repeat(2,1fr);gap:6px}
+}
+@media(max-width:400px){
+  .innov-grid{grid-template-columns:1fr}
+}
+</style>
+
+<section class="section obs innov-section" id="innovation">
+  <div class="section-num">06.1 / INNOVATION STACK</div>
+  <div class="section-title">Exploration &amp; R&amp;D</div>
+  <div class="section-desc">The tools and platforms I am actively exploring or running pilots against &mdash; cloud AI services, on-prem inference, sandboxed dev environments, and modern ML tooling. Things that have not yet earned a place in production but are on the runway.</div>
+  <div class="innov-frame">
+    <p class="innov-lede">Used for proofs-of-concept, evaluation rigs, agent prototypes, and side-by-side benchmarks before anything is promoted into the production stack.</p>
+    <div class="innov-grid tech-grid">
+      <div class="tech-chip"><div class="dot" style="background:#4285F4"></div>GCP Vertex AI</div>
+      <div class="tech-chip"><div class="dot" style="background:#FF9900"></div>Amazon Bedrock</div>
+      <div class="tech-chip"><div class="dot" style="background:#DD344C"></div>AWS IAM</div>
+      <div class="tech-chip"><div class="dot" style="background:#569A31"></div>Amazon S3</div>
+      <div class="tech-chip"><div class="dot" style="background:#F26207"></div>Replit</div>
+      <div class="tech-chip"><div class="dot" style="background:#000000"></div>Vercel</div>
+      <div class="tech-chip"><div class="dot" style="background:#EE4C2C"></div>PyTorch</div>
+      <div class="tech-chip"><div class="dot" style="background:#000000"></div>Ollama</div>
+      <div class="tech-chip"><div class="dot" style="background:#5b21b6"></div>LM Studio</div>
+    </div>
+  </div>
+</section>
+<div class="divider"><hr></div>
+
 <section class="section obs" id="tech-roadmap">
   <div class="section-num">06.2 / STRATEGIC INITIATIVES</div>
   <div class="section-title">Strategic Initiatives Since 2022</div>
@@ -1800,7 +1836,7 @@ SF.forEach((db,i)=>{const b=document.createElement('button');b.className='sf-tab
 const igEl=document.getElementById('int-grid');
 INTS.forEach(x=>{const d=document.createElement('div');d.className='int-card';d.innerHTML=`<div class="int-name">${x.n}</div><div class="int-desc">${x.d}</div>`;igEl.appendChild(d)});
 
-document.getElementById('arch-box').innerHTML=`<div class="arch-flow">${[{l:'Proxy',t:'nginx'},{l:'Frontend',t:'React 18'},{l:'Backend',t:'Express.js'},{l:'AI / Scripts',t:'Python'},{l:'Database',t:'PostgreSQL'},{l:'Process',t:'PM2'},{l:'Real-time',t:'Socket.IO'},{l:'Identity',t:'Keycloak'},{l:'CRM',t:'Salesforce'}].map((n,i)=>`${i?'<div class="arch-arrow">→</div>':''}<div class="arch-node"><div class="a-label">${n.l}</div><div class="a-tech">${n.t}</div></div>`).join('')}</div><div class="tech-grid">${[{n:'React 18',c:'#61dafb'},{n:'Express.js',c:'#4a7a50'},{n:'Python',c:'#3776ab'},{n:'PostgreSQL',c:'#336791'},{n:'Tailwind CSS',c:'#38bdf8'},{n:'Framer Motion',c:'#c456e8'},{n:'Socket.IO',c:'#3e7a9e'},{n:'Salesforce LWC',c:'#00a1e0'},{n:'Apex v62.0',c:'#1798c1'},{n:'nginx',c:'#009639'},{n:'PM2',c:'#7e5ea0'},{n:'Keycloak',c:'#b8843a'},{n:'React Flow',c:'#e0457b'},{n:'MCP',c:'#5ed3a6'},{n:'Qdrant',c:'#dc382d'},{n:'Ollama',c:'#000000'},{n:'LM Studio',c:'#5b21b6'},{n:'Qwen3-Embedding-8B',c:'#6E2BD9'},{n:'Gemma 4 26B MoE',c:'#4285F4'},{n:'Claude Opus 4.7',c:'#D97757'},{n:'GPT-5.5',c:'#10A37F'},{n:'Gemini 3.1 Pro',c:'#1A73E8'}].map(t=>`<div class="tech-chip"><div class="dot" style="background:${t.c}"></div>${t.n}</div>`).join('')}</div>`;
+document.getElementById('arch-box').innerHTML=`<div class="arch-flow">${[{l:'Proxy',t:'nginx'},{l:'Frontend',t:'React 18'},{l:'Backend',t:'Express.js'},{l:'AI / Scripts',t:'Python'},{l:'Database',t:'PostgreSQL'},{l:'Process',t:'PM2'},{l:'Real-time',t:'Socket.IO'},{l:'Identity',t:'Keycloak'},{l:'CRM',t:'Salesforce'}].map((n,i)=>`${i?'<div class="arch-arrow">→</div>':''}<div class="arch-node"><div class="a-label">${n.l}</div><div class="a-tech">${n.t}</div></div>`).join('')}</div><div class="tech-grid">${[{n:'React 18',c:'#61dafb'},{n:'Express.js',c:'#4a7a50'},{n:'Python',c:'#3776ab'},{n:'PostgreSQL',c:'#336791'},{n:'Tailwind CSS',c:'#38bdf8'},{n:'Framer Motion',c:'#c456e8'},{n:'Socket.IO',c:'#3e7a9e'},{n:'Salesforce LWC',c:'#00a1e0'},{n:'Apex v62.0',c:'#1798c1'},{n:'nginx',c:'#009639'},{n:'PM2',c:'#7e5ea0'},{n:'Keycloak',c:'#b8843a'},{n:'React Flow',c:'#e0457b'},{n:'MCP',c:'#5ed3a6'},{n:'Qdrant',c:'#dc382d'},{n:'Qwen3-Embedding-8B',c:'#6E2BD9'},{n:'Gemma 4 26B MoE',c:'#4285F4'},{n:'Claude Opus 4.7',c:'#D97757'},{n:'GPT-5.5',c:'#10A37F'},{n:'Gemini 3.1 Pro',c:'#1A73E8'}].map(t=>`<div class="tech-chip"><div class="dot" style="background:${t.c}"></div>${t.n}</div>`).join('')}</div>`;
 
 const tt=document.getElementById('timeline-track');
 tt.innerHTML='<div class="timeline-line"></div>'+TL.map(t=>`<div class="tl-item${t.current?' current':''}"><div class="tl-dot"></div><div class="tl-dates">${t.dates}</div><div class="tl-role">${t.role}</div><div class="tl-company">${t.company}</div><ul class="tl-highlights">${t.items.map(i=>`<li>${i}</li>`).join('')}</ul></div>`).join('');
