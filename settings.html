@@ -118,10 +118,11 @@ h1{font-family:'Playfair Display',Georgia,serif;font-size:1.6rem;font-weight:700
 <script>
 (function(){
   // ─────────────────────────────────────────────────
-  // EDIT THIS PASSWORD to whatever you want.
-  // It is in the page source, so treat as soft access control.
+  // Password is verified by the Cloudflare Worker — NOT stored here.
+  // To change it: Cloudflare → Workers → askdre-proxy → Settings →
+  // Variables and Secrets → edit/add `SETTINGS_PASSWORD` (Secret type).
   // ─────────────────────────────────────────────────
-  const ACCESS_PASSWORD = 'askdre';
+  const WORKER_AUTH_ENDPOINT = 'https://askdre-proxy.dreforbes.workers.dev/auth';
 
   const KEYS = {
     endpoint: 'askdre.endpoint',
@@ -149,14 +150,45 @@ h1{font-family:'Playfair Display',Georgia,serif;font-size:1.6rem;font-weight:700
 
   $('lock-submit').addEventListener('click', tryUnlock);
   $('lock-password').addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
-  function tryUnlock(){
+
+  async function tryUnlock(){
     const pw = $('lock-password').value;
-    if (pw === ACCESS_PASSWORD) {
-      localStorage.setItem(KEYS.unlocked, '1');
-      $('lock-error').classList.remove('shown');
-      showSettings();
-    } else {
-      $('lock-error').classList.add('shown');
+    const errEl = $('lock-error');
+    const submitBtn = $('lock-submit');
+    if (!pw) { errEl.textContent = 'Enter a password.'; errEl.classList.add('shown'); return; }
+    errEl.classList.remove('shown');
+    submitBtn.disabled = true;
+    const originalLabel = submitBtn.textContent;
+    submitBtn.textContent = 'Verifying…';
+    try {
+      const res = await fetch(WORKER_AUTH_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pw }),
+      });
+      let data = {};
+      try { data = await res.json(); } catch (_) {}
+      if (res.ok && data.ok === true) {
+        localStorage.setItem(KEYS.unlocked, '1');
+        showSettings();
+        return;
+      }
+      if (res.status === 401) {
+        errEl.textContent = 'Wrong password.';
+      } else if (res.status === 429) {
+        errEl.textContent = 'Too many attempts. Try again in a minute.';
+      } else if (res.status === 500) {
+        errEl.textContent = 'Server is not configured for password auth. Add the SETTINGS_PASSWORD secret on the worker.';
+      } else {
+        errEl.textContent = 'Could not verify (HTTP ' + res.status + '). Check the worker URL.';
+      }
+      errEl.classList.add('shown');
+    } catch (e) {
+      errEl.textContent = 'Network error contacting the worker. Are you online?';
+      errEl.classList.add('shown');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalLabel;
     }
   }
 
