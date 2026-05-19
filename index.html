@@ -5221,6 +5221,35 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
 .ask-msg--user{align-self:flex-end;background:#1f2024;color:#fff;border-bottom-right-radius:4px}
 .ask-msg--bot{align-self:flex-start;background:#fff;color:#111;border:1px solid rgba(0,0,0,0.08);border-bottom-left-radius:4px}
 .ask-msg--bot a{color:#1f2024;text-decoration:underline}
+/* Markdown rendering inside bot messages */
+.ask-msg--bot p{margin:0 0 8px}
+.ask-msg--bot p:last-child{margin-bottom:0}
+.ask-msg--bot strong{font-weight:700;color:#000}
+.ask-msg--bot em{font-style:italic}
+.ask-msg--bot h3,.ask-msg--bot h4,.ask-msg--bot h5{margin:10px 0 4px;font-weight:700;color:#000;line-height:1.3;font-family:inherit}
+.ask-msg--bot h3{font-size:1rem}
+.ask-msg--bot h4{font-size:0.94rem}
+.ask-msg--bot h5{font-size:0.82rem;text-transform:uppercase;letter-spacing:0.5px;color:#444}
+.ask-msg--bot ul,.ask-msg--bot ol{margin:4px 0 10px;padding-left:20px}
+.ask-msg--bot li{margin:2px 0;line-height:1.5}
+.ask-msg--bot li > strong:first-child{color:#000}
+.ask-msg--bot code{background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:0.85em}
+.ask-msg--bot pre{background:rgba(0,0,0,0.05);padding:10px 12px;border-radius:6px;overflow-x:auto;margin:6px 0;font-size:0.82rem;line-height:1.45}
+.ask-msg--bot pre code{background:none;padding:0}
+/* Blockquote: top accent + tinted bg (no border-left per project rule) */
+.ask-msg--bot blockquote{margin:8px 0;padding:8px 12px;background:rgba(0,0,0,0.04);border-top:2px solid rgba(31,32,36,0.4);border-radius:4px;font-style:italic;color:#333}
+/* Greeting bubble */
+.ask-greeting{position:fixed;right:18px;bottom:70px;z-index:9991;max-width:330px;padding:14px 16px 14px 18px;background:#fff;border:1px solid rgba(0,0,0,0.10);border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,0.16);display:none;cursor:pointer;font-family:'Source Sans 3',sans-serif;opacity:0;transform:translateY(10px);transition:opacity 0.4s ease,transform 0.4s ease}
+.ask-greeting.ask-greeting--shown{opacity:1;transform:translateY(0)}
+.ask-greeting:hover{box-shadow:0 16px 38px rgba(0,0,0,0.20)}
+.ask-greeting::after{content:'';position:absolute;bottom:-7px;right:22px;width:14px;height:14px;background:#fff;border-right:1px solid rgba(0,0,0,0.10);border-bottom:1px solid rgba(0,0,0,0.10);transform:rotate(45deg)}
+.ask-greeting__close{position:absolute;top:6px;right:9px;background:none;border:none;cursor:pointer;color:#999;font-size:1.2rem;line-height:1;padding:0;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.ask-greeting__close:hover{color:#000;background:rgba(0,0,0,0.06)}
+.ask-greeting__row{display:flex;align-items:flex-start;gap:10px}
+.ask-greeting__avatar{flex-shrink:0;width:30px;height:30px;background:#1f2024;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.95rem;margin-top:1px}
+.ask-greeting__body{font-size:0.86rem;line-height:1.5;color:#222;flex:1;min-width:0}
+.ask-greeting__cta{display:block;margin-top:6px;font-size:0.74rem;color:#1f2024;font-weight:700;letter-spacing:0.3px}
+@media(max-width:480px){.ask-greeting{left:12px;right:12px;max-width:none;bottom:60px}.ask-greeting::after{right:30px}}
 .ask-typing{align-self:flex-start;display:inline-flex;gap:4px;padding:10px 14px;background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:12px}
 .ask-typing span{width:6px;height:6px;border-radius:50%;background:#999;animation:askBlink 1.2s infinite}
 .ask-typing span:nth-child(2){animation-delay:0.15s}
@@ -5244,18 +5273,28 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
 }
 </style>
 
+<div class="ask-greeting" id="ask-greeting" role="dialog" aria-live="polite">
+  <button class="ask-greeting__close" type="button" aria-label="Dismiss">&times;</button>
+  <div class="ask-greeting__row">
+    <div class="ask-greeting__avatar">&#129302;</div>
+    <div class="ask-greeting__body">
+      Hi &mdash; I&apos;m an AI agent that can answer questions about <strong>Dre</strong> or help you figure out if he&apos;s a fit for a role.
+      <span class="ask-greeting__cta">Click to chat &rarr;</span>
+    </div>
+  </div>
+</div>
 <button class="ask-trigger" id="ask-trigger" aria-label="Ask about Dre" title="Ask about Dre — or press Cmd/Ctrl+Shift+K">?</button>
 <aside class="ask-panel" id="ask-panel" role="dialog" aria-modal="false" aria-label="Ask about Dre">
   <header class="ask-header">
     <div class="ask-header__title">Ask about Dre</div>
     <div class="ask-header__actions">
-      <a class="ask-iconbtn" href="./settings.html" title="Settings (gated)" aria-label="Settings" target="_blank" rel="noopener">&#9881;</a>
+      <button class="ask-iconbtn" id="ask-clear-btn" title="Clear conversation" aria-label="Clear conversation">&#10227;</button>
       <button class="ask-iconbtn" id="ask-close-btn" title="Close" aria-label="Close">&times;</button>
     </div>
   </header>
   <div class="ask-body" id="ask-body"></div>
   <form class="ask-form" id="ask-form">
-    <input class="ask-input" id="ask-input" placeholder="Ask about Dre's experience, fit, work style…" autocomplete="off" />
+    <input class="ask-input" id="ask-input" placeholder="Ask about Dre or paste a job description…" autocomplete="off" />
     <button class="ask-send" id="ask-send" type="submit">Send</button>
   </form>
 </aside>
@@ -5278,14 +5317,53 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
   const FAQ_TEXT = "DRE FORBES \u2014 PROFESSIONAL FAQ\n\nMOTIVATION & DRIVE\nQ: What motivates Dre at work?\nA: Proving something to himself \u2014 not to anyone else. He wants to know at the end of the day that he gave everything he had, that whoever put faith in him got the best version of him. He treats trust as sacred. When someone gives him an opportunity, he takes that seriously and won't stop until he's honored it. He is not money-motivated. He works for the chance and to prove himself to himself.\n\nQ: What does success look like to Dre?\nA: The team winning. If the people around him are better because of their time together and the org is in a fundamentally different place because of what they built, that's success. His personal stats don't matter if the team lost.\n\nQ: Where does Dre see himself in 5 years?\nA: Leading at a higher level, but still close to the work. He doesn't want to be so far removed from technology that he loses his edge. He wants to be the person in the room who can speak credibly to the vision and then go build it \u2014 or build the team that builds it. Eventually he wants to set the direction for how technology transforms an organization, not just manage it.\n\nQ: Is Dre money-motivated?\nA: No. He doesn't do things for the money. He does it for the opportunity and to prove himself to himself. When negotiating an offer with a future firm, he pushed on terms because he was guided to by an advisor \u2014 his natural instinct is to accept the first offer and earn it.\n\nWORK STYLE\nQ: Does Dre prefer working independently or on a team?\nA: Both, genuinely. He has spent years as the only technical person in a firm, so he can absolutely work solo and carry the full load. But he also loves being on a team because he loves elevating people. His goal is always to get everyone around him operating at the highest level they can. He has been described as the \"ultimate role player\" \u2014 whatever the team needs that day, that's who he shows up as. Star or support, it doesn't matter.\n\nQ: What is Dre's typical workday like?\nA: He is in the office almost every day \u2014 in three years at the current firm, there were only about two weeks total (outside of vacation and work travel) where he wasn't in the office. The office is where he handles meetings, collaboration, and operational work. At night is when he builds. Most of his deep technical work happens late at night from home when it's quiet and he can focus. It's not a 9-to-5 cadence \u2014 it's two shifts: one for people and one for the work itself.\n\nQ: How does Dre manage competing priorities?\nA: He triages by impact and is transparent about it. He communicates early when something is going to be delayed, explains why, and gives a realistic timeline. He has managed 70+ scheduled sync jobs and 10+ production apps simultaneously as a solo technologist, so he has gotten very good at knowing what breaks if he doesn't touch it today versus what can wait.\n\nQ: How does Dre handle ambiguity or unclear direction?\nA: He builds a hypothesis and moves. He'd rather do something and course-correct than wait for perfect clarity that never comes. He is comfortable operating in environments where the roadmap isn't fully defined because he can help define it. He has built entire platforms from scratch with no blueprint \u2014 just a business problem and a whiteboard.\n\nQ: Does Dre prefer remote or in-office work?\nA: He is a strong in-office presence. He goes to the office nearly every day and has done so consistently throughout his career. The office is where he operates \u2014 meetings, collaboration, relationship-building. Home is where he builds, typically late at night. His extensive home setup (Mac Studio M4 Max, five monitors, high-performance network and compute) supports his second shift, not a remote-first preference.\n\nSTRENGTHS\nQ: What are Dre's core professional strengths?\nA: Extreme ownership. Full-stack depth plus wealth management domain fluency. System thinking at scale. AI integration at the production level \u2014 RAG pipelines, agentic systems, MCP servers, on-prem inference infrastructure. Stakeholder translation across compliance, COO-level strategy, and Apex code. The ultimate role player. Elevates the people around him. Public communication and presence \u2014 Salesforce Conference and back-to-back T3 Finance and Technology Conference. Trusted advisor at the executive level \u2014 current firm leadership brought him in to advise their personal contacts, friends, family, clients. Pragmatic about build vs. buy.\n\nQ: What kind of environment brings out Dre's best work?\nA: One where trust runs both ways. Give him the problem, the latitude, and trust that he'll go all out. He needs to know what he's building actually matters and that leadership is bought in. Best deep building happens late at night \u2014 quiet, focused, no interruptions.\n\nWEAKNESSES & SELF-AWARENESS\nQ: What is Dre's biggest weakness?\nA: Visibility. He builds quietly and lets the work speak; in larger organizations that can work against him because people need to see the work happening, not just the outcome. He has gotten better at narrating progress as it happens.\n\nQ: What is Dre's biggest professional failure?\nA: Not advocating for himself sooner. He spent years delivering CTO-level work at a Director title because he was focused on proving himself and winning for the team. He has learned that you have to be your own advocate too.\n\nQ: What do people misunderstand about Dre?\nA: That he is just a technical person. He has spoken at major industry conferences, advised executives and their outside contacts, and can hold his own in any room \u2014 business, compliance, operations, or board level.\n\nHANDLING ADVERSITY & STRESS\nQ: How does Dre handle stress?\nA: He puts his head down and works. Stress is a signal that something matters, and that usually makes him more focused, not less. Plays basketball regularly to reset. He has learned to stay calm and think clearly when things are on fire \u2014 panicking doesn't ship anything.\n\nQ: Tell me about a time something didn't go as planned for Dre.\nA: He accepted a role at a future firm \u2014 significant career step with signing bonus and equity \u2014 that was rescinded shortly before his start date due to a consumer report finding outside of his control. He went back to people he had real relationships with, was honest about what happened, and kept building. How you respond to the thing that didn't go your way says more about you than the thing itself.\n\nLEADERSHIP & TEAMS\nQ: How does Dre handle a teammate who isn't performing?\nA: He picks up the slack and simultaneously tries to bring that person up. The goal is never to just cover \u2014 it's to get the whole team operating at the optimal level.\n\nQ: What does Dre need from a manager to thrive?\nA: Trust and honesty. Tell him what you need, be straight when something isn't working, then get out of the way. He doesn't need hand-holding, he needs alignment.\n\nQ: What's the best team Dre has been a part of?\nA: His team at his current firm. Everyone trusted each other and was bought into the same mission. Support of leadership plus a direct report he was genuinely invested in developing. That combination is where he does his best work.\n\nQ: What would Dre's last manager say about him?\nA: Dependable, went well beyond scope, could be trusted with things outside his job description \u2014 including advising the firm's clients and leadership's personal contacts. Cares deeply, sometimes more than is healthy. You always know where he stands.\n\nWORK HISTORY SUMMARY\nQ: Where has Dre worked?\nA: Most recently Director of Technology, Architecture, and AI at his current firm \u2014 boutique Atlanta wealth management RIA, ~65 employees. Sole technologist there for three years. Built and maintained the entire technology infrastructure. Rebuilt the cybersecurity program on NIST and CIS, passed an SEC exam with zero findings.\n\nQ: What industries has Dre worked in?\nA: Wealth management and financial services. Deep domain knowledge of RIA operations, custodial workflows, investment data, compliance, technology ecosystem.\n\nQ: What is Dre's technical stack?\nA: Python, FastAPI, Docker, PostgreSQL, REST APIs, Salesforce Apex, SOQL, SOSL, LWC, Express.js, React. Wealth-mgmt integrations: Pershing, Addepar, Arch, Fidelity, Schwab, Orion, eMoney, Salesforce FSC. RAG pipelines (Qdrant, Ollama, nomic-embed-text). MCP servers and agentic AI systems.\n\nCHARACTER & VALUES\nQ: How would you describe Dre's character?\nA: When someone puts faith in him, that faith should be rewarded \u2014 anything less would be a failure. He'll suffer to know he has done everything possible to get the job done. Warm, direct, humble, accountable. Treats people well regardless of level.\n\nQ: Is Dre competitive?\nA: With himself, not others. Drive is internal. Measures success by team outcomes, not personal recognition.\n\nPORTFOLIO HIGHLIGHTS\n- 11 MCP servers exposing 425+ tools across Salesforce, Addepar, Pershing, Arch, Box, Gong, Zoom, Microsoft Graph, RedBlack, Fidelity, Rippling\n- Self-hosted Ollama LLMs (qwen3:30b, gpt-oss:120b, deepseek-r1:70b, llama3.2-vision, ~195GB on-prem) with runtime switching to Claude API\n- Multi-tier RAG: Qdrant + PostgreSQL holding 7M+ Addepar transactions\n- 65 LWC components, 98 Flows, 21 Apex triggers in Salesforce Financial Services Cloud\n- Built unified RM dashboard, Insights App with voice profiles, Security & Network Monitoring Dashboard across 10+ vendors\n- Leading Pershing - Fidelity custodian conversion with custom SFTP ingestion (DigitalOcean, 14 PostgreSQL tables, 18 daily jobs)\n- $950K hard savings, $7M total value through vendor optimization and internal builds\n- 15 production domains on a single-server architecture\n";
 
   const SYSTEM_PROMPT = (
-    "You are an AI agent embedded in Dre Forbes's online portfolio. Your job is to answer " +
-    "questions about Dre's professional background, work style, strengths, motivations, and " +
-    "fit for roles. Use the FAQ and portfolio highlights below as your source of truth. Be " +
-    "specific, direct, and warm. When someone describes a job or pastes requirements, compare " +
-    "them honestly to Dre's experience and either confirm fit (with concrete examples) or flag " +
-    "the genuine gaps. Never invent capabilities or projects. If asked about something outside " +
-    "the FAQ/portfolio, say you don't have that information and offer to connect them with " +
-    "Dre directly via dreforbes@gmail.com.\n\n" + FAQ_TEXT
+    "You are an AI agent embedded in Dre Forbes's online portfolio. Your single job is to help " +
+    "visitors evaluate Dre as a hire, consultant, advisor, or technical leader.\n\n" +
+
+    "SCOPE — STRICT\n" +
+    "You ONLY discuss Dre Forbes: his professional background, technical capabilities, work " +
+    "history, leadership style, work preferences, character, and fit for specific roles or " +
+    "consulting engagements. NOTHING else. If a user asks about anything off-topic (general " +
+    "knowledge, world events, jokes, personal advice unrelated to evaluating Dre, technical " +
+    "help unrelated to evaluating Dre, opinions on other people, philosophy, history, sports, " +
+    "writing assistance, etc.), politely decline in one short paragraph. Use a friendly " +
+    "variation of:\n\n" +
+    "\"I'm here to help you evaluate Dre Forbes — his fit for a role, his work, his style, " +
+    "his experience. I can't help with [that topic], but if you'd like, you can ask me about " +
+    "his AI agent platform work, his Salesforce experience, his cybersecurity rebuild, his " +
+    "leadership style, or paste a job description and I'll evaluate the fit.\"\n\n" +
+    "Then stop. Do not answer the off-topic question even partially. Do not lecture about why " +
+    "you can't help. Just redirect once.\n\n" +
+
+    "JOB-DESCRIPTION EVALUATION\n" +
+    "When a user pastes a job description, a list of requirements, or asks 'would Dre be a " +
+    "fit for X role', do a structured fit analysis. Format the response in markdown like this:\n\n" +
+    "### Overall fit: [Strong fit / Good fit with gaps / Marginal fit / Not a good fit]\n\n" +
+    "Then a short paragraph (2-3 sentences) of plain-language verdict.\n\n" +
+    "### Where Dre is strong\n" +
+    "List the JD requirements that are clear matches. For each, cite a specific portfolio " +
+    "example with numbers where possible.\n\n" +
+    "### Adjacent / supplementary experience\n" +
+    "List JD requirements Dre hasn't done EXACTLY but has done closely related work for. " +
+    "Explain what he HAS done and why it would transfer.\n\n" +
+    "### Gaps\n" +
+    "List JD requirements with no relevant experience. Be honest. If there are many, say so.\n\n" +
+    "If it is not a good fit, SAY SO PLAINLY. Don't soften it to a 'maybe.' Recommend Dre " +
+    "pass when the gaps are critical. Better to be honest than waste anyone's time.\n\n" +
+
+    "FORMATTING\n" +
+    "Format every response in markdown. Use **bold** for emphasis, hyphen lists for multi-point " +
+    "answers, ### headers for sections in longer responses, > for short pulled quotes from " +
+    "Dre. Keep paragraphs short — one idea per paragraph. Scannable, not a wall of text. For " +
+    "very short answers (1-2 sentences), markdown formatting is unnecessary.\n\n" +
+
+    "TONE\n" +
+    "Specific, direct, warm. Mirror Dre's own voice: confident but not boastful, honest about " +
+    "gaps, focused on outcomes. Use concrete examples and numbers from the FAQ and portfolio " +
+    "below. Never invent capabilities, projects, employers, or numbers — if you don't know, " +
+    "say so and offer to connect them with Dre at dreforbes@gmail.com.\n\n" +
+
+    "KNOWLEDGE BASE BELOW (this is your only source of truth):\n\n" + FAQ_TEXT
   );
 
   const trigger = document.getElementById('ask-trigger');
@@ -5298,10 +5376,45 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
 
   const messages = [];
 
+  // ── Persist conversation across reloads
+  const CONVERSATION_KEY = 'askdre.conversation';
+  const CONVERSATION_MAX = 60; // cap stored history at 60 messages
+
+  function loadConversation(){
+    try {
+      const raw = localStorage.getItem(CONVERSATION_KEY);
+      if (!raw) return [];
+      const arr = JSON.parse(raw);
+      if (Array.isArray(arr)) return arr.slice(-CONVERSATION_MAX);
+    } catch (e) {}
+    return [];
+  }
+  function saveConversation(){
+    try {
+      localStorage.setItem(CONVERSATION_KEY, JSON.stringify(messages.slice(-CONVERSATION_MAX)));
+    } catch (e) {}
+  }
+  function clearConversation(){
+    messages.length = 0;
+    localStorage.removeItem(CONVERSATION_KEY);
+    bodyView.innerHTML = '';
+    renderEmpty();
+  }
+
   function revealTrigger(){ trigger.classList.add('ask-revealed'); }
   function openPanel(){
     panel.classList.add('ask-open');
-    if (!messages.length) renderEmpty();
+    if (messages.length === 0) {
+      const stored = loadConversation();
+      if (stored.length) {
+        messages.push(...stored);
+        bodyView.innerHTML = '';
+        messages.forEach(m => appendMsg(m.content, m.role === 'user' ? 'user' : 'bot'));
+      } else {
+        renderEmpty();
+      }
+    }
+    dismissGreeting();
     setTimeout(() => input.focus(), 60);
   }
   function closePanel(){ panel.classList.remove('ask-open'); }
@@ -5331,11 +5444,103 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
 
   trigger.addEventListener('click', openPanel);
   closeBtn.addEventListener('click', closePanel);
+  const clearBtn = document.getElementById('ask-clear-btn');
+  if (clearBtn) clearBtn.addEventListener('click', () => {
+    if (messages.length === 0) return;
+    if (confirm('Clear this conversation?')) clearConversation();
+  });
+
+  // ── Greeting bubble: shows once on first visit, auto-dismisses after interaction
+  const greeting = document.getElementById('ask-greeting');
+  function dismissGreeting(){
+    if (!greeting) return;
+    if (!greeting.classList.contains('ask-greeting--shown')) return;
+    greeting.classList.remove('ask-greeting--shown');
+    localStorage.setItem('askdre.greeted', '1');
+    setTimeout(() => { greeting.style.display = 'none'; }, 400);
+  }
+  function maybeShowGreeting(){
+    if (!greeting) return;
+    if (localStorage.getItem('askdre.greeted') === '1') return;
+    setTimeout(() => {
+      greeting.style.display = 'block';
+      // double rAF so the transition kicks in
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        greeting.classList.add('ask-greeting--shown');
+        revealTrigger();
+      }));
+      // auto-dismiss after 16 seconds if untouched
+      setTimeout(dismissGreeting, 16000);
+    }, 1800);
+  }
+  if (greeting) {
+    greeting.addEventListener('click', e => {
+      if (e.target.closest('.ask-greeting__close')) {
+        e.stopPropagation();
+        dismissGreeting();
+        return;
+      }
+      dismissGreeting();
+      revealTrigger();
+      openPanel();
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', maybeShowGreeting);
+  } else {
+    maybeShowGreeting();
+  }
+
+  // Minimal safe markdown → HTML renderer for bot replies
+  function escapeHtml(s){
+    return s.replace(/[&<>"\']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+  function renderMarkdown(text){
+    let s = escapeHtml(text);
+    s = s.replace(/```([a-zA-Z0-9]*)\n([\s\S]*?)```/g, (m, lang, code) =>
+      '<pre><code>' + code.trim() + '</code></pre>');
+    s = s.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+    s = s.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
+    s = s.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>');
+    s = s.replace(/^####\s+(.+)$/gm, '<h5>$1</h5>');
+    s = s.replace(/^###\s+(.+)$/gm,  '<h4>$1</h4>');
+    s = s.replace(/^##\s+(.+)$/gm,   '<h3>$1</h3>');
+    s = s.replace(/^#\s+(.+)$/gm,    '<h3>$1</h3>');
+    s = s.replace(/((?:^[ \t]*[-*]\s+.+(?:\n|$))+)/gm, block => {
+      const items = block.trim().split(/\n/).map(line =>
+        '<li>' + line.replace(/^[ \t]*[-*]\s+/, '') + '</li>').join('');
+      return '<ul>' + items + '</ul>';
+    });
+    s = s.replace(/((?:^[ \t]*\d+\.\s+.+(?:\n|$))+)/gm, block => {
+      const items = block.trim().split(/\n/).map(line =>
+        '<li>' + line.replace(/^[ \t]*\d+\.\s+/, '') + '</li>').join('');
+      return '<ol>' + items + '</ol>';
+    });
+    s = s.replace(/((?:^>\s?.+(?:\n|$))+)/gm, block => {
+      const inner = block.trim().split(/\n/).map(l => l.replace(/^>\s?/, '')).join(' ');
+      return '<blockquote>' + inner + '</blockquote>';
+    });
+    s = s.split(/\n{2,}/).map(p => {
+      const t = p.trim();
+      if (!t) return '';
+      if (/^<(h[1-6]|ul|ol|pre|blockquote)/i.test(t)) return t;
+      return '<p>' + t.replace(/\n/g, '<br>') + '</p>';
+    }).filter(Boolean).join('\n');
+    return s;
+  }
 
   function appendMsg(text, role, asHTML){
     const div = document.createElement('div');
     div.className = 'ask-msg ask-msg--' + role;
-    if (asHTML) div.innerHTML = text; else div.textContent = text;
+    if (role === 'bot' && !asHTML) {
+      div.innerHTML = renderMarkdown(text);
+    } else if (asHTML) {
+      div.innerHTML = text;
+    } else {
+      div.textContent = text;
+    }
     bodyView.appendChild(div);
     bodyView.scrollTop = bodyView.scrollHeight;
     return div;
@@ -5344,19 +5549,26 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
     bodyView.innerHTML = '';
     const intro = document.createElement('div');
     intro.className = 'ask-msg ask-msg--bot';
-    intro.textContent = "Ask anything about Dre — his work, fit for a role, projects, leadership style. Paste a job description and I'll evaluate the match.";
+    intro.innerHTML = renderMarkdown(
+      "I'm here to help you evaluate **Dre Forbes** — his work, his style, his fit for a role.\n\n" +
+      "Ask about his AI agent platform, Salesforce experience, leadership, anything in his background. " +
+      "**Or paste a job description** and I'll do a structured fit analysis with strengths, gaps, and an honest verdict."
+    );
     bodyView.appendChild(intro);
     const sug = document.createElement('div');
     sug.className = 'ask-suggestions';
     [
       "What is Dre's experience with agentic AI systems?",
+      "Paste a JD — would Dre be a strong fit?",
       "How does Dre handle solo work vs leading a team?",
-      "Could Dre lead a Salesforce FSC implementation?",
-      "What's Dre's weakness?",
+      "What is Dre's biggest weakness?",
     ].forEach(q => {
       const b = document.createElement('button');
       b.type = 'button'; b.className = 'ask-suggest'; b.textContent = q;
-      b.addEventListener('click', () => { input.value = q; form.requestSubmit(); });
+      b.addEventListener('click', () => {
+        if (q.startsWith('Paste')) { input.focus(); input.placeholder = 'Paste the job description here…'; return; }
+        input.value = q; form.requestSubmit();
+      });
       sug.appendChild(b);
     });
     bodyView.appendChild(sug);
@@ -5369,6 +5581,7 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
     bodyView.querySelectorAll('.ask-suggestions').forEach(s => s.remove());
     appendMsg(text, 'user');
     messages.push({ role: 'user', content: text });
+    saveConversation();
     input.value = '';
     sendBtn.disabled = true;
 
@@ -5383,6 +5596,7 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
       typing.remove();
       appendMsg(reply, 'bot');
       messages.push({ role: 'assistant', content: reply });
+      saveConversation();
     } catch (err) {
       typing.remove();
       appendMsg(err.userMessage || ('Error: ' + err.message), 'bot', !!err.userMessageIsHtml);
