@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Skill Inventory (Back Office)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FFFFFF;
+  --surface:#FAFAFA;
+  --border:#E5E5E5;
+  --text:#111;
+  --mid:#444;
+  --muted:#777;
+  --accent:#1f4f8b;
+  --tier1:#f6f3ee;
+}
+html,body{background:var(--bg);color:var(--text);font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+body{padding:48px 24px}
+.shell{max-width:980px;margin:0 auto}
+.note{background:var(--tier1);border-top:3px solid var(--accent);padding:14px 18px;border-radius:6px;margin-bottom:34px;color:var(--mid);font-size:0.88rem}
+.note strong{color:var(--text)}
+.eyebrow{font-size:0.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+h1{font-family:'Playfair Display',Georgia,serif;font-size:2.2rem;font-weight:700;letter-spacing:-0.01em;margin-bottom:6px}
+.subtitle{font-size:1.02rem;color:var(--mid);margin-bottom:36px;max-width:680px}
+.bucket{margin-bottom:34px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:22px 24px}
+.bucket__head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.bucket__title{font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;font-weight:600;color:var(--text)}
+.bucket__count{font-size:0.78rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.bucket__sub{font-size:0.82rem;color:var(--muted);margin:-6px 0 14px 0;font-style:italic}
+.sub{margin-top:14px}
+.sub__h{font-size:0.74rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{background:#fff;border:1px solid var(--border);border-radius:4px;padding:4px 9px;font-size:0.82rem;color:var(--text);font-family:'IBM Plex Mono','JetBrains Mono',monospace}
+.foot{margin-top:48px;font-size:0.78rem;color:var(--muted);text-align:center}
+.foot a{color:var(--mid);text-decoration:none;border-bottom:1px solid var(--border)}
+.foot a:hover{color:#000}
+.totals{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:36px;padding:14px 18px;background:#fff;border:1px solid var(--border);border-radius:6px}
+.totals__item{display:flex;flex-direction:column;gap:2px}
+.totals__num{font-size:1.4rem;font-weight:700;color:var(--text);font-family:'Playfair Display',Georgia,serif}
+.totals__lbl{font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <div class="eyebrow">Internal Reference</div>
+  <h1>Skill Inventory</h1>
+  <p class="subtitle">The full bucketed skill set that the AI chat agent has access to as part of its knowledge base. Not linked from the public showcase. Sourced from the job-hunt master profile (<code>jobhunt-app/prisma/seed.ts</code>).</p>
+
+  <div class="note">
+    <strong>Purpose.</strong> This page mirrors the data fed to the agent so you can audit what it knows. Visitors never see it. Robots are excluded via <code>noindex,nofollow</code>. To update: edit the SKILLS object in <code>jobhunt-app/prisma/seed.ts</code>, then re-run the showcase injection script.
+  </div>
+
+  <div class="totals">
+    <div class="totals__item"><span class="totals__num">8</span><span class="totals__lbl">Buckets</span></div>
+    <div class="totals__item"><span class="totals__num">418</span><span class="totals__lbl">Skills</span></div>
+    <div class="totals__item"><span class="totals__num">107</span><span class="totals__lbl">AI / ML / Agent</span></div>
+    <div class="totals__item"><span class="totals__num">64</span><span class="totals__lbl">Salesforce</span></div>
+    <div class="totals__item"><span class="totals__num">77</span><span class="totals__lbl">Integrations</span></div>
+  </div>
+
+  <!-- AI / ML / Agents -->
+  <section class="bucket">
+    <div class="bucket__head">
+      <div class="bucket__title">AI / ML / Agents</div>
+      <div class="bucket__count">107 skills, weight 2</div>
+    </div>
+    <p class="bucket__sub">Highest-signal bucket for fit scoring against AI-leaning roles.</p>
+
+    <div class="sub">
+      <div class="sub__h">Core AI / governance / methodology</div>
+      <div class="pills">
+        <span class="pill">Artificial Intelligence (AI)</span><span class="pill">Generative AI</span><span class="pill">Large Language Models (LLMs)</span><span class="pill">Agentic AI</span><span class="pill">Agentic System Design</span><span class="pill">Model Context Protocol (MCP)</span><span class="pill">MCP Servers (custom)</span><span class="pill">AI Strategy</span><span class="pill">AI Governance</span><span class="pill">AI Governance Framework Design</span><span class="pill">Building AI Governance Frameworks</span><span class="pill">AI Policy Authorship</span><span class="pill">4-Layer AI Governance Framework</span><span class="pill">Responsible AI</span><span class="pill">Ethical AI</span><span class="pill">AI Transformation</span><span class="pill">Digital Transformation</span><span class="pill">Prompt Engineering</span><span class="pill">RAG</span><span class="pill">Multi-tier RAG</span><span class="pill">RAG Pipelines</span><span class="pill">Vector Databases</span><span class="pill">Vector Embeddings (bge-m3, Qwen3-Embedding-8B)</span><span class="pill">Voice Profiles (Sound Like Me)</span><span class="pill">Multi-Provider LLM Routing</span><span class="pill">Senior Reviewer Pattern</span><span class="pill">Behavioral UI</span><span class="pill">Knowledge Base / Corpus Design</span><span class="pill">LLMOps</span><span class="pill">AI Center of Excellence (CoE)</span><span class="pill">Change Management</span><span class="pill">Workforce Enablement</span><span class="pill">PyTorch (working)</span><span class="pill">Fine-tuning</span><span class="pill">Inference Training</span><span class="pill">MLflow</span><span class="pill">Model Evaluation</span><span class="pill">Model Monitoring</span><span class="pill">Offline Metrics</span><span class="pill">A/B Testing</span><span class="pill">ML Experimentation</span>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub__h">Self-hosted LLMs (on-prem inference)</div>
+      <div class="pills">
+        <span class="pill">Qwen 3.6 27B</span><span class="pill">Gemma 4 31B</span><span class="pill">Qwen3:30b</span><span class="pill">DeepSeek-R1:70B</span><span class="pill">GPT-OSS:120B</span><span class="pill">Llama 3.2 Vision</span><span class="pill">bge-m3 Embeddings</span><span class="pill">Qwen3-Embedding-8B</span>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub__h">Enterprise SaaS GenAI rollout</div>
+      <div class="pills">
+        <span class="pill">ChatGPT Enterprise</span><span class="pill">Claude (Anthropic) Enterprise</span><span class="pill">Microsoft Copilot</span><span class="pill">Microsoft 365 Copilot</span><span class="pill">Copilot for M365</span><span class="pill">Copilot Enterprise Rollout</span><span class="pill">Copilot Adoption &amp; Governance</span><span class="pill">Enterprise GenAI SaaS Administration</span><span class="pill">GenAI Rollout &amp; Adoption</span>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub__h">Applied AI for ops automation</div>
+      <div class="pills">
+        <span class="pill">AI-Powered Email Triage</span><span class="pill">Intelligent Document Processing (IDP)</span><span class="pill">Document AI / OCR for Receipts</span><span class="pill">Expense Automation</span><span class="pill">AI-Driven Process Automation</span>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub__h">Custom MCP servers in production (Balentine)</div>
+      <div class="pills">
+        <span class="pill">Custom Knowledge MCP Server (OAuth 2.1 + SSE)</span><span class="pill">Salesforce MCP Server (41 tools, OAuth 2.1)</span><span class="pill">Addepar MCP Server</span><span class="pill">Pershing MCP Server</span><span class="pill">Arch (Private Equity) MCP Server</span><span class="pill">Rippling MCP Server</span><span class="pill">Multi-Tenant MCP Architecture</span>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub__h">AI-native coding tools (daily-driver builders)</div>
+      <div class="pills">
+        <span class="pill">Cursor</span><span class="pill">Cursor IDE</span><span class="pill">Cursor Rules</span><span class="pill">Claude Code</span><span class="pill">Claude Code CLI</span><span class="pill">Claude Code Agents</span><span class="pill">Claude Code Sub-agents</span><span class="pill">Claude Code Skills (.md skill files)</span><span class="pill">Claude Code MD Files</span><span class="pill">OpenAI Codex</span><span class="pill">Codex Agents</span><span class="pill">Codex Sub-agents</span><span class="pill">AI-Native Coding</span><span class="pill">AI-Assisted Development</span><span class="pill">Agentic Coding Workflows</span><span class="pill">Sub-agent Orchestration</span><span class="pill">One-Shot Prompting</span><span class="pill">One-Shot AI Coding</span><span class="pill">Custom Agent / Skill Authoring (Markdown)</span><span class="pill">AI Pair-Programming at Production Scale</span>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub__h">AI &amp; IT advisory practice (Aplodex, 2026-present)</div>
+      <div class="pills">
+        <span class="pill">AI &amp; IT Advisory</span><span class="pill">AI Advisory</span><span class="pill">Fractional CTO</span><span class="pill">Fractional CTO / AI Advisory</span><span class="pill">Agent Design</span><span class="pill">Agent Training</span><span class="pill">Agent Evaluation &amp; Guardrails</span><span class="pill">Model &amp; Platform Selection</span><span class="pill">Cross-Platform Agentic Workflows</span><span class="pill">Enterprise AI Platform Architecture</span><span class="pill">AI Integration Architecture</span><span class="pill">Google Vertex AI</span><span class="pill">AWS Bedrock</span><span class="pill">Amazon Bedrock</span><span class="pill">Azure AI Foundry</span><span class="pill">Multi-Cloud AI Platforms</span><span class="pill">AI Platform Advisory</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Languages, Frameworks, Web Stack -->
+  <section class="bucket">
+    <div class="bucket__head">
+      <div class="bucket__title">Languages, Frameworks &amp; Web Stack</div>
+      <div class="bucket__count">42 skills, weight 2</div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">Core languages &amp; frameworks</div>
+      <div class="pills">
+        <span class="pill">Python</span><span class="pill">JavaScript</span><span class="pill">TypeScript</span><span class="pill">React</span><span class="pill">React 18</span><span class="pill">Node.js</span><span class="pill">Express.js</span><span class="pill">FastAPI</span><span class="pill">Apex</span><span class="pill">SOQL</span><span class="pill">SOSL</span><span class="pill">Salesforce LWC</span><span class="pill">LWC</span><span class="pill">Tailwind CSS</span><span class="pill">Tailwind CSS v4</span><span class="pill">MCP Server Architecture</span><span class="pill">Multi-Agent Orchestration</span><span class="pill">On-Premises Infrastructure</span><span class="pill">Self-Hosted LLMs</span><span class="pill">Ollama</span><span class="pill">LM Studio</span><span class="pill">API Integration</span><span class="pill">Data Orchestration</span>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">Modern frontend ecosystem</div>
+      <div class="pills">
+        <span class="pill">Vite</span><span class="pill">Shadcn UI</span><span class="pill">HeroUI</span><span class="pill">Radix UI</span><span class="pill">React Flow</span><span class="pill">AmCharts</span><span class="pill">D3.js</span><span class="pill">Framer Motion</span><span class="pill">TipTap Editor</span><span class="pill">dnd-kit</span><span class="pill">Progressive Web Apps (PWA)</span>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">Backend / runtime</div>
+      <div class="pills">
+        <span class="pill">Sequelize ORM</span><span class="pill">Socket.IO</span><span class="pill">Passport SAML</span><span class="pill">Winston Logging</span><span class="pill">Redis</span><span class="pill">Server-Sent Events (SSE)</span><span class="pill">OAuth 2.1</span><span class="pill">Wildcard SSL</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data & Infrastructure -->
+  <section class="bucket">
+    <div class="bucket__head">
+      <div class="bucket__title">Data &amp; Infrastructure</div>
+      <div class="bucket__count">30 skills, weight 2</div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">Databases / cloud platforms</div>
+      <div class="pills">
+        <span class="pill">PostgreSQL</span><span class="pill">PostgreSQL 14</span><span class="pill">Qdrant</span><span class="pill">Snowflake</span><span class="pill">Databricks</span><span class="pill">Docker</span><span class="pill">nginx</span><span class="pill">PM2</span><span class="pill">Redis Cache</span><span class="pill">AWS</span><span class="pill">Amazon S3</span><span class="pill">AWS IAM</span><span class="pill">Amazon Bedrock</span><span class="pill">AWS Bedrock</span><span class="pill">GCP</span><span class="pill">GCP Vertex AI</span><span class="pill">Google Vertex AI</span><span class="pill">Azure</span><span class="pill">Azure AI Foundry</span><span class="pill">Entra ID</span><span class="pill">DigitalOcean</span><span class="pill">Vercel</span><span class="pill">Replit</span>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">macOS-native production hosting</div>
+      <div class="pills">
+        <span class="pill">Mac Mini Production Server</span><span class="pill">Homebrew Services</span><span class="pill">launchd</span><span class="pill">Wildcard SSL via GoDaddy</span>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">Backup automation</div>
+      <div class="pills">
+        <span class="pill">Automated PostgreSQL Backups</span><span class="pill">Incremental DB Backups</span><span class="pill">iCloud Offsite Backup</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Salesforce / CRM -->
+  <section class="bucket">
+    <div class="bucket__head">
+      <div class="bucket__title">Salesforce / CRM</div>
+      <div class="bucket__count">64 skills, weight 2</div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">Core platform</div>
+      <div class="pills">
+        <span class="pill">Salesforce FSC</span><span class="pill">Salesforce Financial Services Cloud</span><span class="pill">Apex Triggers</span><span class="pill">Salesforce Flows</span><span class="pill">Salesforce LWC Components</span><span class="pill">Conga Orchestrate</span><span class="pill">Custom Salesforce MCP Server</span><span class="pill">Microsoft Dynamics</span><span class="pill">HubSpot</span><span class="pill">Tableau</span><span class="pill">Salesforce CRM Analytics</span><span class="pill">Tableau CRM</span><span class="pill">Einstein Analytics</span><span class="pill">Dashboard Design</span><span class="pill">Business Intelligence</span><span class="pill">Data Visualization</span><span class="pill">Executive Dashboards</span>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">Platform engineering at scale</div>
+      <div class="pills">
+        <span class="pill">Salesforce DX (sfdx)</span><span class="pill">Salesforce DX Multi-Package</span><span class="pill">Salesforce CLI</span><span class="pill">Lightning Data Service (LDS)</span><span class="pill">SLDS Design System</span><span class="pill">Apex Unit Testing (Jest)</span><span class="pill">Salesforce LWC at Scale (130+ components)</span><span class="pill">Salesforce Apex at Scale (900+ classes)</span>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">Named production apps (Balentine)</div>
+      <div class="pills">
+        <span class="pill">AI Activity Timeline (Salesforce)</span><span class="pill">Client Risk Manager (Salesforce)</span><span class="pill">Client Transition Manager (Salesforce)</span><span class="pill">Pershing Salesforce Integration</span><span class="pill">TeamDashboard (Advisor Experience)</span><span class="pill">Case Workflow Builder</span><span class="pill">Business Development Dashboard</span><span class="pill">Opportunities Dashboard</span><span class="pill">Capital Calls Dashboard</span><span class="pill">Client Profile Summary</span><span class="pill">Client Complexity Dashboard</span><span class="pill">User Activity Dashboard</span><span class="pill">Client Health Dashboard</span><span class="pill">Client Service Team Dashboard</span>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">Salesforce Agentforce + Data Cloud</div>
+      <div class="pills">
+        <span class="pill">Salesforce Agentforce</span><span class="pill">Agentforce Agent Builder</span><span class="pill">Agentforce Integrations</span><span class="pill">Agentforce Action Configuration</span><span class="pill">Salesforce Data Cloud</span><span class="pill">Data Cloud Off-Platform Integrations</span><span class="pill">Data Cloud API Configuration</span><span class="pill">Data Cloud Connectors</span><span class="pill">Salesforce Agentic Workflows</span><span class="pill">Agentforce + MCP Bridge Patterns</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Integrations & APIs -->
+  <section class="bucket">
+    <div class="bucket__head">
+      <div class="bucket__title">Integrations &amp; APIs</div>
+      <div class="bucket__count">77 skills, weight 2</div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">APIs, identity, collaboration</div>
+      <div class="pills">
+        <span class="pill">REST APIs</span><span class="pill">REST API Design</span><span class="pill">Microsoft Graph</span><span class="pill">Cert-auth Integrations</span><span class="pill">Custom SFTP Ingestion Servers</span><span class="pill">Webhook Orchestration</span><span class="pill">OAuth</span><span class="pill">SAML Federation</span><span class="pill">Keycloak</span><span class="pill">SSO</span><span class="pill">Box</span><span class="pill">SharePoint</span><span class="pill">OneDrive</span><span class="pill">Gong</span><span class="pill">Zoom</span><span class="pill">Microsoft Teams</span><span class="pill">Twilio</span><span class="pill">DocuSign</span><span class="pill">Concur</span><span class="pill">ServiceNow</span><span class="pill">ITSM</span><span class="pill">SAP</span><span class="pill">SAP Concur</span><span class="pill">SAP Concur API</span><span class="pill">SAP Integration</span><span class="pill">Concur Expense Automation</span><span class="pill">Concur Expense API</span><span class="pill">FIX Protocol</span><span class="pill">FIX Protocol Reconfiguration</span><span class="pill">Cisco vMX</span><span class="pill">Cisco Meraki</span><span class="pill">Site-to-Site VPN</span><span class="pill">VPN Networking</span><span class="pill">On-Prem to AWS Migration</span><span class="pill">Cloud Migration</span><span class="pill">Kafka</span><span class="pill">Event Streaming</span><span class="pill">Event-Driven Architecture</span><span class="pill">Real-Time Data Pipelines</span><span class="pill">Pub/Sub Messaging</span><span class="pill">Microsoft 365</span><span class="pill">Office 365</span><span class="pill">M365</span><span class="pill">Exchange Online</span><span class="pill">Microsoft Teams Administration</span><span class="pill">Digital Workplace</span><span class="pill">Enterprise Productivity Platforms</span>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">Google Workspace administration &amp; API</div>
+      <div class="pills">
+        <span class="pill">Google Workspace</span><span class="pill">Google Workspace Administration</span><span class="pill">Google Workspace API Integration</span><span class="pill">Gmail API</span><span class="pill">Google Admin Console</span><span class="pill">Google Workspace Setup &amp; Migration</span>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">Collaboration tooling migrations</div>
+      <div class="pills">
+        <span class="pill">Collaboration Tooling Migration</span><span class="pill">Microsoft Teams to Slack Migration</span><span class="pill">Slack Migration</span><span class="pill">M365 / Google Workspace Migration</span>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">Identity providers / MDM / endpoint</div>
+      <div class="pills">
+        <span class="pill">Okta</span><span class="pill">Okta SSO</span><span class="pill">Okta Identity Cloud</span><span class="pill">Microsoft Intune</span><span class="pill">Intune MDM</span><span class="pill">Intune Endpoint Management</span><span class="pill">Jamf</span><span class="pill">Jamf Pro</span><span class="pill">macOS MDM (Jamf)</span><span class="pill">Munki</span><span class="pill">Munki (macOS package management)</span><span class="pill">Mobile Device Management (MDM)</span><span class="pill">Endpoint Management</span>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">Windows endpoint at scale (~85% Win / 15% Mac fleet)</div>
+      <div class="pills">
+        <span class="pill">Windows Administration</span><span class="pill">Windows Endpoint Management</span><span class="pill">Windows Deployment &amp; Imaging</span><span class="pill">Windows Patch Management</span><span class="pill">Patch Management</span><span class="pill">RMM (Remote Monitoring and Management)</span><span class="pill">NinjaOne (RMM)</span><span class="pill">Mixed Mac + Windows Environments</span>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">Rippling IT (native console plus API/MCP)</div>
+      <div class="pills">
+        <span class="pill">Rippling IT</span><span class="pill">Rippling IT Administration</span><span class="pill">Rippling Admin Console</span><span class="pill">Rippling Onboarding / Offboarding Workflows</span><span class="pill">Rippling Workflow Automation</span><span class="pill">Rippling Device Management</span><span class="pill">Rippling Provisioning / Deprovisioning</span><span class="pill">HRIS / IT Platform Administration</span>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">Physical / building infrastructure</div>
+      <div class="pills">
+        <span class="pill">Sequr Access Control</span><span class="pill">Avigilon Alta Access Control</span><span class="pill">Printanista (Canon Managed Print)</span><span class="pill">Domain Controllers (Azure AD)</span>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">Slack production architecture</div>
+      <div class="pills">
+        <span class="pill">Slack Bot Architecture</span><span class="pill">Slack Archive (PostgreSQL)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security, Compliance & Governance -->
+  <section class="bucket">
+    <div class="bucket__head">
+      <div class="bucket__title">Security, Compliance &amp; Governance</div>
+      <div class="bucket__count">25 skills, weight 2</div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">Frameworks, regulatory, risk</div>
+      <div class="pills">
+        <span class="pill">NIST</span><span class="pill">NIST CSF</span><span class="pill">NIST AI RMF</span><span class="pill">CIS Controls</span><span class="pill">Cybersecurity</span><span class="pill">SEC Compliance</span><span class="pill">SEC Marketing Rule</span><span class="pill">Reg BI</span><span class="pill">Fiduciary Duty</span><span class="pill">GLBA</span><span class="pill">Safeguards Rule</span><span class="pill">EU AI Act</span><span class="pill">FINRA Supervision</span><span class="pill">Data Privacy</span><span class="pill">Risk Management</span><span class="pill">Audit &amp; Compliance</span><span class="pill">HIPAA Compliance</span><span class="pill">SOC 2</span><span class="pill">SOC 2 Type II</span><span class="pill">Vendor Risk Management</span><span class="pill">Third-Party Risk Management</span><span class="pill">Secure Data Handling</span><span class="pill">Pen-Testing Program Design</span><span class="pill">Conditional Access</span><span class="pill">Identity Governance</span><span class="pill">Duo MFA</span>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">EDR / MDR / endpoint security</div>
+      <div class="pills">
+        <span class="pill">EDR (Endpoint Detection and Response)</span><span class="pill">Endpoint Security</span><span class="pill">MDR (Managed Detection and Response)</span><span class="pill">Microsoft Defender</span><span class="pill">Microsoft Defender for Endpoint</span><span class="pill">SentinelOne</span><span class="pill">Huntress</span><span class="pill">Huntress MDR</span><span class="pill">Cisco Umbrella (DNS Security)</span><span class="pill">Threat Detection &amp; Response</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Industry / Domain -->
+  <section class="bucket">
+    <div class="bucket__head">
+      <div class="bucket__title">Industry / Domain Experience</div>
+      <div class="bucket__count">56 entries, weight 1</div>
+    </div>
+    <p class="bucket__sub">Not strictly skills. Industries, platforms, and workflow types Dre has worked with. Used for context-matching.</p>
+    <div class="sub">
+      <div class="sub__h">Wealth management / FinTech</div>
+      <div class="pills">
+        <span class="pill">Financial Services</span><span class="pill">FinTech</span><span class="pill">RIA</span><span class="pill">RIA Operations</span><span class="pill">Wealth Management</span><span class="pill">Custodial Workflows</span><span class="pill">Addepar</span><span class="pill">Pershing</span><span class="pill">Schwab</span><span class="pill">Fidelity</span><span class="pill">LPL</span><span class="pill">Orion</span><span class="pill">Orion Advisor Tech</span><span class="pill">Advyzon</span><span class="pill">Eclipse</span><span class="pill">eMoney</span><span class="pill">Arch (Capital Calls)</span><span class="pill">Conga</span><span class="pill">WealthTech Platforms</span><span class="pill">GRC Platforms</span><span class="pill">Ignyte (GRC / Compliance Platform)</span><span class="pill">Custodial Platform Integration</span><span class="pill">QuickBooks</span><span class="pill">FSC Object Model</span><span class="pill">Tax Document Lifecycle (1099, K-1)</span><span class="pill">RMD Workflows</span><span class="pill">Standing Instructions</span><span class="pill">Capital Call Workflows</span><span class="pill">RedBlack (Trading Platform)</span><span class="pill">Trading Platform Operations</span><span class="pill">Trade Execution Workflows</span><span class="pill">Out-of-Par Variance Handling</span><span class="pill">Custodian-to-Custodian Conversion</span>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">Industry breadth from pre-Balentine roles</div>
+      <div class="pills">
+        <span class="pill">Higher Education IT</span><span class="pill">Public University IT</span><span class="pill">FERPA-aware Data Handling</span><span class="pill">Media &amp; Entertainment IT</span><span class="pill">Broadcast Studio IT</span><span class="pill">Turner Studios (TBS, TNT, CNN, Cartoon Network, Adult Swim)</span><span class="pill">Coca-Cola (consulting)</span><span class="pill">Consumer Goods IT</span><span class="pill">Creative &amp; Design Studio IT</span><span class="pill">Creative Production Pipeline Support</span><span class="pill">Healthcare IT (HIPAA-aligned)</span><span class="pill">ePHI Access Controls</span><span class="pill">Construction Industry IT (consulting)</span><span class="pill">Travel &amp; Hospitality IT (consulting)</span><span class="pill">Multi-Industry IT Consulting</span><span class="pill">Cross-Sector IT Delivery</span><span class="pill">Multi-Tenant Client IT Operations</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leadership & Strategy -->
+  <section class="bucket">
+    <div class="bucket__head">
+      <div class="bucket__title">Leadership &amp; Strategy</div>
+      <div class="bucket__count">17 skills, weight 1</div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">Cross-functional leadership</div>
+      <div class="pills">
+        <span class="pill">Cross-functional Leadership</span><span class="pill">Iterative Delivery</span><span class="pill">CoP Design</span><span class="pill">Stakeholder Management</span><span class="pill">Executive Communication</span><span class="pill">Executive &amp; Board Presentations</span><span class="pill">Build-vs-Buy Analysis</span><span class="pill">Vendor Management</span><span class="pill">Vendor Due Diligence</span><span class="pill">KPI Tracking (productivity, data quality, AI usage)</span><span class="pill">Conference Speaking (Salesforce, T3)</span><span class="pill">Quarterly Innovation Sessions</span><span class="pill">Mentorship (Director / Chief of Staff Promotions)</span><span class="pill">Stakeholder Translation (compliance to engineering)</span>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub__h">Distributed / cross-time-zone team support</div>
+      <div class="pills">
+        <span class="pill">Distributed / Global Team Support</span><span class="pill">Cross-Time-Zone IT Operations</span><span class="pill">International Team Support (India, China)</span><span class="pill">Follow-the-Sun Support</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    Source: <code>jobhunt-app/prisma/seed.ts</code> &middot; This data is also embedded as <code>SKILLS_KB</code> inside the AI chat agent system prompt &middot; <a href="./">Back to portfolio</a>
+  </div>
+
+</div>
+</body>
+</html>
