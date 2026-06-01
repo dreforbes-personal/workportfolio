@@ -502,12 +502,22 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
   <div class="term-scroll-hint" id="term-scroll-hint" style="display:none">scroll down or press any key</div>
 </div>
 
+<style id="resume-btn-styles">
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin:-26px 0 42px;opacity:0;animation:fadeUp 0.7s 0.58s forwards}
+.resume-btn{display:inline-flex;align-items:center;gap:9px;font-family:'Source Sans 3',sans-serif;font-size:0.82rem;font-weight:600;letter-spacing:0.3px;padding:11px 20px;border-radius:10px;border:1px solid rgba(245,230,66,0.55);background:rgba(245,230,66,0.12);color:#F5E642;text-decoration:none;cursor:pointer;transition:background 0.18s ease,color 0.18s ease,border-color 0.18s ease,transform 0.18s ease}
+.resume-btn:hover{background:#F5E642;color:#141422;border-color:#F5E642;transform:translateY(-1px)}
+.resume-btn svg{width:16px;height:16px;flex:none}
+@media(max-width:560px){.hero-cta{margin:-12px 0 36px}.resume-btn{font-size:0.78rem;padding:10px 16px}}
+</style>
 <section class="hero">
   <div class="hero-grid-bg"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Founder &amp; Principal, Aplodex · AI &amp; Technology Advisor</div>
     <h1>Dre <span class="accent">Forbes</span></h1>
     <p class="hero-role">Founder of Aplodex, advising wealth management and financial services firms on AI strategy, agent design, model and platform selection, and integration architecture. Before that, the sole technology authority at a $9B+ AUM RIA: cybersecurity, IT operations, enterprise software, and the firm’s agentic AI platform. Builder and systems architect. 15 production domains, 425+ agent tools across 11 MCP servers.</p>
+    <div class="hero-cta">
+      <a class="resume-btn" href="Andre-Forbes-Resume.pdf" download="Andre Forbes - Resume.pdf" aria-label="Download Dre Forbes resume as PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download Résumé (PDF)</a>
+    </div>
     <div class="hero-metrics">
       <div class="metric"><div class="val">15</div><div class="lbl">Domains</div></div>
       <div class="metric"><div class="val">425+</div><div class="lbl">MCP Agent Tools</div></div>
