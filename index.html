@@ -170,7 +170,8 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
 .role-items li{font-size:0.79rem;color:var(--text-secondary);padding-left:16px;position:relative;line-height:1.55}
 .role-items li::before{content:'';position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%;background:var(--card-accent,var(--accent));opacity:0.4}
 
-.ops-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.ops-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
+.ops-grid>.ops-card{flex:1 1 250px;max-width:330px}
 .ops-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;transition:all var(--transition)}
 .ops-card:hover{border-color:var(--border-hover)}
 .ops-cat{font-family:'Source Sans 3',sans-serif;font-size:0.63rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px}
@@ -580,8 +581,8 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
 </section>
 
 <nav class="nav" id="nav">
-  <button class="nav-btn active" data-section="roles">Roles</button>
-  <button class="nav-btn" data-section="now">Now</button>
+  <button class="nav-btn active" data-section="now">Now</button>
+  <button class="nav-btn" data-section="roles">Roles</button>
   <button class="nav-btn" data-section="ops">Operations</button>
   <button class="nav-btn" data-section="dev">Development</button>
   <button class="nav-btn" data-section="salesforce">Salesforce</button>
@@ -590,14 +591,6 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
   <button class="nav-btn" data-section="impact">Impact</button>
   <button class="nav-btn" data-section="timeline">Career</button>
 </nav>
-
-<section class="section obs" id="roles">
-  <div class="section-num">01 / ROLES & RESPONSIBILITIES</div>
-  <div class="section-title">What I’ve Owned</div>
-  <div class="section-desc">End-to-end technology leadership. Rebuilt cybersecurity on a NIST foundation (zero SEC findings), built custom software, and created an autonomous AI agent platform.</div>
-  <div class="roles-grid" id="roles-grid"></div>
-</section>
-<div class="divider"><hr></div>
 
 <style id="now-styles">
 /* roles header centered per request */
@@ -610,10 +603,11 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
 .now-body{font-size:0.95rem;line-height:1.75;color:var(--text-secondary)}
 .now-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
 .now-tag{font-size:0.7rem;font-weight:600;padding:4px 11px;border-radius:20px;background:var(--surface-2);border:1px solid var(--border);color:var(--text-secondary)}
-.now-note{margin-top:26px;text-align:center;font-size:0.95rem;font-style:italic;color:var(--text-muted)}
+.now-note{margin-top:30px;text-align:center;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:1.5rem;color:var(--text);letter-spacing:-0.01em}
+.now-note-sub{display:block;margin-top:8px;font-family:'Source Sans 3',sans-serif;font-style:normal;font-size:0.95rem;color:var(--text-secondary)}
 </style>
 <section class="section obs" id="now">
-  <div class="section-num" style="text-align:center">01.5 / APLODEX · CURRENT WORK</div>
+  <div class="section-num" style="text-align:center">01 / APLODEX · CURRENT WORK</div>
   <div class="section-title" style="text-align:center">What I&rsquo;m Doing Now</div>
   <div class="section-desc" style="text-align:center;max-width:880px;margin-left:auto;margin-right:auto">Aplodex is my full-time focus. I work with financial firms that were told to settle for the tools they have, and I show them how much higher the ceiling actually is. Different processes, different workflows, different day to day, and productivity numbers they wouldn&rsquo;t have thought were on the table. Each of these firms is trusting me with how their business runs. I&rsquo;m humbled by that every single time, and it&rsquo;s exactly why the work gets my best.</div>
   <div class="now-grid">
@@ -636,7 +630,15 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
       <div class="now-tags"><span class="now-tag">monday.com</span><span class="now-tag">Payment automation</span><span class="now-tag">Field app</span><span class="now-tag">Paylocity</span></div>
     </div>
   </div>
-  <div class="now-note">Every engagement runs the same way: fixed fee, short phases, a walkthrough at every gate. You pay when it works, never before.</div>
+  <div class="now-note">Your tech. Your culture. Your growth. My goal.<br><span class="now-note-sub">In every organization I work with, the job is the same: combine the technology and the culture to drive the growth.</span></div>
+</section>
+<div class="divider"><hr></div>
+
+<section class="section obs" id="roles">
+  <div class="section-num">01.5 / ROLES & RESPONSIBILITIES</div>
+  <div class="section-title">What I’ve Owned</div>
+  <div class="section-desc">End-to-end technology leadership. Rebuilt cybersecurity on a NIST foundation (zero SEC findings), built custom software, and created an autonomous AI agent platform.</div>
+  <div class="roles-grid" id="roles-grid"></div>
 </section>
 <div class="divider"><hr></div>
 
@@ -1993,7 +1995,7 @@ const PROJECTS=[
       {g:'Meeting Intelligence',items:[{n:'Meeting History',d:'AI summaries across recordings'},{n:'Agent Chat',d:'Natural language meeting queries'},{n:'Recording Sync',d:'Gong + Zoom automated sync'}]},
       {g:'Sound Like Me',items:[{n:'Voice Profile Generation',d:'Analyzes user\'s sent emails via Microsoft Graph to learn their personal writing style. tone, word choice, greetings, closings'},{n:'AI Rewriter',d:'Paste any text (email drafts, meeting notes, client summaries) and GPT-4o rewrites it matching your voice profile. preserving all facts'},{n:'One-Click Rewrite',d:'Cmd+Enter shortcut, side-by-side input/output panels, one-click copy to clipboard'},{n:'Session History',d:'Recent rewrites tracked in session. click any to reload and re-edit'}]},
     ]},
-  {id:'documents',domain:'documents.balentine.com',title:'Documents Portal',stripe:'linear-gradient(90deg,var(--green-soft),var(--blue-soft))',
+  {id:'documents',demo:'docsportal',domain:'documents.balentine.com',title:'Documents Portal',stripe:'linear-gradient(90deg,var(--green-soft),var(--blue-soft))',
     desc:'Automated tax document distribution. 1099s, K-1s, statements with client-specific Box folders and role-based access.',
     tags:['Box','Pershing','Automated Delivery'],
     features:[{g:'From January Fire Drill to Hands-Off',items:[{n:'The process it replaced',d:'Tax season used to mean ops downloading 1099s, K-1s, and statements client-by-client from the custodian, organizing them into folders, and emailing them out one at a time. Multi-week effort every January. Clients waited days. Ops drowned in spreadsheets tracking who got what.'},{n:'Custodian feeds straight to client folders',d:'Pershing and Addepar feed documents into Box. The system files each document into the correct client-specific folder automatically, no manual sorting.'},{n:'Tokenized secure share links',d:'Per-document access tokens generated on demand. Clients click a link to download. No re-uploading attachments to email.'},{n:'Role-based admin view',d:'Ops can see at a glance which clients have docs, what\'s been delivered, who hasn\'t logged in. No more spreadsheet tracking.'},{n:'Business impact',d:'Tax season no longer requires a war room. Ops time saved measured in weeks per year. Clients get their documents faster than ever, and security posture improved at the same time.'},{n:'Platform leverage',d:'Same custodian integrations powering the client portal, the document vault, and the pre-meeting briefing agent. The ingestion pipeline is shared.'},]},{g:'Document Management',items:[{n:'Box Integration',d:'Upload, download, share via Box API'},{n:'Automated Distribution',d:'Tax docs with client-specific folders'},{n:'Secure Sharing',d:'Token-based access controls'},{n:'Admin Controls',d:'Box control panel'}]}]},
@@ -2249,7 +2251,7 @@ document.querySelectorAll('.nav-btn').forEach(b=>{b.addEventListener('click',()=
 
 const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
 document.querySelectorAll('.obs').forEach(el=>obs.observe(el));
-const sids=['roles','now','ops','dev','salesforce','integrations','architecture','impact','timeline'];
+const sids=['now','roles','ops','dev','salesforce','integrations','architecture','impact','timeline'];
 window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<=130)c=id});document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.section===c))});
 </script>
 
@@ -4458,7 +4460,7 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
 
   // ── Open / Close helpers ──
   window.openShowcaseDemo=function(id){
-    const map={security:'sm-modal',dataarch:'da-modal',roadmap:'tr-modal',orgchart:'oc-modal',valuecards:'vc-modal',insights:'ins-modal',syncmon:'sy-modal',receipts:'rc-modal',voice:'vp-modal',budgetvar:'bv-modal'};
+    const map={security:'sm-modal',dataarch:'da-modal',roadmap:'tr-modal',orgchart:'oc-modal',valuecards:'vc-modal',insights:'ins-modal',syncmon:'sy-modal',receipts:'rc-modal',voice:'vp-modal',budgetvar:'bv-modal',docsportal:'dp-modal'};
     const m=document.getElementById(map[id]);
     if(!m)return;
     m.classList.add('dm-open');
@@ -6530,6 +6532,166 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
   }
   var prev=window.__newDemoInit;
   window.__newDemoInit=function(id){ if(prev)prev(id); if(id==='budgetvar')bvInit(); };
+})();
+</script>
+
+<!-- ───────── Documents Portal mini-demo (recoded from the Aplodex showcase demo) ───────── -->
+<style id="docsportal-styles">
+.dp-stage{background:linear-gradient(170deg,#081220,#0c1620 60%,#0e1a26);min-height:480px;padding:26px;color:#fff;font-family:'Source Sans 3',sans-serif}
+.dp-login{max-width:380px;margin:60px auto;background:rgba(255,255,255,0.07);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.12);border-top:3px solid #C9A84C;border-radius:14px;padding:30px 28px;text-align:center}
+.dp-brand{font-family:'Cinzel',serif;font-size:0.78rem;letter-spacing:4px;color:#C9A84C;margin-bottom:6px}
+.dp-login h3{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:500;font-size:1.35rem;margin:0 0 18px}
+.dp-input{width:100%;padding:11px 14px;border-radius:9px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.08);color:#fff;font-family:inherit;font-size:0.9rem;margin-bottom:12px;text-align:center}
+.dp-input::placeholder{color:rgba(255,255,255,0.4)}
+.dp-btn{width:100%;padding:11px;border-radius:9px;border:none;background:#C9A84C;color:#0c1620;font-weight:700;font-size:0.85rem;cursor:pointer;transition:background .15s}
+.dp-btn:hover{background:#d9b95e}
+.dp-hint{font-size:0.68rem;color:rgba(255,255,255,0.45);margin-top:12px;font-style:italic}
+.dp-portal{display:none}
+.dp-topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,0.1)}
+.dp-topbar .dp-brand{margin:0}
+.dp-user{font-size:0.74rem;color:rgba(255,255,255,0.55)}
+.dp-user button{background:none;border:1px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.7);border-radius:7px;padding:3px 11px;margin-left:10px;font-size:0.68rem;cursor:pointer}
+.dp-cols{display:grid;grid-template-columns:250px 1fr;gap:18px}
+.dp-tile{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-top:3px solid transparent;border-radius:11px;padding:13px 15px;cursor:pointer;margin-bottom:10px;transition:all .15s}
+.dp-tile:hover{background:rgba(255,255,255,0.1)}
+.dp-tile.active{border-top-color:#C9A84C;background:rgba(201,168,76,0.1)}
+.dp-tile-name{font-weight:700;font-size:0.86rem}
+.dp-tile-desc{font-size:0.7rem;color:rgba(255,255,255,0.5);margin-top:2px}
+.dp-main{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:18px;min-height:330px}
+.dp-crumb{font-size:0.68rem;letter-spacing:1.5px;text-transform:uppercase;color:#C9A84C;margin-bottom:10px}
+.dp-search{width:100%;max-width:300px;padding:8px 13px;border-radius:8px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.07);color:#fff;font-family:inherit;font-size:0.8rem;margin-bottom:14px}
+.dp-search::placeholder{color:rgba(255,255,255,0.35)}
+.dp-table{width:100%;border-collapse:collapse;font-size:0.8rem}
+.dp-table th{text-align:left;font-size:0.6rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.45);padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.12)}
+.dp-table td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.85)}
+.dp-table tr{cursor:pointer;transition:background .12s}
+.dp-table tbody tr:hover{background:rgba(255,255,255,0.06)}
+.dp-new{display:inline-block;font-size:0.58rem;font-weight:700;letter-spacing:1px;background:#C9A84C;color:#0c1620;border-radius:12px;padding:1px 8px;margin-left:8px;vertical-align:1px}
+.dp-preview{position:absolute;inset:0;background:rgba(8,14,22,0.92);display:none;align-items:center;justify-content:center;z-index:5;border-radius:inherit}
+.dp-preview.open{display:flex}
+.dp-doc{background:#fff;color:#1A1F2E;width:min(420px,82%);border-radius:10px;overflow:hidden}
+.dp-doc-head{display:flex;justify-content:space-between;align-items:center;background:#0B2545;color:#fff;padding:12px 16px;font-size:0.78rem}
+.dp-doc-head button{background:rgba(255,255,255,0.15);border:none;color:#fff;border-radius:6px;width:26px;height:26px;cursor:pointer}
+.dp-doc-body{padding:26px 30px}
+.dp-doc-line{height:9px;border-radius:5px;background:#E0E1E4;margin-bottom:10px}
+.dp-doc-line.w60{width:60%}.dp-doc-line.w85{width:85%}.dp-doc-line.w40{width:40%;background:#C9A84C;opacity:0.6}
+.dp-doc-meta{font-size:0.66rem;color:#888;margin-top:18px}
+@media(max-width:760px){.dp-cols{grid-template-columns:1fr}.dp-login{margin:30px auto}}
+</style>
+
+<div class="dm-overlay" id="dp-modal" role="dialog" aria-modal="true" aria-label="Documents Portal Demo">
+  <div class="dm-shell">
+    <div class="dm-titlebar"><h2><span class="dm-dot"></span>Client Documents Portal</h2><button class="dm-close" data-dm-close="dp-modal" aria-label="Close">✕</button></div>
+    <div class="dm-banner"><strong>Interactive Demo</strong> · Log in with any email and any 6-digit code, browse the vault, open a document. Production version uses real email one-time codes, per-household access lists, and automated tax-document delivery.</div>
+    <div class="dm-body"><div class="dp-stage" id="dp-stage" style="position:relative">
+      <div class="dp-login" id="dp-login">
+        <div class="dp-brand">APLODEX · DOCUMENT VAULT</div>
+        <h3 id="dp-login-title">Client sign in</h3>
+        <div id="dp-step-email">
+          <input class="dp-input" id="dp-email" type="email" placeholder="you@example.com">
+          <button class="dp-btn" id="dp-send">Send login code</button>
+        </div>
+        <div id="dp-step-code" style="display:none">
+          <input class="dp-input" id="dp-code" inputmode="numeric" maxlength="6" placeholder="6-digit code">
+          <button class="dp-btn" id="dp-verify">Verify and sign in</button>
+        </div>
+        <div class="dp-hint">Demo only. Any email and any 6 digits work.</div>
+      </div>
+      <div class="dp-portal" id="dp-portal">
+        <div class="dp-topbar"><div class="dp-brand">APLODEX · DOCUMENT VAULT</div><div class="dp-user"><span id="dp-who"></span><button id="dp-out">Sign out</button></div></div>
+        <div class="dp-cols">
+          <div id="dp-tiles"></div>
+          <div class="dp-main" id="dp-main"></div>
+        </div>
+      </div>
+      <div class="dp-preview" id="dp-preview">
+        <div class="dp-doc">
+          <div class="dp-doc-head"><span id="dp-doc-name"></span><button id="dp-doc-close">✕</button></div>
+          <div class="dp-doc-body">
+            <div class="dp-doc-line w60"></div><div class="dp-doc-line w85"></div><div class="dp-doc-line"></div>
+            <div class="dp-doc-line w40"></div><div class="dp-doc-line w85"></div><div class="dp-doc-line w60"></div>
+            <div class="dp-doc-meta" id="dp-doc-meta"></div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</div>
+
+<script id="docsportal-script">
+(function(){
+  var DP_FOLDERS=[
+    {k:'tax',name:'Tax Documents',desc:'1099s, K-1s, year-end packages'},
+    {k:'stmt',name:'Quarterly Statements',desc:'Performance and billing'},
+    {k:'acct',name:'Account Documents',desc:'Agreements and confirmations'},
+    {k:'plan',name:'Planning Documents',desc:'Plans, reviews, estate docs'}
+  ];
+  var DP_DOCS=[
+    {f:'tax',n:'2025 Form 1099 Composite.pdf',d:'Feb 18, 2026',s:'412 KB',isNew:true},
+    {f:'tax',n:'2025 K-1 · Birch Partners LP.pdf',d:'Mar 30, 2026',s:'188 KB',isNew:true},
+    {f:'tax',n:'2024 Form 1099 Composite.pdf',d:'Feb 12, 2025',s:'398 KB'},
+    {f:'stmt',n:'Q1 2026 Performance Statement.pdf',d:'Apr 8, 2026',s:'1.2 MB',isNew:true},
+    {f:'stmt',n:'Q4 2025 Performance Statement.pdf',d:'Jan 9, 2026',s:'1.1 MB'},
+    {f:'stmt',n:'Q3 2025 Performance Statement.pdf',d:'Oct 7, 2025',s:'1.1 MB'},
+    {f:'acct',n:'Investment Advisory Agreement.pdf',d:'May 2, 2024',s:'342 KB'},
+    {f:'acct',n:'Beneficiary Confirmation.pdf',d:'Nov 14, 2025',s:'96 KB'},
+    {f:'plan',n:'2026 Financial Plan Review.pdf',d:'May 22, 2026',s:'2.4 MB',isNew:true},
+    {f:'plan',n:'Estate Planning Summary.pdf',d:'Aug 19, 2025',s:'524 KB'}
+  ];
+  var DP={inited:false,folder:'tax',q:''};
+  function dpTiles(){
+    var el=document.getElementById('dp-tiles');
+    el.innerHTML=DP_FOLDERS.map(function(f){
+      return '<div class="dp-tile'+(f.k===DP.folder?' active':'')+'" data-k="'+f.k+'"><div class="dp-tile-name">'+f.name+'</div><div class="dp-tile-desc">'+f.desc+'</div></div>';
+    }).join('');
+    el.querySelectorAll('.dp-tile').forEach(function(t){t.addEventListener('click',function(){DP.folder=t.dataset.k;DP.q='';dpTiles();dpMain();})});
+  }
+  function dpMain(){
+    var f=DP_FOLDERS.filter(function(x){return x.k===DP.folder})[0];
+    var docs=DP_DOCS.filter(function(d){return d.f===DP.folder&&(!DP.q||d.n.toLowerCase().indexOf(DP.q)>-1)});
+    document.getElementById('dp-main').innerHTML=
+      '<div class="dp-crumb">Vault &rsaquo; '+f.name+'</div>'
+      +'<input class="dp-search" id="dp-q" placeholder="Search files…" value="'+DP.q+'">'
+      +'<table class="dp-table"><thead><tr><th>Name</th><th>Modified</th><th>Size</th></tr></thead><tbody>'
+      +docs.map(function(d,i){return '<tr data-i="'+DP_DOCS.indexOf(d)+'"><td>📄 '+d.n+(d.isNew?'<span class="dp-new">NEW</span>':'')+'</td><td>'+d.d+'</td><td>'+d.s+'</td></tr>'}).join('')
+      +'</tbody></table>'
+      +(docs.length?'':'<div style="padding:18px;color:rgba(255,255,255,0.45);font-size:0.8rem">No files match.</div>');
+    var q=document.getElementById('dp-q');
+    q.addEventListener('input',function(){DP.q=q.value.toLowerCase();var pos=q.selectionStart;dpMain();var nq=document.getElementById('dp-q');nq.focus();nq.setSelectionRange(pos,pos);});
+    document.querySelectorAll('#dp-main tbody tr').forEach(function(r){r.addEventListener('click',function(){
+      var d=DP_DOCS[+r.dataset.i];
+      document.getElementById('dp-doc-name').textContent=d.n;
+      document.getElementById('dp-doc-meta').textContent=d.d+' · '+d.s+' · Secure preview · In production this renders the actual PDF from Box';
+      document.getElementById('dp-preview').classList.add('open');
+    })});
+  }
+  function dpInit(){
+    if(DP.inited)return; DP.inited=true;
+    document.getElementById('dp-send').addEventListener('click',function(){
+      var e=document.getElementById('dp-email').value||'client@example.com';
+      DP.email=e;
+      document.getElementById('dp-step-email').style.display='none';
+      document.getElementById('dp-step-code').style.display='block';
+      document.getElementById('dp-login-title').textContent='Enter your code';
+    });
+    document.getElementById('dp-verify').addEventListener('click',function(){
+      document.getElementById('dp-login').style.display='none';
+      document.getElementById('dp-portal').style.display='block';
+      document.getElementById('dp-who').textContent=DP.email||'client@example.com';
+      dpTiles();dpMain();
+    });
+    document.getElementById('dp-out').addEventListener('click',function(){
+      document.getElementById('dp-portal').style.display='none';
+      document.getElementById('dp-login').style.display='block';
+      document.getElementById('dp-step-email').style.display='block';
+      document.getElementById('dp-step-code').style.display='none';
+      document.getElementById('dp-login-title').textContent='Client sign in';
+    });
+    document.getElementById('dp-doc-close').addEventListener('click',function(){document.getElementById('dp-preview').classList.remove('open')});
+    document.getElementById('dp-preview').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open')});
+  }
+  var prev=window.__newDemoInit;
+  window.__newDemoInit=function(id){ if(prev)prev(id); if(id==='docsportal')dpInit(); };
 })();
 </script>
 </body>
