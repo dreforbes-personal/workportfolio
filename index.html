@@ -11,14 +11,14 @@
   /* Editorial palette - matches comp analysis */
   --bg:#FFFFFF;--surface:#FFFFFF;--surface-2:#FAFAFA;--surface-3:#F0F0F0;
   --border:#E5E5E5;--border-hover:#CCCCCC;
-  --text:#111111;--text-secondary:#333333;--text-muted:#999999;
+  --text:#111111;--text-secondary:#2b2b2b;--text-muted:#757575;
   --accent:#B91C1C;--accent-dim:rgba(185,28,28,0.06);--accent-light:#D63838;
   --highlight:#F5E642;--highlight-dim:rgba(245,230,66,0.15);
   --red-soft:#B91C1C;--green-soft:#1F7A4D;--blue-soft:#1E3A8A;--purple-soft:#5B4B8A;
   --teal:#1F7A8C;--warm-gray:#666666;
   --radius:4px;--transition:0.3s cubic-bezier(0.4,0,0.2,1);
 }
-html{scroll-behavior:smooth;font-size:18px}
+html{scroll-behavior:smooth;font-size:19px}
 body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.75;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 ::selection{background:#3B5EC9;color:#fff}
 
@@ -151,7 +151,7 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
 .section{padding:100px 72px;max-width:none;margin:0 auto}
 .section-num{font-family:'Source Sans 3',sans-serif;font-size:0.72rem;letter-spacing:3px;color:var(--accent);margin-bottom:12px;opacity:0;transform:translateY(16px);transition:all 0.5s}
 .section-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2.2rem,4vw,3.4rem);font-weight:400;margin-bottom:12px;letter-spacing:-0.01em;opacity:0;transform:translateY(16px);transition:all 0.5s 0.05s}
-.section-desc{color:var(--text-secondary);max-width:none;margin-bottom:56px;font-size:1.05rem;line-height:1.8;opacity:0;transform:translateY(16px);transition:all 0.5s 0.1s}
+.section-desc{color:var(--text-secondary);max-width:none;margin-bottom:56px;font-size:1.15rem;line-height:1.85;opacity:0;transform:translateY(16px);transition:all 0.5s 0.1s}
 .visible .section-num,.visible .section-title,.visible .section-desc{opacity:1;transform:translateY(0)}
 .divider{max-width:none;margin:0 auto;padding:0 72px}
 .divider hr{border:none;height:1px;background:var(--border)}
@@ -5347,7 +5347,9 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
 })();
 </script>
 <style id="ask-styles">
-.ask-trigger{position:fixed;right:18px;bottom:18px;z-index:9990;width:52px;height:52px;border-radius:14px;background:#1f2024;color:#fff;border:1px solid rgba(255,255,255,0.18);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(8px);transition:opacity 0.25s ease,transform 0.25s ease,box-shadow 0.18s ease,background 0.18s ease;box-shadow:0 6px 18px rgba(0,0,0,0.25);font-family:'Source Sans 3',sans-serif;padding:0}
+.ask-trigger{position:fixed;right:18px;bottom:18px;z-index:9990;width:58px;height:58px;border-radius:14px;background:#1f2024;color:#fff;border:1px solid rgba(255,255,255,0.18);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(8px);transition:opacity 0.25s ease,transform 0.25s ease,box-shadow 0.18s ease,background 0.18s ease;box-shadow:0 6px 18px rgba(0,0,0,0.25);font-family:'Source Sans 3',sans-serif;padding:0}
+.ask-trigger.ask-glow{animation:askGlowPulse 1.9s ease-in-out infinite}
+@keyframes askGlowPulse{0%,100%{box-shadow:0 6px 18px rgba(0,0,0,0.25),0 0 0 0 rgba(201,168,76,0)}50%{box-shadow:0 6px 18px rgba(0,0,0,0.3),0 0 22px 8px rgba(201,168,76,0.75)}}
 .ask-trigger:hover{background:#000;box-shadow:0 10px 28px rgba(0,0,0,0.35)}
 .ask-trigger svg{width:24px;height:24px;stroke:#fff}
 .ask-trigger.ask-revealed{opacity:0.92;transform:translateY(0)}
@@ -5415,7 +5417,7 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
 
 @media(max-width:480px){
   .ask-panel{right:9px;left:9px;bottom:64px;width:auto;max-height:calc(100vh - 80px)}
-  .ask-trigger{right:12px;bottom:12px;width:38px;height:38px}
+  .ask-trigger{right:12px;bottom:12px;width:46px;height:46px}
 }
 </style>
 
@@ -5618,12 +5620,14 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
   }
   if (greeting) greeting.style.display = 'none';
 
-  // Auto-open the chat panel on every page load, after a short delay so the
-  // page has time to settle. Visitor can close it; it reopens on next load.
+  // Reveal the chat trigger with a glow on page load. The glow pulses until
+  // the visitor scrolls; the panel only opens when they click the trigger.
   function autoOpenPanel(){
     setTimeout(() => {
       revealTrigger();
-      if (!panel.classList.contains('ask-open')) openPanel();
+      trigger.classList.add('ask-glow');
+      function unglow(){ if (window.scrollY > 50) { trigger.classList.remove('ask-glow'); window.removeEventListener('scroll', unglow); } }
+      window.addEventListener('scroll', unglow, {passive:true});
     }, 1400);
   }
   if (document.readyState === 'loading') {
