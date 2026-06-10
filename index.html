@@ -47,7 +47,7 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
     radial-gradient(1.5px 1.5px at 23% 44%,rgba(201,168,76,0.8),transparent 60%);
   background-size:340px 340px;
   background-repeat:repeat;
-  animation:starTwinkleA 7s ease-in-out infinite;
+  animation:starTwinkleA 7s ease-in-out infinite,starDriftA 150s linear infinite;
 }
 .hero-grid-bg::after{
   content:'';position:absolute;inset:0;
@@ -60,10 +60,12 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
     radial-gradient(1.5px 1.5px at 89% 53%,rgba(255,255,255,0.75),transparent 60%);
   background-size:460px 460px;
   background-repeat:repeat;
-  animation:starTwinkleB 9s ease-in-out 1.5s infinite;
+  animation:starTwinkleB 9s ease-in-out 1.5s infinite,starDriftB 210s linear infinite;
 }
 @keyframes starTwinkleA{0%,100%{opacity:1}50%{opacity:0.7}}
 @keyframes starTwinkleB{0%,100%{opacity:0.55}50%{opacity:1}}
+@keyframes starDriftA{from{background-position:0 0}to{background-position:-340px 340px}}
+@keyframes starDriftB{from{background-position:0 0}to{background-position:460px -460px}}
 .hero-content{position:relative;z-index:1;max-width:1100px}
 /* Hero pullquote: sits in the grid's right column, vertically centered next to the name */
 .hero-aside{position:relative;z-index:1;width:100%;justify-self:stretch;opacity:0;animation:fadeUp 0.9s 0.7s forwards}
@@ -156,7 +158,8 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
 .divider{max-width:none;margin:0 auto;padding:0 72px}
 .divider hr{border:none;height:1px;background:var(--border)}
 
-.roles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+.roles-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:18px}
+.roles-grid>.role-card{flex:1 1 340px;max-width:460px}
 .role-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:30px;position:relative;overflow:hidden;transition:all var(--transition)}
 .role-card:hover{border-color:var(--border-hover);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.04)}
 .role-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--card-accent,var(--accent));opacity:0.5}
@@ -1588,7 +1591,7 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
         row.innerHTML=`
           <div class="tr-row-label">
             <div class="tr-row-title">${epic.title}</div>
-            <div class="tr-row-cat" style="color:${epic.color}cc">${epic.cat}</div>
+            <div class="tr-row-cat"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${epic.color};margin-right:5px"></span>${epic.cat}</div>
           </div>
           <div class="tr-track">
             ${TR_PERIODS.map(()=>`<div class="tr-track-gridline"></div>`).join('')}
@@ -1964,7 +1967,7 @@ const OPS=[
 ];
 
 const PROJECTS=[
-  {id:'budget',demo:'receipts',domain:'budget.balentine.com',title:'Budget Application',stripe:'linear-gradient(90deg,var(--accent),var(--green-soft))',
+  {id:'budget',demo:'budgetvar',domain:'budget.balentine.com',title:'Budget Application',stripe:'linear-gradient(90deg,var(--accent),var(--green-soft))',
     desc:'Enterprise budgeting with bidirectional QuickBooks sync, headcount planning across states, multi-stage approvals, and AI summaries. Replaced spreadsheets across 20+ departments.',
     tags:['SAML SSO','QuickBooks','Addepar','Rippling','AI'],
     features:[
@@ -2006,7 +2009,7 @@ const PROJECTS=[
     desc:'Interactive values assessment. swipe UI, animations, family comparison, audio feedback. Used in generational planning and business advisory.',
     tags:['Framer Motion','Howler.js','Advisory'],
     features:[{g:'Generational Conversations, At Scale',items:[{n:'The process it replaced',d:'Paper card decks. Effective in a one-on-one room, but hard to facilitate at scale. No way to compare results across spouses or across generations. Manual tallies. Card decks got lost. Not usable remotely.'},{n:'Three-round structure',d:'50+ value cards round one, refine to top values round two, narrow to 6 core values round three. Mirrors how advisors actually facilitate the exercise in person.'},{n:'Swipe + grid dual interaction',d:'Touch-friendly swipe mode for mobile/tablet, grid mode for desktop. Animated, audio feedback, designed to feel like a game rather than a survey.'},{n:'Family / group comparison',d:'Multiple players in the same session. Side-by-side comparison view shows where spouses or generations agree and where they diverge, the conversation-starter that paper cards couldn\'t produce.'},{n:'Session analytics',d:'Word cloud of chosen values, distribution stats, comparison snapshots. Generated on the fly so the advisor has talking points the moment the session ends.'},{n:'Business impact',d:'Used in generational planning workshops, business advisory sessions, and prospect meetings. Sparks conversations between spouses or across generations that the paper version never could. A real differentiator in client-facing meetings.'},]},{g:'Game',items:[{n:'Three Rounds',d:'50+ cards → refine → 6 core values'},{n:'Swipe + Grid',d:'Dual interaction modes with animations'},{n:'Audio System',d:'11 effects via Howler.js'},{n:'Session Analytics',d:'Word cloud, stats, family comparison'}]}]},
-  {id:'projects',domain:'projects.balentine.com',title:'Projects Hub',stripe:'linear-gradient(90deg,var(--blue-soft),var(--green-soft))',
+  {id:'projects',demo:'receipts',domain:'projects.balentine.com',title:'Projects Hub',stripe:'linear-gradient(90deg,var(--blue-soft),var(--green-soft))',
     desc:'Central hub. project management, OOO with Slack sync, vendor tracking, change management, calendar/distribution list admin, data architecture mapping.',
     tags:['React Flow','Microsoft Graph','Admin'],
     features:[
@@ -4290,7 +4293,7 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
 .tr-row:hover{background:rgba(255,255,255,0.18)}
 .tr-row-label{padding-right:14px}
 .tr-row-title{font-size:0.82rem;font-weight:700;color:#0a1f33;line-height:1.25}
-.tr-row-cat{font-family:'Source Sans 3',sans-serif;font-size:0.6rem;color:rgba(10,31,51,0.55);text-transform:uppercase;letter-spacing:0.7px;margin-top:2px}
+.tr-row-cat{font-family:'Source Sans 3',sans-serif;font-size:0.64rem;font-weight:600;color:rgba(10,31,51,0.72);text-transform:uppercase;letter-spacing:0.7px;margin-top:2px;display:flex;align-items:center}
 .tr-track{position:relative;height:42px;background:linear-gradient(90deg,rgba(0,0,0,0.04),rgba(0,0,0,0.02));border-radius:6px;display:grid;grid-template-columns:repeat(8,1fr);border:1px solid rgba(0,0,0,0.06)}
 .tr-track-gridline{border-right:1px dashed rgba(10,31,51,0.10);height:100%}
 .tr-track-gridline:last-child{border-right:none}
@@ -4455,7 +4458,7 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
 
   // ── Open / Close helpers ──
   window.openShowcaseDemo=function(id){
-    const map={security:'sm-modal',dataarch:'da-modal',roadmap:'tr-modal',orgchart:'oc-modal',valuecards:'vc-modal',insights:'ins-modal',syncmon:'sy-modal',receipts:'rc-modal',voice:'vp-modal'};
+    const map={security:'sm-modal',dataarch:'da-modal',roadmap:'tr-modal',orgchart:'oc-modal',valuecards:'vc-modal',insights:'ins-modal',syncmon:'sy-modal',receipts:'rc-modal',voice:'vp-modal',budgetvar:'bv-modal'};
     const m=document.getElementById(map[id]);
     if(!m)return;
     m.classList.add('dm-open');
@@ -4806,7 +4809,7 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
       row.innerHTML=`
         <div class="tr-row-label">
           <div class="tr-row-title">${epic.title}</div>
-          <div class="tr-row-cat" style="color:${epic.color}cc">${epic.cat}</div>
+          <div class="tr-row-cat"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${epic.color};margin-right:5px"></span>${epic.cat}</div>
         </div>
         <div class="tr-track">
           ${TR_PERIODS.map(()=>`<div class="tr-track-gridline"></div>`).join('')}
@@ -6372,6 +6375,161 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
     if(id==='receipts')rcInit();
     if(id==='voice')vpInit();
   };
+})();
+</script>
+
+<!-- ───────── Mini demo: Budget Variance Approval ───────── -->
+<style id="budgetvar-styles">
+.bv-wrap{display:grid;grid-template-columns:280px 1fr;gap:20px;padding:22px;font-family:'Source Sans 3',sans-serif}
+.bv-label{font-size:0.66rem;letter-spacing:1.8px;text-transform:uppercase;color:#8a857c;font-weight:600;margin-bottom:10px}
+.bv-dept{background:#fff;border:1px solid #d5d1c8;border-top:3px solid #e5e1d8;border-radius:10px;padding:13px 15px;cursor:pointer;margin-bottom:12px;transition:all .15s;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.bv-dept:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,0.09)}
+.bv-dept.active{border-top:3px solid #B91C1C;box-shadow:0 8px 20px rgba(0,0,0,0.1)}
+.bv-dept-name{font-weight:700;font-size:0.92rem;color:#2a2722;margin-bottom:3px}
+.bv-dept-nums{font-size:0.74rem;color:#8a857c;margin-bottom:8px}
+.bv-pill{display:inline-block;font-size:0.66rem;font-weight:700;letter-spacing:0.4px;padding:3px 10px;border-radius:999px}
+.bv-pill.over{background:#fbeaea;color:#B91C1C;border:1px solid #ecc8c8}
+.bv-pill.good{background:#eef3ef;color:#174435;border:1px solid #cdddd2}
+.bv-detail{background:#fff;border:1px solid #d5d1c8;border-radius:12px;padding:24px;min-height:380px}
+.bv-detail-title{font-weight:700;font-size:1.15rem;color:#2a2722;margin:0 0 18px}
+.bv-bar-row{margin-bottom:14px}
+.bv-bar-label{display:flex;justify-content:space-between;font-size:0.76rem;font-weight:600;color:#5a564e;margin-bottom:5px}
+.bv-bar-track{background:#faf9f6;border:1px solid #e5e1d8;border-radius:6px;height:24px;overflow:hidden}
+.bv-bar-fill{height:100%;width:0;border-radius:5px;transition:width .8s ease}
+.bv-var-line{display:flex;align-items:baseline;gap:10px;margin:16px 0 18px}
+.bv-var-big{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;line-height:1}
+.bv-var-word{font-size:0.8rem;font-weight:600;color:#8a857c;text-transform:uppercase;letter-spacing:1px}
+.bv-ai-btn{background:#B91C1C;color:#fff;border:none;border-radius:8px;padding:9px 18px;font-family:'Source Sans 3',sans-serif;font-size:0.84rem;font-weight:600;cursor:pointer;transition:background .15s}
+.bv-ai-btn:hover{background:#9a1717}
+.bv-ai-btn:disabled{opacity:0.55;cursor:default}
+.bv-ai-out{margin-top:12px;background:#faf9f6;border:1px solid #e5e1d8;border-radius:8px;padding:13px 16px;font-size:0.88rem;line-height:1.55;color:#3a362f;min-height:64px}
+.bv-chain{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.bv-chip{display:inline-flex;align-items:center;padding:7px 14px;border-radius:999px;border:1px solid #d5d1c8;background:#faf9f6;color:#8a857c;font-size:0.78rem;font-weight:600;transition:all .2s}
+.bv-chip.ok{border-color:#174435;background:#eef3ef;color:#174435}
+.bv-approve-btn{background:#fff;color:#174435;border:1px solid #174435;border-radius:8px;padding:9px 18px;font-family:'Source Sans 3',sans-serif;font-size:0.84rem;font-weight:600;cursor:pointer;transition:all .15s}
+.bv-approve-btn:hover{background:#eef3ef}
+.bv-approve-btn:disabled{opacity:0.55;cursor:default}
+.bv-done{margin-top:12px;color:#174435;font-weight:600;font-size:0.88rem}
+@media(max-width:760px){.bv-wrap{grid-template-columns:1fr}}
+</style>
+<div class="dm-overlay" id="bv-modal" role="dialog" aria-modal="true" aria-label="Budget Variance Demo"><div class="dm-shell"><div class="dm-titlebar"><h2><span class="dm-dot"></span>Budget · Variance &amp; Approvals</h2><button class="dm-close" data-dm-close="bv-modal" aria-label="Close">✕</button></div><div class="dm-banner"><strong>Interactive Demo</strong> · Pick a department, read the AI variance summary, then walk the line through the approval chain. Production version replaced spreadsheets across 20+ departments with bidirectional QuickBooks sync and multi-stage approvals.</div><div class="dm-body"><div class="bv-wrap"><div><div class="bv-label">Departments · This Quarter</div><div id="bv-dept-list"></div></div><div class="bv-detail" id="bv-detail"></div></div></div></div></div>
+<script id="budgetvar-script">
+(function(){
+  'use strict';
+  var BV={inited:false,sel:0,approved:1,timer:null};
+  var BV_DEPTS=[
+    {name:'Finance Operations',budget:245000,actual:268500,pct:'-9.6%',status:'over',
+     ai:'Finance Operations is running $23,500 over plan, driven almost entirely by audit-season contractor hours plus a one-time software true-up. Neither cost repeats next quarter, so the underlying run rate is close to budget.'},
+    {name:'Technology',budget:410000,actual:447200,pct:'-9.1%',status:'over',
+     ai:'Technology is $37,200 over because annual license renewals landed in a single month instead of being spread across the year, plus server spend tied to the custodian conversion. The monthly trend is already moving back to plan.'},
+    {name:'Marketing',budget:180000,actual:162300,pct:'+9.8%',status:'under',
+     ai:'Marketing is $17,700 under budget after a planned campaign was postponed. The funds are expected to be used in Q3, so this is timing rather than savings.'},
+    {name:'Client Service',budget:325000,actual:326100,pct:'-0.3%',status:'flat',
+     ai:'Client Service is effectively on plan, within 0.3% of budget. Nothing notable this period.'}
+  ];
+  var BV_CHAIN=[{role:'Manager',name:'Sarah Chen'},{role:'Director',name:'Mark Torres'},{role:'CFO',name:'Elizabeth Park'}];
+  function bvMoney(n){return '$'+n.toLocaleString('en-US');}
+  function bvWord(s){return s==='over'?'over':(s==='under'?'under':'on plan');}
+  function bvRenderList(){
+    var html='';
+    for(var i=0;i<BV_DEPTS.length;i++){
+      var d=BV_DEPTS[i];
+      html+='<div class="bv-dept'+(i===BV.sel?' active':'')+'" data-bv-dept="'+i+'">'
+        +'<div class="bv-dept-name">'+d.name+'</div>'
+        +'<div class="bv-dept-nums">Budget '+bvMoney(d.budget)+' · Actual '+bvMoney(d.actual)+'</div>'
+        +'<span class="bv-pill '+(d.status==='over'?'over':'good')+'">'+d.pct+' '+bvWord(d.status)+'</span>'
+        +'</div>';
+    }
+    document.getElementById('bv-dept-list').innerHTML=html;
+  }
+  function bvRenderChain(){
+    var html='';
+    for(var i=0;i<BV_CHAIN.length;i++){
+      var ok=i<BV.approved;
+      html+='<span class="bv-chip'+(ok?' ok':'')+'">'+(ok?'✓ ':'')+BV_CHAIN[i].role+' · '+BV_CHAIN[i].name+'</span>';
+    }
+    document.getElementById('bv-chain').innerHTML=html;
+    var btn=document.getElementById('bv-approve');
+    var done=document.getElementById('bv-chain-done');
+    if(BV.approved>=BV_CHAIN.length){btn.style.display='none';done.style.display='block';}
+    else{btn.style.display='inline-block';done.style.display='none';}
+  }
+  function bvRenderDetail(){
+    if(BV.timer){clearInterval(BV.timer);BV.timer=null;}
+    var d=BV_DEPTS[BV.sel];
+    var max=Math.max(d.budget,d.actual);
+    var col=d.status==='over'?'#B91C1C':'#174435';
+    var bw=Math.round(d.budget/max*1000)/10;
+    var aw=Math.round(d.actual/max*1000)/10;
+    var html='<div class="bv-label">Department Detail</div>'
+      +'<div class="bv-detail-title">'+d.name+'</div>'
+      +'<div class="bv-bar-row"><div class="bv-bar-label"><span>Budget</span><span>'+bvMoney(d.budget)+'</span></div>'
+      +'<div class="bv-bar-track"><div class="bv-bar-fill" style="background:#b8b3a8" data-w="'+bw+'"></div></div></div>'
+      +'<div class="bv-bar-row"><div class="bv-bar-label"><span>Actual</span><span>'+bvMoney(d.actual)+'</span></div>'
+      +'<div class="bv-bar-track"><div class="bv-bar-fill" style="background:'+col+'" data-w="'+aw+'"></div></div></div>'
+      +'<div class="bv-var-line"><span class="bv-var-big" style="color:'+col+'">'+d.pct+'</span>'
+      +'<span class="bv-var-word">'+bvWord(d.status)+(d.status==='flat'?'':' plan')+'</span></div>'
+      +'<button class="bv-ai-btn" id="bv-ai-go">⚡ AI Variance Summary</button>'
+      +'<div class="bv-ai-out" id="bv-ai-out">Click for a plain-English read on this variance.</div>'
+      +'<div class="bv-label" style="margin-top:20px">Approval Chain</div>'
+      +'<div class="bv-chain" id="bv-chain"></div>'
+      +'<button class="bv-approve-btn" id="bv-approve">Approve Next Stage</button>'
+      +'<div class="bv-done" id="bv-chain-done" style="display:none">✓ Line approved and synced. In production this writes back through the QuickBooks sync.</div>';
+    document.getElementById('bv-detail').innerHTML=html;
+    setTimeout(function(){
+      var fills=document.querySelectorAll('#bv-detail .bv-bar-fill');
+      for(var i=0;i<fills.length;i++){fills[i].style.width=fills[i].getAttribute('data-w')+'%';}
+    },60);
+    bvRenderChain();
+  }
+  function bvSelect(i){
+    if(i===BV.sel)return;
+    BV.sel=i;BV.approved=1;
+    bvRenderList();bvRenderDetail();
+  }
+  function bvStream(){
+    if(BV.timer)return;
+    var d=BV_DEPTS[BV.sel];
+    var out=document.getElementById('bv-ai-out');
+    var btn=document.getElementById('bv-ai-go');
+    if(!out)return;
+    if(btn)btn.disabled=true;
+    out.textContent='';
+    var i=0;
+    BV.timer=setInterval(function(){
+      i++;
+      out.textContent=d.ai.slice(0,i);
+      if(i>=d.ai.length){
+        clearInterval(BV.timer);BV.timer=null;
+        var b=document.getElementById('bv-ai-go');
+        if(b)b.disabled=false;
+      }
+    },20);
+  }
+  function bvApprove(){
+    if(BV.approved>=BV_CHAIN.length)return;
+    var btn=document.getElementById('bv-approve');
+    if(btn)btn.disabled=true;
+    setTimeout(function(){
+      BV.approved++;
+      var b=document.getElementById('bv-approve');
+      if(b)b.disabled=false;
+      bvRenderChain();
+    },450);
+  }
+  function bvInit(){
+    if(BV.inited)return;BV.inited=true;
+    document.getElementById('bv-modal').addEventListener('click',function(e){
+      var dep=e.target.closest('[data-bv-dept]');
+      if(dep){bvSelect(parseInt(dep.getAttribute('data-bv-dept'),10));return;}
+      if(e.target.closest('#bv-ai-go')){bvStream();return;}
+      if(e.target.closest('#bv-approve')){bvApprove();}
+    });
+    BV.sel=0;BV.approved=1;
+    bvRenderList();bvRenderDetail();
+  }
+  var prev=window.__newDemoInit;
+  window.__newDemoInit=function(id){ if(prev)prev(id); if(id==='budgetvar')bvInit(); };
 })();
 </script>
 </body>
