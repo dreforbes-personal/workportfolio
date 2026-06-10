@@ -578,6 +578,7 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
 
 <nav class="nav" id="nav">
   <button class="nav-btn active" data-section="roles">Roles</button>
+  <button class="nav-btn" data-section="now">Now</button>
   <button class="nav-btn" data-section="ops">Operations</button>
   <button class="nav-btn" data-section="dev">Development</button>
   <button class="nav-btn" data-section="salesforce">Salesforce</button>
@@ -592,6 +593,47 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
   <div class="section-title">What I’ve Owned</div>
   <div class="section-desc">End-to-end technology leadership. Rebuilt cybersecurity on a NIST foundation (zero SEC findings), built custom software, and created an autonomous AI agent platform.</div>
   <div class="roles-grid" id="roles-grid"></div>
+</section>
+<div class="divider"><hr></div>
+
+<style id="now-styles">
+/* roles header centered per request */
+#roles .section-num,#roles .section-title,#roles .section-desc{text-align:center}
+.now-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+.now-card{background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--accent);border-radius:12px;padding:24px 26px;transition:all .2s}
+.now-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,0,0,0.07)}
+.now-eyebrow{font-family:'Source Sans 3',sans-serif;font-size:0.64rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:8px}
+.now-title{font-family:'Playfair Display',Georgia,serif;font-size:1.3rem;font-weight:700;margin-bottom:10px;letter-spacing:-0.01em}
+.now-body{font-size:0.95rem;line-height:1.75;color:var(--text-secondary)}
+.now-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.now-tag{font-size:0.7rem;font-weight:600;padding:4px 11px;border-radius:20px;background:var(--surface-2);border:1px solid var(--border);color:var(--text-secondary)}
+.now-note{margin-top:26px;text-align:center;font-size:0.95rem;font-style:italic;color:var(--text-muted)}
+</style>
+<section class="section obs" id="now">
+  <div class="section-num" style="text-align:center">01.5 / APLODEX · CURRENT WORK</div>
+  <div class="section-title" style="text-align:center">What I&rsquo;m Doing Now</div>
+  <div class="section-desc" style="text-align:center;max-width:880px;margin-left:auto;margin-right:auto">Aplodex is my full-time focus. I work with financial firms that were told to settle for the tools they have, and I show them how much higher the ceiling actually is. Different processes, different workflows, different day to day, and productivity numbers they wouldn&rsquo;t have thought were on the table. Each of these firms is trusting me with how their business runs. I&rsquo;m humbled by that every single time, and it&rsquo;s exactly why the work gets my best.</div>
+  <div class="now-grid">
+    <div class="now-card">
+      <div class="now-eyebrow">13-Week Engagement · Investment Counsel Firm</div>
+      <div class="now-title">CRM, Workflow &amp; Automation</div>
+      <div class="now-body">Salesforce cleanup, automated account intake, opportunity auto-creation, an RMD dashboard that retired two spreadsheets, and one-click pre-meeting briefs. The marquee deliverables shipped by week 3 of 13. Roughly 15 hours a week back across the team once everything is adopted.</div>
+      <div class="now-tags"><span class="now-tag">Salesforce</span><span class="now-tag">Orion</span><span class="now-tag">Schwab</span><span class="now-tag">Shipped early</span></div>
+    </div>
+    <div class="now-card">
+      <div class="now-eyebrow">Agent Build · Wealth-Management Advisory</div>
+      <div class="now-title">Private AI Agents on AWS</div>
+      <div class="now-body">A governed AWS environment running Claude through Amazon Bedrock. Private networking, client data tokenized before it ever reaches the model, a human approval gate on every high-risk action. The first agent opens accounts end to end. It ships with a written AI policy the firm&rsquo;s compliance officer can hand to a regulator.</div>
+      <div class="now-tags"><span class="now-tag">AWS Bedrock</span><span class="now-tag">Claude</span><span class="now-tag">NIST AI RMF</span><span class="now-tag">Reg S-P</span></div>
+    </div>
+    <div class="now-card">
+      <div class="now-eyebrow">16-Week Build · Residential Construction</div>
+      <div class="now-title">Field &amp; Finance Systems</div>
+      <div class="now-body">The payment engine a prior team promised for months and never built. Automated payment triggers on monday.com, a phone-first app for field managers, and itemized invoicing that gets finance out of Excel for good. Five phases, and each one is accepted before the next one starts.</div>
+      <div class="now-tags"><span class="now-tag">monday.com</span><span class="now-tag">Payment automation</span><span class="now-tag">Field app</span><span class="now-tag">Paylocity</span></div>
+    </div>
+  </div>
+  <div class="now-note">Every engagement runs the same way: fixed fee, short phases, a walkthrough at every gate. You pay when it works, never before.</div>
 </section>
 <div class="divider"><hr></div>
 
@@ -2204,7 +2246,7 @@ document.querySelectorAll('.nav-btn').forEach(b=>{b.addEventListener('click',()=
 
 const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
 document.querySelectorAll('.obs').forEach(el=>obs.observe(el));
-const sids=['roles','ops','dev','salesforce','integrations','architecture','impact','timeline'];
+const sids=['roles','now','ops','dev','salesforce','integrations','architecture','impact','timeline'];
 window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<=130)c=id});document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.section===c))});
 </script>
 
