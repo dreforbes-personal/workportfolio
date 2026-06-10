@@ -34,10 +34,36 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
 }
 .hero-grid-bg{
   position:absolute;inset:0;
-  background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
-  background-size:72px 72px;
-  mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,black 10%,transparent 70%);
+  background-image:
+    radial-gradient(2px 2px at 12% 22%,rgba(255,255,255,1),transparent 60%),
+    radial-gradient(1.5px 1.5px at 32% 68%,rgba(255,255,255,0.9),transparent 60%),
+    radial-gradient(1.5px 1.5px at 54% 14%,rgba(255,255,255,0.85),transparent 60%),
+    radial-gradient(2.5px 2.5px at 71% 41%,rgba(201,168,76,0.95),transparent 60%),
+    radial-gradient(1.5px 1.5px at 86% 74%,rgba(255,255,255,0.85),transparent 60%),
+    radial-gradient(2px 2px at 44% 86%,rgba(255,255,255,0.8),transparent 60%),
+    radial-gradient(1.5px 1.5px at 92% 8%,rgba(255,255,255,0.95),transparent 60%),
+    radial-gradient(1.5px 1.5px at 6% 56%,rgba(255,255,255,0.75),transparent 60%),
+    radial-gradient(2px 2px at 63% 61%,rgba(255,255,255,0.7),transparent 60%),
+    radial-gradient(1.5px 1.5px at 23% 44%,rgba(201,168,76,0.8),transparent 60%);
+  background-size:340px 340px;
+  background-repeat:repeat;
+  animation:starTwinkleA 7s ease-in-out infinite;
 }
+.hero-grid-bg::after{
+  content:'';position:absolute;inset:0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 18% 12%,rgba(255,255,255,0.8),transparent 60%),
+    radial-gradient(2px 2px at 48% 38%,rgba(255,255,255,0.7),transparent 60%),
+    radial-gradient(1.5px 1.5px at 78% 22%,rgba(255,255,255,0.8),transparent 60%),
+    radial-gradient(1.5px 1.5px at 64% 88%,rgba(255,255,255,0.65),transparent 60%),
+    radial-gradient(2.5px 2.5px at 9% 81%,rgba(201,168,76,0.7),transparent 60%),
+    radial-gradient(1.5px 1.5px at 89% 53%,rgba(255,255,255,0.75),transparent 60%);
+  background-size:460px 460px;
+  background-repeat:repeat;
+  animation:starTwinkleB 9s ease-in-out 1.5s infinite;
+}
+@keyframes starTwinkleA{0%,100%{opacity:1}50%{opacity:0.7}}
+@keyframes starTwinkleB{0%,100%{opacity:0.55}50%{opacity:1}}
 .hero-content{position:relative;z-index:1;max-width:1100px}
 /* Hero pullquote: sits in the grid's right column, vertically centered next to the name */
 .hero-aside{position:relative;z-index:1;width:100%;justify-self:stretch;opacity:0;animation:fadeUp 0.9s 0.7s forwards}
@@ -447,14 +473,15 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
 </head>
 <body>
 <style id="scroll-hint-styles">
-.scroll-hint{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:50;display:flex;flex-direction:column;align-items:center;gap:8px;font-family:'Source Sans 3',sans-serif;font-size:0.62rem;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.55);pointer-events:none;opacity:0;animation:scrollHintIn 0.7s 1.4s ease-out forwards;transition:opacity 0.45s ease,transform 0.45s ease}
-.scroll-hint.scroll-hint--hidden{opacity:0!important;transform:translateX(-50%) translateY(12px);pointer-events:none}
+.scroll-hint{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:50;display:flex;flex-direction:column;align-items:center;gap:8px;font-family:'Source Sans 3',sans-serif;font-size:0.62rem;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.55);pointer-events:none;opacity:0;animation:scrollHintIn 0.7s 1.4s ease-out forwards,scrollHintBlink 3.4s 2.6s ease-in-out infinite;transition:opacity 0.45s ease,transform 0.45s ease}
+.scroll-hint.scroll-hint--hidden{opacity:0!important;transform:translateX(-50%) translateY(12px);pointer-events:none;animation:none!important}
 .scroll-hint__label{text-shadow:0 1px 8px rgba(0,0,0,0.4)}
 .scroll-hint__chevrons{display:flex;flex-direction:column;align-items:center;line-height:0.5;font-size:1rem;color:rgba(255,255,255,0.65)}
 .scroll-hint__chev{display:block;animation:scrollChevPulse 1.6s ease-in-out infinite}
 .scroll-hint__chev:nth-child(2){animation-delay:0.2s;opacity:0.55}
 .scroll-hint__chev:nth-child(3){animation-delay:0.4s;opacity:0.3}
 @keyframes scrollHintIn{from{opacity:0;transform:translateX(-50%) translateY(14px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+@keyframes scrollHintBlink{0%,100%{opacity:1}50%{opacity:0.18}}
 @keyframes scrollChevPulse{0%,100%{transform:translateY(0);opacity:var(--start-op,0.65)}50%{transform:translateY(4px);opacity:1}}
 .scroll-hint__chev:nth-child(1){--start-op:0.95}
 .scroll-hint__chev:nth-child(2){--start-op:0.55}
@@ -480,8 +507,8 @@ body{font-family:'Source Sans 3','Source Sans Pro',-apple-system,sans-serif;back
       if(window.scrollY>50){hint.classList.add('scroll-hint--hidden');hidden=true;window.removeEventListener('scroll',check)}
     }
     window.addEventListener('scroll',check,{passive:true});
-    // Auto-hide after 8 seconds even if user hasn't scrolled
-    setTimeout(()=>{if(!hidden){hint.classList.add('scroll-hint--hidden');hidden=true}},8000);
+    // Keep blinking; only auto-hide after 60 seconds if the user never scrolls
+    setTimeout(()=>{if(!hidden){hint.classList.add('scroll-hint--hidden');hidden=true}},60000);
   }
   if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init)}else{init()}
 })();
