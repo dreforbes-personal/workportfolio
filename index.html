@@ -1922,7 +1922,7 @@ const OPS=[
 ];
 
 const PROJECTS=[
-  {id:'budget',domain:'budget.balentine.com',title:'Budget Application',stripe:'linear-gradient(90deg,var(--accent),var(--green-soft))',
+  {id:'budget',demo:'receipts',domain:'budget.balentine.com',title:'Budget Application',stripe:'linear-gradient(90deg,var(--accent),var(--green-soft))',
     desc:'Enterprise budgeting with bidirectional QuickBooks sync, headcount planning across states, multi-stage approvals, and AI summaries. Replaced spreadsheets across 20+ departments.',
     tags:['SAML SSO','QuickBooks','Addepar','Rippling','AI'],
     features:[
@@ -1980,7 +1980,7 @@ const PROJECTS=[
     desc:'Both custodians fully integrated into the firm\'s data layer. Pershing via cert-auth NetX360 APIs; Fidelity via cert-auth API + custom SFTP ingestion server (DigitalOcean file watcher, 14 PostgreSQL tables, 18 daily jobs). Statements, tax docs, RMDs, standing instructions, beneficiaries, retirement accounts, all surfaced inside Salesforce on the household record.',
     tags:['Pershing','Fidelity','Cert Auth','SFTP','Salesforce'],
     features:[{g:'Custodian Data Without Leaving Salesforce',items:[{n:'The process it replaced',d:'Looking up a single client\'s standing instructions, RMD status, or beneficiary on file used to mean logging into a custodian web UI (Pershing\'s NetX360, or Fidelity Wealthscape), navigating through tabs, and digging. Two custodians, two logins, two UIs. Multiple logins per ops question. Context switching killed velocity.'},{n:'Pershing, cert-auth API ingestion',d:'Pershing\'s certificate-authenticated APIs feed statements, tax docs, RMDs, standing instructions, and retirement-account specifics into our own data layer. Intraday refresh, the data on the household record matches Pershing in near-real-time.'},{n:'Fidelity, cert-auth API + custom SFTP ingestion',d:'Fidelity\'s cert-auth API for live data, plus a custom SFTP ingestion server I built on DigitalOcean with a file watcher, SQLite intake schema, 14 PostgreSQL tables, and 18 daily jobs. Different vendor, same Salesforce surface.'},{n:'Surfaced inside Salesforce on the same record',d:'Custodian-integrated Lightning components on the household record show data from whichever custodian holds that account. Ops doesn\'t need to know or care which custodian, the UI is the same.'},{n:'Built for the Pershing → Fidelity conversion',d:'Designed so both custodians coexist for the duration of the multi-year migration. As accounts move to Fidelity, they appear in the same UI seamlessly, no advisor or ops retraining required.'},{n:'Business impact',d:'Ops self-serve answers about either custodian\'s data. Per-question time cost dropped from minutes to seconds. Eliminates the dual-custodian login problem entirely. Conversion timeline accelerated because the data layer doesn\'t depend on which custodian holds the account.'},{n:'Platform leverage',d:'Same ingestion pattern, two custodians. The pattern itself is the asset, adding a third custodian (if ever needed) is a known path, not a new project.'},]},{g:'Document Pipelines',items:[{n:'Statements',d:'Monthly financial statements from both Pershing and Fidelity'},{n:'Tax Docs',d:'K-1s, 1099s, and other tax forms from both custodians'},{n:'Standing Instructions',d:'Account instruction management surfaced from each custodian\'s API'},{n:'Retirement',d:'Retirement-specific API integration (RMDs, contributions, beneficiaries)'},{n:'SFTP file watcher',d:'DigitalOcean watcher process that ingests scheduled Fidelity file drops; 18 daily jobs land them into the right PostgreSQL tables'}]}]},
-  {id:'dailyemail',domain:'projects.balentine.com',title:'Daily Email Summary',stripe:'linear-gradient(90deg,var(--blue-soft),var(--green-soft))',
+  {id:'dailyemail',demo:'voice',domain:'projects.balentine.com',title:'Daily Email Summary',stripe:'linear-gradient(90deg,var(--blue-soft),var(--green-soft))',
     desc:'Automated portfolio briefing system. scans advisor mailboxes via Microsoft Graph, matches senders to clients using Salesforce-synced contact data, generates AI summaries via GPT-4o-mini, and delivers branded HTML digest emails on a configurable schedule.',
     tags:['Microsoft Graph','OpenAI','PostgreSQL','Node-cron','Salesforce Sync'],
     features:[
@@ -4413,7 +4413,7 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
 
   // ── Open / Close helpers ──
   window.openShowcaseDemo=function(id){
-    const map={security:'sm-modal',dataarch:'da-modal',roadmap:'tr-modal',orgchart:'oc-modal',valuecards:'vc-modal',insights:'ins-modal',syncmon:'sy-modal'};
+    const map={security:'sm-modal',dataarch:'da-modal',roadmap:'tr-modal',orgchart:'oc-modal',valuecards:'vc-modal',insights:'ins-modal',syncmon:'sy-modal',receipts:'rc-modal',voice:'vp-modal'};
     const m=document.getElementById(map[id]);
     if(!m)return;
     m.classList.add('dm-open');
@@ -6140,6 +6140,195 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
     if(id==='valuecards')vcStart();
     if(id==='insights')insInit();
     if(id==='syncmon')syInit();
+  };
+})();
+</script>
+
+<!-- ───────── Mini demos round 2: Receipt AI Matcher · Voice Profile Rewriter ───────── -->
+<style id="mini-demos-2-styles">
+/* receipt matcher */
+.rc-wrap{display:grid;grid-template-columns:300px 1fr;gap:20px;padding:22px}
+.rc-label{font-size:0.66rem;letter-spacing:1.8px;text-transform:uppercase;color:#8a857c;font-weight:600;margin-bottom:10px}
+.rc-receipt{background:#fff;border:1px solid #e0dcd2;border-radius:4px;padding:14px 16px;font-family:'Courier New',monospace;font-size:0.7rem;line-height:1.6;cursor:pointer;margin-bottom:12px;box-shadow:0 3px 10px rgba(0,0,0,0.05);transition:all .15s;position:relative}
+.rc-receipt:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,0.1)}
+.rc-receipt.active{outline:2px solid #B91C1C;outline-offset:2px}
+.rc-receipt-head{text-align:center;font-weight:700;border-bottom:1px dashed #c9c4b8;padding-bottom:6px;margin-bottom:6px;font-size:0.74rem}
+.rc-receipt-row{display:flex;justify-content:space-between}
+.rc-receipt-total{border-top:1px dashed #c9c4b8;margin-top:6px;padding-top:6px;font-weight:700}
+.rc-out{background:#fff;border:1px solid #d5d1c8;border-radius:12px;padding:20px;min-height:360px}
+.rc-scanning{display:flex;align-items:center;gap:10px;font-size:0.85rem;color:#8a857c}
+.rc-spin{width:16px;height:16px;border:2px solid #e5e1d8;border-top-color:#B91C1C;border-radius:50%;animation:rcSpin 0.7s linear infinite}
+@keyframes rcSpin{to{transform:rotate(360deg)}}
+.rc-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:14px 0 20px}
+.rc-field{background:#faf9f6;border:1px solid #e5e1d8;border-radius:8px;padding:10px 12px;border-top:3px solid #174435}
+.rc-field-k{font-size:0.6rem;letter-spacing:1.5px;text-transform:uppercase;color:#8a857c;font-weight:600}
+.rc-field-v{font-weight:700;font-size:0.95rem;margin-top:2px}
+.rc-conf{font-size:0.64rem;color:#174435;font-weight:600}
+.rc-match{display:flex;justify-content:space-between;align-items:center;background:#faf9f6;border:1px solid #e5e1d8;border-radius:10px;padding:11px 14px;margin-bottom:8px;cursor:pointer;transition:all .15s;font-size:0.82rem}
+.rc-match:hover{border-color:#B91C1C}
+.rc-match.best{border-color:#174435;background:rgba(23,68,53,0.04)}
+.rc-match.confirmed{background:#174435;color:#fff;border-color:#174435}
+.rc-pct{font-weight:700;font-size:0.9rem}
+.rc-pct--hi{color:#174435}.rc-match.confirmed .rc-pct--hi{color:#fff}
+.rc-pct--lo{color:#b0aa9c}
+.rc-done{margin-top:14px;font-size:0.78rem;color:#174435;font-weight:600;display:flex;align-items:center;gap:8px}
+.rc-note{font-size:0.72rem;color:#9e9a90;font-style:italic;margin-top:10px}
+@media(max-width:760px){.rc-wrap{grid-template-columns:1fr}}
+/* voice rewriter */
+.vp-wrap{padding:22px}
+.vp-profile{background:linear-gradient(170deg,#071A31,#0B2545);border-radius:12px;color:#fff;padding:16px 20px;margin-bottom:18px}
+.vp-profile-label{font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;font-weight:600;margin-bottom:6px}
+.vp-traits{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.vp-trait{font-size:0.68rem;padding:3px 11px;border-radius:20px;border:1px solid rgba(201,168,76,0.4);color:#C9A84C}
+.vp-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.vp-col-label{font-size:0.66rem;letter-spacing:1.8px;text-transform:uppercase;color:#8a857c;font-weight:600;margin-bottom:8px}
+.vp-samples{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.vp-sample{font-size:0.7rem;font-weight:600;padding:5px 12px;border-radius:20px;border:1px solid #d5d1c8;background:#fff;cursor:pointer;transition:all .15s}
+.vp-sample:hover{border-color:#B91C1C;color:#B91C1C}
+.vp-sample.active{background:#B91C1C;border-color:#B91C1C;color:#fff}
+.vp-box{background:#fff;border:1px solid #d5d1c8;border-radius:12px;padding:16px;font-size:0.86rem;line-height:1.7;min-height:170px}
+.vp-box--before{color:#6a655c;font-style:italic}
+.vp-go{font-family:'Source Sans 3',sans-serif;font-size:0.85rem;font-weight:600;padding:10px 24px;border-radius:10px;border:none;background:#B91C1C;color:#fff;cursor:pointer;margin:14px 0;transition:background .15s}
+.vp-go:hover{background:#9d1818}
+.vp-go[disabled]{opacity:0.5;cursor:default}
+.vp-note{font-size:0.72rem;color:#9e9a90;font-style:italic;margin-top:8px}
+@media(max-width:760px){.vp-cols{grid-template-columns:1fr}}
+</style>
+
+<div class="dm-overlay" id="rc-modal" role="dialog" aria-modal="true" aria-label="Receipt AI Demo">
+  <div class="dm-shell">
+    <div class="dm-titlebar"><h2><span class="dm-dot"></span>Receipt AI · Expense Matching</h2><button class="dm-close" data-dm-close="rc-modal" aria-label="Close">✕</button></div>
+    <div class="dm-banner"><strong>Interactive Demo</strong> · Click a receipt to scan it. AI extracts the vendor, amount, and date, then matches it against the open expense report. Production version takes phone photos and posts confirmed matches to Concur via API.</div>
+    <div class="dm-body"><div class="rc-wrap">
+      <div><div class="rc-label">Uploaded receipts · click to scan</div><div id="rc-list"></div></div>
+      <div class="rc-out" id="rc-out"><div class="rc-scanning" style="color:#9e9a90">← Pick a receipt to run the scan.</div></div>
+    </div></div>
+  </div>
+</div>
+
+<div class="dm-overlay" id="vp-modal" role="dialog" aria-modal="true" aria-label="Voice Profile Demo">
+  <div class="dm-shell" style="max-width:1000px">
+    <div class="dm-titlebar"><h2><span class="dm-dot"></span>Sound Like Me · Voice Rewriter</h2><button class="dm-close" data-dm-close="vp-modal" aria-label="Close">✕</button></div>
+    <div class="dm-banner"><strong>Interactive Demo</strong> · Pick a stiff corporate message and rewrite it in the learned voice. Production version builds the profile from ~500 of your sent emails and Slack messages with a two-pass analysis, then rewrites anything you paste.</div>
+    <div class="dm-body"><div class="vp-wrap">
+      <div class="vp-profile"><div class="vp-profile-label">Active Voice Profile · built from 500 sent emails + Slack history</div><div style="font-family:'Playfair Display',Georgia,serif;font-size:1.05rem">Dre · Direct, warm, zero corporate speak</div>
+        <div class="vp-traits"><span class="vp-trait">Short sentences</span><span class="vp-trait">Action first</span><span class="vp-trait">"lol" softener</span><span class="vp-trait">No throat-clearing</span><span class="vp-trait">Contractions always</span><span class="vp-trait">Asks, then gets out of the way</span></div></div>
+      <div class="vp-cols">
+        <div><div class="vp-col-label">Before · pick a sample</div>
+          <div class="vp-samples" id="vp-samples"></div>
+          <div class="vp-box vp-box--before" id="vp-before"></div>
+          <button class="vp-go" id="vp-go">⚡ Rewrite in My Voice</button>
+        </div>
+        <div><div class="vp-col-label">After · the same message, in voice</div>
+          <div class="vp-box" id="vp-after"></div>
+          <div class="vp-note" id="vp-after-note"></div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</div>
+
+<script id="mini-demos-2-script">
+(function(){
+  /* ── RECEIPT MATCHER ── */
+  var RC_RECEIPTS=[
+    {id:0,vendor:'Delta Air Lines',head:'DELTA AIR LINES',date:'May 14, 2026',amount:'$487.20',cat:'Airfare',conf:'98%',
+     lines:[['ATL → LGA · Main',' $402.00'],['Seat upgrade','$45.00'],['Taxes & fees','$40.20']],
+     matches:[{t:'Client travel · NYC review · May 14',a:'$487.20',p:96,hi:true},{t:'Conference travel · T3 · Mar 3',a:'$512.40',p:38},{t:'Team offsite mileage · May 2',a:'$118.75',p:12}]},
+    {id:1,vendor:'The Capital Grille',head:'THE CAPITAL GRILLE',date:'May 21, 2026',amount:'$164.85',cat:'Client Meals',conf:'97%',
+     lines:[['Dinner · party of 3','$138.00'],['Beverage','$12.00'],['Tax + tip','$14.85']],
+     matches:[{t:'Client dinner · prospect intro · May 21',a:'$164.85',p:94,hi:true},{t:'Team lunch · sprint close · May 19',a:'$86.40',p:31},{t:'Client coffee · quarterly prep · May 8',a:'$23.10',p:9}]},
+    {id:2,vendor:'Office Depot',head:'OFFICE DEPOT #2214',date:'May 27, 2026',amount:'$89.43',cat:'Supplies',conf:'99%',
+     lines:[['Presentation binders ×6','$54.00'],['HDMI adapter','$22.99'],['Tax','$12.44']],
+     matches:[{t:'Office supplies · May restock',a:'$89.43',p:97,hi:true},{t:'Monitor arm · workstation',a:'$129.99',p:22},{t:'Breakroom order · May 5',a:'$64.18',p:11}]}
+  ];
+  var RC={inited:false,sel:null};
+  function rcList(){
+    document.getElementById('rc-list').innerHTML=RC_RECEIPTS.map(function(r){
+      return '<div class="rc-receipt'+(RC.sel===r.id?' active':'')+'" data-id="'+r.id+'"><div class="rc-receipt-head">'+r.head+'</div>'
+        +r.lines.map(function(l){return '<div class="rc-receipt-row"><span>'+l[0]+'</span><span>'+l[1]+'</span></div>'}).join('')
+        +'<div class="rc-receipt-row rc-receipt-total"><span>TOTAL</span><span>'+r.amount+'</span></div>'
+        +'<div style="text-align:center;margin-top:5px;color:#9e9a90">'+r.date+'</div></div>';
+    }).join('');
+    document.querySelectorAll('#rc-list .rc-receipt').forEach(function(el){el.addEventListener('click',function(){rcScan(+el.dataset.id)})});
+  }
+  function rcScan(id){
+    RC.sel=id; rcList();
+    var r=RC_RECEIPTS[id], out=document.getElementById('rc-out');
+    out.innerHTML='<div class="rc-scanning"><div class="rc-spin"></div>Scanning receipt · extracting fields…</div>';
+    setTimeout(function(){
+      out.innerHTML='<div class="rc-label">AI extraction</div>'
+        +'<div class="rc-fields">'
+        +'<div class="rc-field"><div class="rc-field-k">Vendor</div><div class="rc-field-v">'+r.vendor+'</div><div class="rc-conf">'+r.conf+' confidence</div></div>'
+        +'<div class="rc-field"><div class="rc-field-k">Date</div><div class="rc-field-v">'+r.date+'</div></div>'
+        +'<div class="rc-field"><div class="rc-field-k">Amount</div><div class="rc-field-v">'+r.amount+'</div></div>'
+        +'<div class="rc-field"><div class="rc-field-k">Category</div><div class="rc-field-v">'+r.cat+'</div></div>'
+        +'</div>'
+        +'<div class="rc-label">Matching expense lines</div>'
+        +r.matches.map(function(m,i){return '<div class="rc-match'+(m.hi?' best':'')+'" data-i="'+i+'"><span>'+m.t+' · '+m.a+'</span><span class="rc-pct '+(m.hi?'rc-pct--hi':'rc-pct--lo')+'">'+m.p+'% match</span></div>'}).join('')
+        +'<div class="rc-note">Click the top match to confirm it.</div>';
+      out.querySelectorAll('.rc-match').forEach(function(el){el.addEventListener('click',function(){
+        out.querySelectorAll('.rc-match').forEach(function(x){x.classList.remove('confirmed')});
+        el.classList.add('confirmed');
+        var done=out.querySelector('.rc-done');
+        if(!done){done=document.createElement('div');done.className='rc-done';out.appendChild(done)}
+        done.innerHTML='✓ Matched and queued. In production this posts straight to Concur via the expense API.';
+      })});
+    },1100);
+  }
+  function rcInit(){ if(RC.inited)return; RC.inited=true; rcList(); }
+
+  /* ── VOICE REWRITER ── */
+  var VP_PAIRS=[
+    {label:'Status email',
+     before:'I hope this email finds you well. I wanted to reach out regarding the status of the implementation timeline. Furthermore, we would like to schedule a meeting to discuss next steps at your earliest convenience. Please do not hesitate to reach out should you have any questions.',
+     after:'Hey Sarah, quick update on the timeline. Build is on track for Friday. Want to grab 15 minutes Thursday to walk through next steps? Ping me with a time that works.'},
+    {label:'Vendor follow-up',
+     before:'Per our previous correspondence, the deliverables outlined in the statement of work have not yet been received. We kindly request that you provide an updated delivery schedule at your earliest convenience in order to facilitate our internal planning processes.',
+     after:'Hey Tom, still waiting on the SOW deliverables. Can you get me an updated delivery date by EOD? Need it to plan the rest of the sprint.'},
+    {label:'Team announcement',
+     before:'Attention all staff: It has come to our attention that the new expense reporting system will be implemented effective Monday. All employees are required to utilize the new platform for all expense submissions going forward. Training materials will be distributed in due course.',
+     after:'Folks! New expense system goes live Monday. Old one shuts off the same day, so get pending reports in by Friday. Short how-to video coming tomorrow. 2-minute watch, promise lol'}
+  ];
+  var VP={inited:false,sel:0,timer:null};
+  function vpRender(){
+    var s=document.getElementById('vp-samples');
+    s.innerHTML=VP_PAIRS.map(function(p,i){return '<button class="vp-sample'+(i===VP.sel?' active':'')+'" data-i="'+i+'">'+p.label+'</button>'}).join('');
+    s.querySelectorAll('.vp-sample').forEach(function(b){b.addEventListener('click',function(){
+      VP.sel=+b.dataset.i;
+      if(VP.timer){clearInterval(VP.timer);VP.timer=null}
+      document.getElementById('vp-after').textContent='';
+      document.getElementById('vp-after-note').textContent='';
+      document.getElementById('vp-go').disabled=false;
+      vpRender();
+    })});
+    document.getElementById('vp-before').textContent=VP_PAIRS[VP.sel].before;
+  }
+  function vpGo(){
+    var p=VP_PAIRS[VP.sel], out=document.getElementById('vp-after'), btn=document.getElementById('vp-go');
+    btn.disabled=true; out.textContent='';
+    var i=0;
+    if(VP.timer)clearInterval(VP.timer);
+    VP.timer=setInterval(function(){
+      i+=3;
+      out.textContent=p.after.slice(0,i);
+      if(i>=p.after.length){
+        clearInterval(VP.timer);VP.timer=null;btn.disabled=false;
+        document.getElementById('vp-after-note').textContent='Same ask, half the words, sounds like a person. That is the whole feature.';
+      }
+    },24);
+  }
+  function vpInit(){
+    if(VP.inited)return; VP.inited=true;
+    vpRender();
+    document.getElementById('vp-go').addEventListener('click',vpGo);
+  }
+
+  var prev=window.__newDemoInit;
+  window.__newDemoInit=function(id){
+    if(prev)prev(id);
+    if(id==='receipts')rcInit();
+    if(id==='voice')vpInit();
   };
 })();
 </script>
