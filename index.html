@@ -1932,7 +1932,7 @@ const PROJECTS=[
       {g:'AI Features',items:[{n:'AI Summary',d:'Cross-budget AI-generated insights'},{n:'AI Bill Parser',d:'Extract amounts from uploaded bills'},{n:'Contract AI',d:'AI-assisted contract analysis'}]},
       {g:'Approvals',items:[{n:'Multi-Level Workflow',d:'Manager → Director → CFO with email notifications'},{n:'Audit Trail',d:'Full history with status tracking'}]},
     ]},
-  {id:'insights',domain:'insights.balentine.com',title:'Insights Dashboard',stripe:'linear-gradient(90deg,var(--blue-soft),var(--purple-soft))',
+  {id:'insights',demo:'insights',domain:'insights.balentine.com',title:'Insights Dashboard',stripe:'linear-gradient(90deg,var(--blue-soft),var(--purple-soft))',
     desc:'AI-powered meeting intelligence. A proactive pre-meeting agent that compiles a full client briefing two weeks out, plus voice profiles ("Sound Like Me"), Gong/Zoom sync, and natural-language agent chat. Pulls across Salesforce, Addepar, Pershing, Box, Gong, and Microsoft Graph.',
     tags:['Gong','Zoom','AI','Microsoft Graph','GPT-4o','MCP'],
     features:[
@@ -1960,7 +1960,7 @@ const PROJECTS=[
     desc:'Multi-step client onboarding. dynamic questionnaires, document collection, email-verified submission.',
     tags:['Onboarding','Forms','Verification'],
     features:[{g:'From Paper-and-PDF to Days-Not-Weeks',items:[{n:'The process it replaced',d:'New client onboarding was a paper trail. Forms emailed. PDFs signed. Documents scanned. Manually re-entered into Salesforce by ops. Missing fields meant another email. A typical onboarding took weeks of back-and-forth before the client relationship was officially active.'},{n:'Salesforce pre-populates the form',d:'What the firm already knows about the client (referrer info, initial intake) auto-fills the questionnaire. Client only fills in what\'s actually missing.'},{n:'Dynamic, sectioned questionnaire',d:'Family, Assets, Liabilities, Income, Insurance, Goals, each as its own section with progress indicators. Saveable as you go.'},{n:'Direct document upload',d:'Driver\'s license, statements, void check, uploaded straight into Box, filed into the right client folder, linked to the Salesforce record. No print-scan-email loop.'},{n:'Email verification',d:'One-time link confirmation that the person filling out the form is actually the client. Reduces fraud and impersonation risk.'},{n:'Round-trip back to Salesforce',d:'Completed data flows back into the right Salesforce objects. No re-entry. Ops can pick up the relationship the moment it\'s submitted.'},{n:'Business impact',d:'New client onboarding shrunk from weeks to days. Ops eliminated re-entry and reconciliation. Advisor and client both get a faster, cleaner first impression.'},{n:'Platform leverage',d:'Reuses the same Box ingestion, Salesforce object model, and SSO that the client portal and document portal run on.'},]},{g:'Flow',items:[{n:'Dynamic Questionnaire',d:'Family, Assets, Liabilities, Income, Insurance, Goals'},{n:'Document Collection',d:'ID, statements, void checks'},{n:'Progress Tracking',d:'Visual indicators across sections'}]}]},
-  {id:'valuecards',domain:'valuecards.balentine.com',title:'Value Cards',stripe:'linear-gradient(90deg,var(--green-soft),var(--accent))',
+  {id:'valuecards',demo:'valuecards',domain:'valuecards.balentine.com',title:'Value Cards',stripe:'linear-gradient(90deg,var(--green-soft),var(--accent))',
     desc:'Interactive values assessment. swipe UI, animations, family comparison, audio feedback. Used in generational planning and business advisory.',
     tags:['Framer Motion','Howler.js','Advisory'],
     features:[{g:'Generational Conversations, At Scale',items:[{n:'The process it replaced',d:'Paper card decks. Effective in a one-on-one room, but hard to facilitate at scale. No way to compare results across spouses or across generations. Manual tallies. Card decks got lost. Not usable remotely.'},{n:'Three-round structure',d:'50+ value cards round one, refine to top values round two, narrow to 6 core values round three. Mirrors how advisors actually facilitate the exercise in person.'},{n:'Swipe + grid dual interaction',d:'Touch-friendly swipe mode for mobile/tablet, grid mode for desktop. Animated, audio feedback, designed to feel like a game rather than a survey.'},{n:'Family / group comparison',d:'Multiple players in the same session. Side-by-side comparison view shows where spouses or generations agree and where they diverge, the conversation-starter that paper cards couldn\'t produce.'},{n:'Session analytics',d:'Word cloud of chosen values, distribution stats, comparison snapshots. Generated on the fly so the advisor has talking points the moment the session ends.'},{n:'Business impact',d:'Used in generational planning workshops, business advisory sessions, and prospect meetings. Sparks conversations between spouses or across generations that the paper version never could. A real differentiator in client-facing meetings.'},]},{g:'Game',items:[{n:'Three Rounds',d:'50+ cards → refine → 6 core values'},{n:'Swipe + Grid',d:'Dual interaction modes with animations'},{n:'Audio System',d:'11 effects via Howler.js'},{n:'Session Analytics',d:'Word cloud, stats, family comparison'}]}]},
@@ -1972,11 +1972,11 @@ const PROJECTS=[
       {g:'Projects',items:[{n:'Full CRUD',d:'List, Grid, Map (React Flow), Timeline'},{n:'Tasks',d:'Subtasks, filtering, associations'},{n:'Tech Roadmap',d:'Horizontal timeline with epics'}]},
       {g:'Admin Tools',items:[{n:'OOO Manager',d:'Dashboard + automatic Slack status sync'},{n:'Calendar Manager',d:'Org-wide permissions via Microsoft Graph'},{n:'Distribution Lists',d:'M365 group and member management'},{n:'Change Management',d:'Audit log with source badges'},{n:'Vendor Management',d:'Contracts, compliance, renewals'},{n:'Data Architecture',d:'Interactive React Flow diagram'}]}
     ]},
-  {id:'additional',domain:'Multiple Domains',title:'Additional Portals',stripe:'linear-gradient(90deg,var(--red-soft),var(--accent))',
+  {id:'additional',demo:'orgchart',domain:'Multiple Domains',title:'Additional Portals',stripe:'linear-gradient(90deg,var(--red-soft),var(--accent))',
     desc:'Total rewards statements, org chart, pre-meeting questionnaire, large file upload, SSO infrastructure, and Salesforce MCP server.',
     tags:['Rippling SAML','Keycloak','MCP'],
     features:[{g:'The Long Tail of Internal Tools',items:[{n:'The pattern',d:'Each of these started as a "we need a small thing" request that would have been a vendor evaluation, a contract, and an integration project. Instead, each became a focused build on the existing internal stack, same auth, same data layer, same deployment pipeline.'},{n:'Total Rewards portal',d:'Real-time visibility into compensation, benefits, and incentives. Replaced an annual PDF summary that was outdated the moment it was generated.'},{n:'Org Chart',d:'Visual team hierarchy pulled live from Rippling. Replaces a manually-maintained chart that nobody updated.'},{n:'Pre-Meeting Discovery Portal',d:'Public questionnaire prospects fill out before their first call. Saves the advisor 20 minutes of intake on every first meeting.'},{n:'Upload Portal',d:'Secure file upload (500 MB) for prospects and clients to send sensitive docs. Replaces email attachments and avoids the inbox-as-filesystem problem.'},{n:'SSO Server (Keycloak)',d:'Federated identity provider running SAML to every internal app. Single sign-on for the whole firm.'},{n:'Salesforce MCP server',d:'Custom MCP exposing Salesforce metadata coverage with read/write separation. Powers the AI agents and exposes the CRM as tool calls.'},{n:'Business impact',d:'A long tail of small productivity wins that add up. Each tool replaced an annual vendor cost OR an ongoing manual process. The firm runs leaner without losing capability.'},]},{g:'Portals',items:[{n:'Total Rewards',d:'Real-time compensation/benefits/incentive visibility'},{n:'Org Chart',d:'Team hierarchy visualization'},{n:'Pre-Meeting Portal',d:'Public client discovery questionnaire'},{n:'Upload Portal',d:'Secure file upload (500MB)'},{n:'SSO Server',d:'Keycloak SAML identity provider'},{n:'Salesforce MCP',d:'Metadata coverage. read/write separation'}]}]},
-  {id:'pershing',domain:'Pershing + Fidelity',title:'Custodial Integration',stripe:'linear-gradient(90deg,var(--accent),var(--blue-soft))',
+  {id:'pershing',demo:'syncmon',domain:'Pershing + Fidelity',title:'Custodial Integration',stripe:'linear-gradient(90deg,var(--accent),var(--blue-soft))',
     desc:'Both custodians fully integrated into the firm\'s data layer. Pershing via cert-auth NetX360 APIs; Fidelity via cert-auth API + custom SFTP ingestion server (DigitalOcean file watcher, 14 PostgreSQL tables, 18 daily jobs). Statements, tax docs, RMDs, standing instructions, beneficiaries, retirement accounts, all surfaced inside Salesforce on the household record.',
     tags:['Pershing','Fidelity','Cert Auth','SFTP','Salesforce'],
     features:[{g:'Custodian Data Without Leaving Salesforce',items:[{n:'The process it replaced',d:'Looking up a single client\'s standing instructions, RMD status, or beneficiary on file used to mean logging into a custodian web UI (Pershing\'s NetX360, or Fidelity Wealthscape), navigating through tabs, and digging. Two custodians, two logins, two UIs. Multiple logins per ops question. Context switching killed velocity.'},{n:'Pershing, cert-auth API ingestion',d:'Pershing\'s certificate-authenticated APIs feed statements, tax docs, RMDs, standing instructions, and retirement-account specifics into our own data layer. Intraday refresh, the data on the household record matches Pershing in near-real-time.'},{n:'Fidelity, cert-auth API + custom SFTP ingestion',d:'Fidelity\'s cert-auth API for live data, plus a custom SFTP ingestion server I built on DigitalOcean with a file watcher, SQLite intake schema, 14 PostgreSQL tables, and 18 daily jobs. Different vendor, same Salesforce surface.'},{n:'Surfaced inside Salesforce on the same record',d:'Custodian-integrated Lightning components on the household record show data from whichever custodian holds that account. Ops doesn\'t need to know or care which custodian, the UI is the same.'},{n:'Built for the Pershing → Fidelity conversion',d:'Designed so both custodians coexist for the duration of the multi-year migration. As accounts move to Fidelity, they appear in the same UI seamlessly, no advisor or ops retraining required.'},{n:'Business impact',d:'Ops self-serve answers about either custodian\'s data. Per-question time cost dropped from minutes to seconds. Eliminates the dual-custodian login problem entirely. Conversion timeline accelerated because the data layer doesn\'t depend on which custodian holds the account.'},{n:'Platform leverage',d:'Same ingestion pattern, two custodians. The pattern itself is the asset, adding a third custodian (if ever needed) is a known path, not a new project.'},]},{g:'Document Pipelines',items:[{n:'Statements',d:'Monthly financial statements from both Pershing and Fidelity'},{n:'Tax Docs',d:'K-1s, 1099s, and other tax forms from both custodians'},{n:'Standing Instructions',d:'Account instruction management surfaced from each custodian\'s API'},{n:'Retirement',d:'Retirement-specific API integration (RMDs, contributions, beneficiaries)'},{n:'SFTP file watcher',d:'DigitalOcean watcher process that ingests scheduled Fidelity file drops; 18 daily jobs land them into the right PostgreSQL tables'}]}]},
@@ -4413,7 +4413,7 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
 
   // ── Open / Close helpers ──
   window.openShowcaseDemo=function(id){
-    const map={security:'sm-modal',dataarch:'da-modal',roadmap:'tr-modal'};
+    const map={security:'sm-modal',dataarch:'da-modal',roadmap:'tr-modal',orgchart:'oc-modal',valuecards:'vc-modal',insights:'ins-modal',syncmon:'sy-modal'};
     const m=document.getElementById(map[id]);
     if(!m)return;
     m.classList.add('dm-open');
@@ -4421,6 +4421,7 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
     if(id==='security')initSecurity();
     if(id==='dataarch')initDataArch();
     if(id==='roadmap')initRoadmap();
+    if(window.__newDemoInit)window.__newDemoInit(id);
   };
   document.addEventListener('click',e=>{
     const c=e.target.closest('[data-dm-close]');
@@ -5800,6 +5801,346 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
     const block = (data.content || []).find(b => b.type === 'text');
     return (block && block.text) || '(empty response)';
   }
+})();
+</script>
+
+<!-- ───────── Mini interactive demos: Org Chart · Value Cards · Insights AI · Sync Monitor ───────── -->
+<style id="mini-demos-styles">
+/* shared */
+.mini-banner-note{font-size:0.72rem;color:#9e9a90;font-style:italic;margin-top:4px}
+/* org chart */
+.oc-wrap{display:grid;grid-template-columns:1fr 300px;gap:18px;padding:22px}
+.oc-tools{grid-column:1/-1;display:flex;gap:10px;align-items:center}
+.oc-search{flex:0 0 280px;padding:9px 14px;border:1px solid #d5d1c8;border-radius:8px;font-family:'Source Sans 3',sans-serif;font-size:0.85rem;background:#fff}
+.oc-hint{font-size:0.75rem;color:#9e9a90}
+.oc-tree{display:flex;flex-direction:column;align-items:center;gap:0;padding:10px 0 20px;overflow-x:auto}
+.oc-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.oc-stem{width:1px;height:22px;background:#cfcabe}
+.oc-node{background:#fff;border:1px solid #d5d1c8;border-radius:10px;padding:9px 14px;cursor:pointer;text-align:center;min-width:130px;transition:all .15s;border-top:3px solid #B91C1C}
+.oc-node:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,0.08)}
+.oc-node.active{background:#B91C1C;color:#fff}
+.oc-node.active .oc-node-title{color:rgba(255,255,255,0.75)}
+.oc-node.dim{opacity:0.25}
+.oc-node-name{font-weight:700;font-size:0.82rem;line-height:1.3}
+.oc-node-title{font-size:0.66rem;color:#8a857c;letter-spacing:0.4px;text-transform:uppercase;margin-top:2px}
+.oc-panel{background:#fff;border:1px solid #d5d1c8;border-radius:12px;padding:18px;align-self:start;position:sticky;top:0}
+.oc-panel h4{font-family:'Playfair Display',Georgia,serif;font-size:1.15rem;margin:0 0 2px}
+.oc-panel-title{font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;color:#B91C1C;font-weight:600;margin-bottom:12px}
+.oc-fact{display:flex;justify-content:space-between;font-size:0.8rem;padding:7px 0;border-bottom:1px dashed #e5e1d8}
+.oc-fact span:first-child{color:#8a857c}
+.oc-badge{display:inline-block;margin-top:12px;font-size:0.66rem;letter-spacing:1px;text-transform:uppercase;background:rgba(23,68,53,0.08);color:#174435;padding:4px 10px;border-radius:20px;font-weight:600}
+@media(max-width:760px){.oc-wrap{grid-template-columns:1fr}.oc-panel{position:static}}
+/* value cards */
+.vc-wrap{padding:26px 22px;text-align:center;min-height:420px}
+.vc-stage-label{font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:#B91C1C;font-weight:600;margin-bottom:14px}
+.vc-card{width:230px;height:140px;margin:0 auto;background:linear-gradient(170deg,#071A31,#0B2545);border-radius:14px;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;box-shadow:0 14px 34px rgba(11,37,69,0.35);transition:transform .3s,opacity .3s}
+.vc-card-emoji{font-size:2rem}
+.vc-card-name{font-family:'Playfair Display',Georgia,serif;font-size:1.25rem}
+.vc-card.fly-left{transform:translateX(-130%) rotate(-14deg);opacity:0}
+.vc-card.fly-right{transform:translateX(130%) rotate(14deg);opacity:0}
+.vc-actions{display:flex;gap:12px;justify-content:center;margin-top:18px}
+.vc-btn{font-family:'Source Sans 3',sans-serif;font-size:0.85rem;font-weight:600;padding:10px 26px;border-radius:10px;cursor:pointer;border:1px solid #d5d1c8;background:#fff;transition:all .15s}
+.vc-btn--keep{background:#174435;border-color:#174435;color:#fff}
+.vc-btn--keep:hover{background:#1d5a45}
+.vc-btn--pass:hover{border-color:#B91C1C;color:#B91C1C}
+.vc-progress{font-size:0.72rem;color:#9e9a90;margin-top:14px}
+.vc-kept{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.vc-chip{font-size:0.74rem;padding:5px 12px;border-radius:20px;background:rgba(23,68,53,0.08);color:#174435;font-weight:600;cursor:pointer;border:1px solid transparent;transition:all .15s}
+.vc-chip.sel{background:#C9A84C;color:#0B2545;border-color:#C9A84C}
+.vc-final{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:18px 0}
+.vc-final .vc-card{width:170px;height:110px;margin:0}
+.vc-note{font-size:0.78rem;color:#8a857c;font-style:italic;max-width:520px;margin:14px auto 0;line-height:1.6}
+/* insights */
+.ins-wrap{display:grid;grid-template-columns:280px 1fr;gap:18px;padding:22px}
+.ins-meeting{background:#fff;border:1px solid #d5d1c8;border-radius:10px;padding:13px 15px;cursor:pointer;margin-bottom:10px;transition:all .15s;border-top:3px solid transparent}
+.ins-meeting:hover{border-color:#B91C1C}
+.ins-meeting.active{border-top-color:#B91C1C;box-shadow:0 6px 16px rgba(0,0,0,0.06)}
+.ins-meeting-date{font-size:0.64rem;letter-spacing:1.5px;text-transform:uppercase;color:#B91C1C;font-weight:600}
+.ins-meeting-name{font-weight:700;font-size:0.9rem;margin:3px 0}
+.ins-meeting-who{font-size:0.72rem;color:#8a857c}
+.ins-out{background:#fff;border:1px solid #d5d1c8;border-radius:12px;padding:22px;min-height:380px}
+.ins-gen{font-family:'Source Sans 3',sans-serif;font-size:0.85rem;font-weight:600;padding:10px 24px;border-radius:10px;border:none;background:#B91C1C;color:#fff;cursor:pointer;transition:background .15s}
+.ins-gen:hover{background:#9d1818}
+.ins-gen[disabled]{opacity:0.5;cursor:default}
+.ins-stream{font-size:0.88rem;line-height:1.75;margin-top:16px;text-align:left}
+.ins-stream h5{font-family:'Source Sans 3',sans-serif;font-size:0.68rem;letter-spacing:1.8px;text-transform:uppercase;color:#B91C1C;margin:18px 0 6px}
+.ins-stream ul{margin:0 0 0 18px;padding:0}
+.ins-stream li{margin-bottom:4px}
+.ins-cursor{display:inline-block;width:8px;height:15px;background:#B91C1C;animation:insBlink 0.8s step-end infinite;vertical-align:text-bottom}
+@keyframes insBlink{50%{opacity:0}}
+.ins-send{margin-top:16px;display:none}
+.ins-toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:#174435;color:#fff;padding:11px 22px;border-radius:10px;font-size:0.8rem;z-index:10001;opacity:0;transition:opacity .3s;pointer-events:none}
+@media(max-width:760px){.ins-wrap{grid-template-columns:1fr}}
+/* sync monitor */
+.sy-wrap{padding:22px}
+.sy-stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.sy-stat{background:#fff;border:1px solid #d5d1c8;border-radius:10px;padding:12px 20px;border-top:3px solid #B91C1C}
+.sy-stat-val{font-family:'Playfair Display',Georgia,serif;font-size:1.5rem;font-weight:700}
+.sy-stat-lbl{font-size:0.62rem;letter-spacing:1.5px;text-transform:uppercase;color:#8a857c;font-weight:600}
+.sy-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #d5d1c8;border-radius:12px;overflow:hidden;font-size:0.82rem}
+.sy-table th{text-align:left;font-size:0.64rem;letter-spacing:1.5px;text-transform:uppercase;color:#8a857c;padding:11px 14px;border-bottom:1px solid #e5e1d8;background:#faf9f6}
+.sy-table td{padding:10px 14px;border-bottom:1px solid #f0ede6}
+.sy-pill{display:inline-block;font-size:0.66rem;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;padding:3px 10px;border-radius:20px}
+.sy-pill--ok{background:rgba(23,68,53,0.1);color:#174435}
+.sy-pill--run{background:rgba(201,168,76,0.18);color:#8a6d1f;animation:syPulse 1.1s ease-in-out infinite}
+@keyframes syPulse{50%{opacity:0.45}}
+.sy-run{font-size:0.68rem;font-weight:600;color:#B91C1C;background:none;border:1px solid #e0d8c8;padding:4px 12px;border-radius:8px;cursor:pointer;transition:all .15s}
+.sy-run:hover{background:#B91C1C;color:#fff;border-color:#B91C1C}
+.sy-scroll{overflow-x:auto}
+</style>
+
+<div class="dm-overlay" id="oc-modal" role="dialog" aria-modal="true" aria-label="Org Chart Demo">
+  <div class="dm-shell">
+    <div class="dm-titlebar"><h2><span class="dm-dot"></span>Org Chart</h2><button class="dm-close" data-dm-close="oc-modal" aria-label="Close">✕</button></div>
+    <div class="dm-banner"><strong>Interactive Demo</strong> · Click any person for details. Search filters live. Production version renders with React Flow, syncs people from the HRIS nightly, pulls photos from the CRM, and exports to PDF.</div>
+    <div class="dm-body"><div class="oc-wrap">
+      <div class="oc-tools"><input class="oc-search" id="oc-search" placeholder="Search name, title, or team…"><span class="oc-hint">Demo data. All names fictional.</span></div>
+      <div class="oc-tree" id="oc-tree"></div>
+      <div class="oc-panel" id="oc-panel"></div>
+    </div></div>
+  </div>
+</div>
+
+<div class="dm-overlay" id="vc-modal" role="dialog" aria-modal="true" aria-label="Value Cards Demo">
+  <div class="dm-shell" style="max-width:760px">
+    <div class="dm-titlebar"><h2><span class="dm-dot"></span>Value Cards</h2><button class="dm-close" data-dm-close="vc-modal" aria-label="Close">✕</button></div>
+    <div class="dm-banner"><strong>Interactive Demo</strong> · A values-discovery game advisors run with client families. Sort the deck, then narrow to your top three. Production version runs multi-player sessions with invitations and an advisor report.</div>
+    <div class="dm-body"><div class="vc-wrap" id="vc-wrap"></div></div>
+  </div>
+</div>
+
+<div class="dm-overlay" id="ins-modal" role="dialog" aria-modal="true" aria-label="Insights AI Demo">
+  <div class="dm-shell">
+    <div class="dm-titlebar"><h2><span class="dm-dot"></span>Insights · Meeting AI</h2><button class="dm-close" data-dm-close="ins-modal" aria-label="Close">✕</button></div>
+    <div class="dm-banner"><strong>Interactive Demo</strong> · Pick a meeting and generate the summary. Production version parses the real transcript and calendar context, writes the summary in the advisor's voice profile, and emails it via Microsoft Graph.</div>
+    <div class="dm-body"><div class="ins-wrap">
+      <div id="ins-list"></div>
+      <div class="ins-out"><button class="ins-gen" id="ins-gen">⚡ Generate Summary</button><div class="ins-stream" id="ins-stream"></div><button class="ins-gen ins-send" id="ins-send">✉ Send to Advisor</button></div>
+    </div></div>
+  </div>
+</div>
+<div class="ins-toast" id="ins-toast"></div>
+
+<div class="dm-overlay" id="sy-modal" role="dialog" aria-modal="true" aria-label="Sync Job Monitor Demo">
+  <div class="dm-shell">
+    <div class="dm-titlebar"><h2><span class="dm-dot"></span>Sync Job Monitor</h2><button class="dm-close" data-dm-close="sy-modal" aria-label="Close">✕</button></div>
+    <div class="dm-banner"><strong>Interactive Demo</strong> · A live view of the nightly and intraday jobs that keep every system in sync. Watch them run, or kick one off yourself. Production runs 70+ scheduled jobs under PM2 with Slack alerting.</div>
+    <div class="dm-body"><div class="sy-wrap">
+      <div class="sy-stats" id="sy-stats"></div>
+      <div class="sy-scroll"><table class="sy-table"><thead><tr><th>Job</th><th>Flow</th><th>Schedule</th><th>Last Run</th><th>Duration</th><th>Status</th><th></th></tr></thead><tbody id="sy-body"></tbody></table></div>
+    </div></div>
+  </div>
+</div>
+
+<script id="mini-demos-script">
+(function(){
+  /* ── ORG CHART ── */
+  var OC={inited:false,sel:'ceo'};
+  var OC_PEOPLE=[
+    {id:'ceo',name:'Margaret Whitfield',title:'Chief Executive Officer',team:'Executive',office:'Atlanta',since:2009,lvl:0,boss:null},
+    {id:'coo',name:'Daniel Reyes',title:'Chief Operating Officer',team:'Operations',office:'Atlanta',since:2012,lvl:1,boss:'ceo'},
+    {id:'cio',name:'James Okafor',title:'Chief Investment Officer',team:'Investments',office:'Atlanta',since:2011,lvl:1,boss:'ceo'},
+    {id:'cto',name:'Alex Navarro',title:'Director of Technology',team:'Technology',office:'Atlanta',since:2016,lvl:1,boss:'ceo'},
+    {id:'cco',name:'Laura Bennett',title:'Chief Compliance Officer',team:'Compliance',office:'Raleigh',since:2014,lvl:1,boss:'ceo'},
+    {id:'cs1',name:'Sofia Tran',title:'Client Service Lead',team:'Operations',office:'Atlanta',since:2017,lvl:2,boss:'coo'},
+    {id:'bil',name:'Marcus Hale',title:'Billing Manager',team:'Operations',office:'Raleigh',since:2018,lvl:2,boss:'coo'},
+    {id:'pm1',name:'Priya Raman',title:'Portfolio Manager',team:'Investments',office:'Atlanta',since:2015,lvl:2,boss:'cio'},
+    {id:'trd',name:'Evan Brooks',title:'Head Trader',team:'Investments',office:'Atlanta',since:2019,lvl:2,boss:'cio'},
+    {id:'dev',name:'Jordan Lee',title:'Systems Engineer',team:'Technology',office:'Atlanta',since:2021,lvl:2,boss:'cto'},
+    {id:'sec',name:'Nina Volkov',title:'Security Analyst',team:'Technology',office:'Remote',since:2022,lvl:2,boss:'cto'},
+    {id:'par',name:'Grace Kim',title:'Compliance Associate',team:'Compliance',office:'Raleigh',since:2020,lvl:2,boss:'cco'}
+  ];
+  function ocRender(filter){
+    var tree=document.getElementById('oc-tree');
+    var q=(filter||'').toLowerCase();
+    function match(p){return !q||((p.name+' '+p.title+' '+p.team).toLowerCase().indexOf(q)>-1)}
+    function node(p){return '<div class="oc-node'+(p.id===OC.sel?' active':'')+(match(p)?'':' dim')+'" data-id="'+p.id+'"><div class="oc-node-name">'+p.name+'</div><div class="oc-node-title">'+p.title+'</div></div>'}
+    var lvl0=OC_PEOPLE.filter(function(p){return p.lvl===0}).map(node).join('');
+    var lvl1=OC_PEOPLE.filter(function(p){return p.lvl===1}).map(node).join('');
+    var lvl2=OC_PEOPLE.filter(function(p){return p.lvl===2}).map(node).join('');
+    tree.innerHTML='<div class="oc-row">'+lvl0+'</div><div class="oc-stem"></div><div class="oc-row">'+lvl1+'</div><div class="oc-stem"></div><div class="oc-row">'+lvl2+'</div>';
+    tree.querySelectorAll('.oc-node').forEach(function(el){el.addEventListener('click',function(){OC.sel=el.dataset.id;ocRender(document.getElementById('oc-search').value);})});
+    var p=OC_PEOPLE.find(function(x){return x.id===OC.sel});
+    var reports=OC_PEOPLE.filter(function(x){return x.boss===p.id});
+    document.getElementById('oc-panel').innerHTML='<h4>'+p.name+'</h4><div class="oc-panel-title">'+p.title+'</div>'
+      +'<div class="oc-fact"><span>Team</span><span>'+p.team+'</span></div>'
+      +'<div class="oc-fact"><span>Office</span><span>'+p.office+'</span></div>'
+      +'<div class="oc-fact"><span>With firm since</span><span>'+p.since+'</span></div>'
+      +'<div class="oc-fact"><span>Direct reports</span><span>'+(reports.length||'—')+'</span></div>'
+      +(reports.length?'<div class="oc-fact"><span>Reports</span><span>'+reports.map(function(r){return r.name.split(' ')[0]}).join(', ')+'</span></div>':'')
+      +'<div class="oc-badge">Synced from HRIS · nightly</div>';
+  }
+  function ocInit(){
+    if(OC.inited)return; OC.inited=true;
+    ocRender('');
+    document.getElementById('oc-search').addEventListener('input',function(e){ocRender(e.target.value)});
+  }
+
+  /* ── VALUE CARDS ── */
+  var VC_DECK=[
+    {n:'Family',e:'👨‍👩‍👧‍👦'},{n:'Health',e:'💪'},{n:'Integrity',e:'⚖️'},{n:'Adventure',e:'🌍'},
+    {n:'Generosity',e:'🤲'},{n:'Security',e:'🛡️'},{n:'Creativity',e:'🎨'},{n:'Independence',e:'🕊️'},
+    {n:'Faith',e:'✨'},{n:'Legacy',e:'🌳'}
+  ];
+  var VC={};
+  function vcStart(){
+    VC={i:0,kept:[],picked:[],stage:1};
+    vcRound1();
+  }
+  function vcRound1(){
+    var w=document.getElementById('vc-wrap');
+    if(VC.i>=VC_DECK.length){vcRound2();return}
+    var c=VC_DECK[VC.i];
+    w.innerHTML='<div class="vc-stage-label">Round 1 · Keep what resonates</div>'
+      +'<div class="vc-card" id="vc-card"><div class="vc-card-emoji">'+c.e+'</div><div class="vc-card-name">'+c.n+'</div></div>'
+      +'<div class="vc-actions"><button class="vc-btn vc-btn--pass" id="vc-pass">Pass</button><button class="vc-btn vc-btn--keep" id="vc-keep">Keep</button></div>'
+      +'<div class="vc-progress">Card '+(VC.i+1)+' of '+VC_DECK.length+' · kept '+VC.kept.length+'</div>'
+      +(VC.kept.length?'<div class="vc-kept">'+VC.kept.map(function(k){return '<span class="vc-chip">'+k.e+' '+k.n+'</span>'}).join('')+'</div>':'');
+    function fly(dir,keep){
+      var card=document.getElementById('vc-card');
+      card.classList.add(keep?'fly-right':'fly-left');
+      if(keep)VC.kept.push(c);
+      VC.i++;
+      setTimeout(vcRound1,260);
+    }
+    document.getElementById('vc-keep').addEventListener('click',function(){fly('r',true)});
+    document.getElementById('vc-pass').addEventListener('click',function(){fly('l',false)});
+  }
+  function vcRound2(){
+    var w=document.getElementById('vc-wrap');
+    if(VC.kept.length<=3){VC.picked=VC.kept.slice(0,3);vcFinal();return}
+    w.innerHTML='<div class="vc-stage-label">Round 2 · Pick your top three</div>'
+      +'<div class="vc-kept" style="margin-top:8px">'+VC.kept.map(function(k,i){return '<span class="vc-chip" data-i="'+i+'">'+k.e+' '+k.n+'</span>'}).join('')+'</div>'
+      +'<div class="vc-progress" id="vc-r2-note">Choose '+Math.min(3,VC.kept.length)+'</div>';
+    w.querySelectorAll('.vc-chip').forEach(function(ch){ch.addEventListener('click',function(){
+      var k=VC.kept[+ch.dataset.i];
+      var ix=VC.picked.indexOf(k);
+      if(ix>-1){VC.picked.splice(ix,1);ch.classList.remove('sel')}
+      else if(VC.picked.length<3){VC.picked.push(k);ch.classList.add('sel')}
+      if(VC.picked.length===3)setTimeout(vcFinal,420);
+      else document.getElementById('vc-r2-note').textContent=(3-VC.picked.length)+' more';
+    })});
+  }
+  function vcFinal(){
+    var w=document.getElementById('vc-wrap');
+    w.innerHTML='<div class="vc-stage-label">Your top values</div>'
+      +'<div class="vc-final">'+VC.picked.map(function(k){return '<div class="vc-card"><div class="vc-card-emoji">'+k.e+'</div><div class="vc-card-name">'+k.n+'</div></div>'}).join('')+'</div>'
+      +'<div class="vc-note">In the production app this runs as a live multi-player session: each family member sorts independently, results overlay side by side, and the advisor gets a conversation guide built from where the family aligns and where it splits.</div>'
+      +'<div class="vc-actions"><button class="vc-btn vc-btn--keep" id="vc-again">Play Again</button></div>';
+    document.getElementById('vc-again').addEventListener('click',vcStart);
+  }
+
+  /* ── INSIGHTS AI ── */
+  var INS_MEETINGS=[
+    {id:0,date:'Tue · 10:00 AM',name:'Quarterly Review · The Hendersons',who:'2 advisors · 2 clients · 60 min',
+     body:'<h5>Overview</h5>Portfolio review with Mark and Elena Henderson. Calm quarter, conversation centered on college funding and the upcoming RMD year.<h5>Key Topics</h5><ul><li>Portfolio up 4.2% QTD; rebalance executed within drift bands, no action needed</li><li>529 funding for Maya: agreed to front-load two years of gifting before tuition starts</li><li>Mark turns 73 in March: first RMD year, discussed QCD option for the donor-advised fund</li></ul><h5>Commitments</h5><ul><li>Firm: model QCD vs. cash RMD tax impact before next call</li><li>Clients: send updated 529 account statements from the state plan</li></ul><h5>Action Items</h5><ul><li>RMD/QCD analysis → planning team · due Fri</li><li>Schedule CPA joint call for February · client service</li><li>Update beneficiary review flag in CRM · done in-meeting</li></ul>'},
+    {id:1,date:'Wed · 2:30 PM',name:'Prospect Intro · Dr. Patel',who:'1 advisor · 1 prospect · 45 min',
+     body:'<h5>Overview</h5>Discovery meeting with Dr. Anika Patel, 54, surgeon, referred by the Hendersons. Selling her practice stake within 18 months.<h5>Key Topics</h5><ul><li>Concentrated position: ~70% of net worth tied to practice equity and one biotech holding</li><li>Wants an exit plan that funds a foundation for rural health clinics</li><li>Currently self-directed; first time considering an advisor</li></ul><h5>Commitments</h5><ul><li>Firm: prepare a diversification path and charitable entity comparison (DAF vs. private foundation)</li><li>Prospect: share practice valuation range and current holdings export</li></ul><h5>Action Items</h5><ul><li>Draft proposal deck → advisor · due Thu</li><li>Conflict check + onboarding pre-fill · client service</li></ul>'},
+    {id:2,date:'Thu · 9:00 AM',name:'Internal · Q3 Platform Planning',who:'5 team members · 30 min',
+     body:'<h5>Overview</h5>Quarterly tech planning. Custodian migration is the headline; AI rollout phase two right behind it.<h5>Key Topics</h5><ul><li>Custodian conversion: 92% of accounts mapped, SFTP ingestion stable for 3 weeks</li><li>AI meeting summaries: advisor adoption at 78%, voice-profile satisfaction high</li><li>Decision: retire the legacy reporting server by end of quarter</li></ul><h5>Action Items</h5><ul><li>Final account mapping exceptions → ops lead · due Mon</li><li>Phase-two AI rollout comms → technology · next sprint</li><li>Decommission runbook for legacy server · technology</li></ul>'}
+  ];
+  var INS={sel:0,inited:false,timer:null};
+  function insRenderList(){
+    var l=document.getElementById('ins-list');
+    l.innerHTML=INS_MEETINGS.map(function(m){return '<div class="ins-meeting'+(m.id===INS.sel?' active':'')+'" data-id="'+m.id+'"><div class="ins-meeting-date">'+m.date+'</div><div class="ins-meeting-name">'+m.name+'</div><div class="ins-meeting-who">'+m.who+'</div></div>'}).join('');
+    l.querySelectorAll('.ins-meeting').forEach(function(el){el.addEventListener('click',function(){
+      INS.sel=+el.dataset.id;
+      if(INS.timer){clearInterval(INS.timer);INS.timer=null}
+      document.getElementById('ins-stream').innerHTML='';
+      document.getElementById('ins-send').style.display='none';
+      document.getElementById('ins-gen').disabled=false;
+      insRenderList();
+    })});
+  }
+  function insGenerate(){
+    var m=INS_MEETINGS[INS.sel];
+    var out=document.getElementById('ins-stream');
+    var btn=document.getElementById('ins-gen');
+    btn.disabled=true;
+    out.innerHTML='';
+    document.getElementById('ins-send').style.display='none';
+    var i=0,step=Math.max(2,Math.round(m.body.length/180));
+    if(INS.timer)clearInterval(INS.timer);
+    INS.timer=setInterval(function(){
+      i+=step;
+      out.innerHTML=m.body.slice(0,i)+'<span class="ins-cursor"></span>';
+      if(i>=m.body.length){
+        clearInterval(INS.timer);INS.timer=null;
+        out.innerHTML=m.body;
+        btn.disabled=false;
+        document.getElementById('ins-send').style.display='inline-block';
+      }
+    },30);
+  }
+  function insInit(){
+    if(INS.inited)return; INS.inited=true;
+    insRenderList();
+    document.getElementById('ins-gen').addEventListener('click',insGenerate);
+    document.getElementById('ins-send').addEventListener('click',function(){
+      var t=document.getElementById('ins-toast');
+      t.textContent='Sent. In production this emails the advisor via Microsoft Graph and logs to the CRM.';
+      t.style.opacity='1';
+      setTimeout(function(){t.style.opacity='0'},3200);
+    });
+  }
+
+  /* ── SYNC MONITOR ── */
+  var SY_JOBS=[
+    {n:'Portfolio Cache',f:'Addepar → PostgreSQL',s:'Nightly 1:30 AM',d:'4m 12s'},
+    {n:'Custodian Holdings',f:'Pershing API → MCP',s:'Intraday ×4',d:'1m 48s'},
+    {n:'SFTP Ingestion',f:'Fidelity SFTP → 14 tables',s:'Daily 6:00 AM',d:'6m 02s'},
+    {n:'Employee Sync',f:'Rippling → Salesforce',s:'Daily 7:00 AM',d:'38s'},
+    {n:'Photo Sync',f:'Salesforce → Org Chart',s:'Daily 7:15 AM',d:'21s'},
+    {n:'Email Pipeline',f:'M365 Graph → Salesforce',s:'Every 15 min',d:'12s'},
+    {n:'Slack Archive',f:'Slack → PostgreSQL',s:'Hourly',d:'55s'},
+    {n:'Document Delivery',f:'Box → Client Portal',s:'Every 30 min',d:'18s'},
+    {n:'Tax Doc Distribution',f:'Pershing → Box → CRM',s:'Daily 5:30 AM',d:'3m 40s'},
+    {n:'Daily Email Summary',f:'Graph → AI → Inbox',s:'Daily 7:45 AM',d:'1m 05s'},
+    {n:'Budget vs Actuals',f:'QuickBooks → Budget App',s:'Nightly 2:00 AM',d:'2m 30s'},
+    {n:'OOO Auto-Reply',f:'M365 admin',s:'Every 15 min',d:'9s'}
+  ];
+  var SY={inited:false,state:[],timer:null,done:118};
+  function syRender(){
+    var tb=document.getElementById('sy-body');
+    tb.innerHTML=SY_JOBS.map(function(j,i){
+      var st=SY.state[i];
+      return '<tr><td><strong>'+j.n+'</strong></td><td>'+j.f+'</td><td>'+j.s+'</td><td>'+st.last+'</td><td>'+j.d+'</td>'
+        +'<td><span class="sy-pill '+(st.run?'sy-pill--run':'sy-pill--ok')+'">'+(st.run?'Running':'Success')+'</span></td>'
+        +'<td><button class="sy-run" data-i="'+i+'"'+(st.run?' disabled':'')+'>Run now</button></td></tr>';
+    }).join('');
+    tb.querySelectorAll('.sy-run').forEach(function(b){b.addEventListener('click',function(){syKick(+b.dataset.i)})});
+    var running=SY.state.filter(function(s){return s.run}).length;
+    document.getElementById('sy-stats').innerHTML=
+      '<div class="sy-stat"><div class="sy-stat-val">'+SY.done+'</div><div class="sy-stat-lbl">Runs Today</div></div>'
+      +'<div class="sy-stat"><div class="sy-stat-val">99.2%</div><div class="sy-stat-lbl">Success 30d</div></div>'
+      +'<div class="sy-stat"><div class="sy-stat-val">'+running+'</div><div class="sy-stat-lbl">Running Now</div></div>'
+      +'<div class="sy-stat"><div class="sy-stat-val">12</div><div class="sy-stat-lbl">Jobs Scheduled</div></div>';
+  }
+  function syKick(i){
+    if(SY.state[i].run)return;
+    SY.state[i].run=true; syRender();
+    setTimeout(function(){
+      SY.state[i].run=false; SY.state[i].last='just now'; SY.done++;
+      syRender();
+    },1800+Math.random()*1700);
+  }
+  function syInit(){
+    if(SY.inited){return} SY.inited=true;
+    var lasts=['2 min ago','11 min ago','38 min ago','1 hr ago','2 hr ago','4 hr ago','6 hr ago','today 6:00 AM','today 5:30 AM','today 7:45 AM','today 2:00 AM','3 min ago'];
+    SY.state=SY_JOBS.map(function(j,i){return {run:false,last:lasts[i%lasts.length]}});
+    syRender();
+    SY.timer=setInterval(function(){
+      var idx=Math.floor(Math.random()*SY_JOBS.length);
+      syKick(idx);
+    },2600);
+  }
+
+  window.__newDemoInit=function(id){
+    if(id==='orgchart')ocInit();
+    if(id==='valuecards')vcStart();
+    if(id==='insights')insInit();
+    if(id==='syncmon')syInit();
+  };
 })();
 </script>
 </body>
