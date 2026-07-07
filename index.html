@@ -12,15 +12,15 @@
   --bg:#FFFFFF;--surface:#FFFFFF;--surface-2:#F6F5F2;--surface-3:#EDECE8;
   --border:#E7E6E1;--border-hover:#CFCDC6;
   --text:#17171B;--text-secondary:#44444C;--text-muted:#6E6E78;
-  --accent:#0D5C55;--accent-dim:rgba(13,92,85,0.06);--accent-light:#12756B;
+  --accent:#FFB000;--accent-dim:rgba(255,176,0,0.12);--accent-light:#FFC133;
   --highlight:#F5E642;--highlight-dim:rgba(245,230,66,0.15);
   --red-soft:#9A4A42;--green-soft:#3D6B57;--blue-soft:#44548F;--purple-soft:#6B5B8A;
-  --teal:#0D5C55;--warm-gray:#666666;
+  --teal:#1F7A8C;--warm-gray:#666666;
   --radius:4px;--transition:0.3s cubic-bezier(0.4,0,0.2,1);
 }
 html{scroll-behavior:smooth;font-size:19px}
 body{font-family:'Hanken Grotesk',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.75;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-::selection{background:#0D5C55;color:#fff}
+::selection{background:#FFB000;color:#17171B}
 
 .hero{
   min-height:82vh;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,0.85fr);
@@ -388,8 +388,49 @@ body{font-family:'Hanken Grotesk',-apple-system,sans-serif;background:var(--bg);
   .ma-flywheel-step{font-size:0.72rem;padding:8px 14px}
 }
 </style>
+<style>
+/* ═══════════════════════════════════════════
+   TERMINAL INTRO OVERLAY
+   ═══════════════════════════════════════════ */
+#term-overlay{position:fixed;inset:0;z-index:99999;background:#12100B;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:transform 0.8s cubic-bezier(0.76,0,0.24,1),opacity 0.6s ease;overflow:hidden}
+#term-overlay.dismissed{transform:translateY(-100%);opacity:0;pointer-events:none}
+#term-box{width:min(720px,90vw);font-family:'IBM Plex Mono',monospace;color:#D9A441;font-size:0.78rem;line-height:1.8;position:relative}
+#term-box::before{content:'';position:absolute;inset:-40px;background:radial-gradient(ellipse at 50% 50%,rgba(255,176,0,0.05),transparent 70%);pointer-events:none}
+.term-header{display:flex;gap:6px;margin-bottom:16px}
+.term-dot{width:10px;height:10px;border-radius:50%}
+.term-dot--r{background:#ff5f57}
+.term-dot--y{background:#febc2e}
+.term-dot--g{background:#28c840}
+.term-prompt{color:#6b7280;user-select:none}
+.term-cursor{display:inline-block;width:8px;height:14px;background:#D9A441;animation:blink 0.8s step-end infinite;vertical-align:text-bottom;margin-left:2px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.term-line{opacity:0;transform:translateX(-4px);transition:opacity 0.15s,transform 0.15s}
+.term-line.visible{opacity:1;transform:translateX(0)}
+.term-comment{color:#6b7280}
+.term-string{color:#E8C572}
+.term-keyword{color:#FFB000}
+.term-number{color:#FFD34D}
+.term-fn{color:#EDEBE3}
+.term-skip{position:absolute;bottom:30px;right:30px;color:#6b7280;font-family:'IBM Plex Mono',monospace;font-size:0.68rem;border:1px solid #333;border-radius:6px;padding:4px 12px;background:none;cursor:pointer;transition:all 0.2s;letter-spacing:0.5px}
+.term-skip:hover{color:#D9A441;border-color:#D9A441}
+.term-scroll-hint{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);color:#333;font-size:0.65rem;font-family:'IBM Plex Mono',monospace;letter-spacing:1px;animation:pulse-hint 2s ease-in-out infinite}
+@keyframes pulse-hint{0%,100%{opacity:0.3}50%{opacity:0.7}}
+</style>
 </head>
 <body>
+<!-- Terminal Intro Overlay -->
+<div id="term-overlay">
+  <div id="term-box">
+    <div class="term-header">
+      <div class="term-dot term-dot--r"></div>
+      <div class="term-dot term-dot--y"></div>
+      <div class="term-dot term-dot--g"></div>
+    </div>
+    <div id="term-lines"></div>
+  </div>
+  <button class="term-skip" id="term-skip">skip ↵</button>
+  <div class="term-scroll-hint" id="term-scroll-hint" style="display:none">scroll down or press any key</div>
+</div>
 <script id="scroll-hint-script">
 (function(){
   function init(){
@@ -941,7 +982,7 @@ body{font-family:'Hanken Grotesk',-apple-system,sans-serif;background:var(--bg);
   <div class="sf-tabs" id="sf-tabs"></div>
   <div class="sf-content" id="sf-content"></div>
   <div style="margin-top:20px;text-align:center">
-    <button id="launch-ah-demo" style="font-family:'Hanken Grotesk',sans-serif;font-size:0.85rem;font-weight:600;padding:12px 28px;border-radius:10px;border:none;background:linear-gradient(135deg,#2A4AAF,#3B5EC9);color:#fff;cursor:pointer;transition:all 0.3s;box-shadow:0 2px 12px rgba(59,94,201,0.3);display:inline-flex;align-items:center;gap:8px">
+    <button id="launch-ah-demo" style="font-family:'Hanken Grotesk',sans-serif;font-size:0.85rem;font-weight:600;padding:12px 28px;border-radius:4px;border:none;background:var(--accent);color:#17171B;cursor:pointer;transition:all 0.3s;display:inline-flex;align-items:center;gap:8px">
       <span style="font-size:1.1rem"></span>Launch AdvisorHub Interactive Demo
     </button>
     <p style="font-size:0.72rem;color:#9e9a90;margin-top:8px;font-family:'Hanken Grotesk',sans-serif">Click to explore the live dashboard UI</p>
@@ -6611,6 +6652,117 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
 })();
 </script>
 
+<script>
+(function(){
+  'use strict';
+
+  const LINES = [
+    {type:'comment', text:'# dre-forbes-showcases.sh. system boot'},
+    {type:'blank'},
+    {type:'cmd', prompt:'$', text:'whoami', delay:400},
+    {type:'output', text:'dre.forbes. Director of Technology'},
+    {type:'blank'},
+    {type:'cmd', prompt:'$', text:'cat /etc/stack.conf', delay:300},
+    {type:'output', text:'<span class="term-keyword">domains</span>:    <span class="term-number">15</span> production'},
+    {type:'output', text:'<span class="term-keyword">mcp_tools</span>: <span class="term-number">425+</span> AI agent tools'},
+    {type:'output', text:'<span class="term-keyword">employees</span>: <span class="term-number">65</span> supported'},
+    {type:'output', text:'<span class="term-keyword">accounts</span>:  <span class="term-number">5,000+</span> synced (Addepar → Salesforce → Pershing)'},
+    {type:'output', text:'<span class="term-keyword">savings</span>:   <span class="term-number">$950K</span> hard · <span class="term-number">$6M+</span> total value'},
+    {type:'blank'},
+    {type:'cmd', prompt:'$', text:'ls ~/builds/', delay:250},
+    {type:'output', text:'<span class="term-fn">budget.app</span>          <span class="term-fn">insights.app</span>        <span class="term-fn">documents.app</span>'},
+    {type:'output', text:'<span class="term-fn">clients.app</span>         <span class="term-fn">onboarding.app</span>      <span class="term-fn">valuecards.app</span>'},
+    {type:'output', text:'<span class="term-fn">projects.app</span>        <span class="term-fn">pershing-sync/</span>      <span class="term-fn">daily-email-summary/</span>'},
+    {type:'blank'},
+    {type:'cmd', prompt:'$', text:'sf org display --json | jq .result', delay:350},
+    {type:'output', text:'<span class="term-keyword">lwc_components</span>:  <span class="term-number">65</span>'},
+    {type:'output', text:'<span class="term-keyword">apex_controllers</span>: <span class="term-number">40+</span>'},
+    {type:'output', text:'<span class="term-keyword">advisor_hub</span>:     <span class="term-string">"Unified RM dashboard. 7 tabs, 11 sub-dashboards"</span>'},
+    {type:'output', text:'<span class="term-keyword">biz_dev</span>:         <span class="term-string">"KPIs, pipeline, prospect management, early leads"</span>'},
+    {type:'output', text:'<span class="term-keyword">sdi_matching</span>:    <span class="term-string">"AI personality compatibility for RM-client pairing"</span>'},
+    {type:'output', text:'<span class="term-keyword">sound_like_me</span>:   <span class="term-string">"GPT-4o voice profile rewriting from sent email analysis"</span>'},
+    {type:'blank'},
+    {type:'cmd', prompt:'$', text:'echo "Loading showcase..."', delay:200},
+    {type:'output', text:'<span class="term-string">Loading showcase...</span>'},
+    {type:'blank'},
+    {type:'done'},
+  ];
+
+  const overlay = document.getElementById('term-overlay');
+  const container = document.getElementById('term-lines');
+  const skipBtn = document.getElementById('term-skip');
+  const scrollHint = document.getElementById('term-scroll-hint');
+  let currentLine = 0;
+  let dismissed = false;
+  let finished = false;
+
+  function dismiss() {
+    if (dismissed) return;
+    dismissed = true;
+    overlay.classList.add('dismissed');
+    document.body.style.overflow = '';
+    setTimeout(() => { overlay.style.display = 'none'; }, 900);
+  }
+
+  function showLine(idx) {
+    if (dismissed || idx >= LINES.length) return;
+    const line = LINES[idx];
+
+    if (line.type === 'done') {
+      finished = true;
+      scrollHint.style.display = '';
+      // Auto-dismiss after 1.5s
+      setTimeout(dismiss, 1500);
+      return;
+    }
+
+    const el = document.createElement('div');
+    el.className = 'term-line';
+
+    if (line.type === 'blank') {
+      el.innerHTML = '&nbsp;';
+    } else if (line.type === 'comment') {
+      el.innerHTML = '<span class="term-comment">' + line.text + '</span>';
+    } else if (line.type === 'cmd') {
+      el.innerHTML = '<span class="term-prompt">' + line.prompt + ' </span>' + line.text + '<span class="term-cursor"></span>';
+    } else if (line.type === 'output') {
+      el.innerHTML = '  ' + line.text;
+    }
+
+    container.appendChild(el);
+    // Remove cursor from previous cmd lines
+    const cursors = container.querySelectorAll('.term-cursor');
+    cursors.forEach((c, i) => { if (i < cursors.length - 1) c.remove(); });
+
+    requestAnimationFrame(() => { el.classList.add('visible'); });
+
+    const delay = line.delay || (line.type === 'cmd' ? 300 : line.type === 'output' ? 60 : 80);
+    currentLine = idx + 1;
+    setTimeout(() => showLine(idx + 1), delay);
+  }
+
+  // Prevent scroll while terminal is active
+  document.body.style.overflow = 'hidden';
+
+  // Start
+  setTimeout(() => showLine(0), 500);
+
+  // Skip button
+  skipBtn.addEventListener('click', dismiss);
+
+  // Scroll or key to dismiss (only after some lines shown)
+  function handleDismissInput(e) {
+    if (currentLine > 5 || finished) dismiss();
+  }
+  window.addEventListener('wheel', handleDismissInput, { passive: true });
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') dismiss();
+    else if (currentLine > 5 || finished) dismiss();
+  });
+  window.addEventListener('touchstart', handleDismissInput, { passive: true });
+  overlay.addEventListener('click', dismiss);
+})();
+</script>
 <style id="redesign-2026">
 /* ── 2026 redesign master overrides: quiet fintech editorial ── */
 html{font-size:17px}
@@ -6657,6 +6809,27 @@ body{line-height:1.65}
 /* numbers read as data */
 .metric .val,.impact-amount,.impact-total-value{font-variant-numeric:tabular-nums}
 .impact-amount{font-family:'Hanken Grotesk',sans-serif;font-weight:700}
+
+/* ── amber theme: contrast + full-page alignment ── */
+:root{--accent-text:#9A6E00}
+.resume-btn{color:#17171B}
+.resume-btn:hover{background:var(--accent-light);border-color:var(--accent-light);color:#17171B}
+.card-demo-btn{border-radius:4px;background:var(--accent);border-color:var(--accent);color:#17171B}
+.card-demo-btn:hover{background:var(--accent-light);border-color:var(--accent-light);color:#17171B}
+#launch-ah-demo:hover{background:var(--accent-light)!important}
+.nav-btn.active{color:var(--text)}
+.tl-dates{color:var(--accent-text)}
+.impact-amount,.impact-total-val{color:var(--accent-text)}
+.impact-col-title.hard,.impact-col-title.soft{color:var(--text-muted)}
+
+/* Panorama + governance: same warm amber scale replacing the blue scale */
+.pano-section{--pn-l1:#FCF7E9;--pn-l2:#F3E7C3;--pn-l3:#E8D08D;--pn-l4:#FFB000;--pn-l5:#9A6E00;--pn-l6:#6F4E00;--pn-ink:#3B2F10}
+.gov-section{--gv-l1:#FCF7E9;--gv-l2:#F3E7C3;--gv-l3:#E8D08D;--gv-l4:#FFB000;--gv-l5:#9A6E00;--gv-l6:#6F4E00;--gv-ink:#3B2F10}
+.pn:hover{background:var(--pn-l4);border-color:var(--pn-l5);color:#17171B}
+.pano-diagram{background:#FFFDF7}
+.pano-diagram::before{background-image:radial-gradient(circle,rgba(154,110,0,0.07) 1px,transparent 1px)}
+.pano-summary p,.pp-desc,.pano-intro,.pano-portability p,.gov-item__desc{color:var(--text-secondary)}
+.pw-sub{color:var(--text-muted)}
 
 /* demo launch buttons: quiet accent outline */
 .card-demo-btn{border-radius:4px}
