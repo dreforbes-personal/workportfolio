@@ -1410,7 +1410,7 @@ body{font-family:'Hanken Grotesk',-apple-system,sans-serif;background:var(--bg);
   <div class="tdoc-arrow" aria-hidden="true"><span class="tdoc-arrow__char">&rsaquo;</span></div>
   <div class="tdoc-stage">
     <span class="tdoc-stage__num">05</span>
-    <div class="tdoc-stage__icon"></div>
+    <div class="tdoc-stage__icon">🔗</div>
     <div class="tdoc-stage__label">Portal</div>
     <div class="tdoc-stage__title">documents.balentine.com</div>
     <div class="tdoc-stage__desc">Tokenized links,<br/>email notification</div>
@@ -1746,7 +1746,7 @@ body{font-family:'Hanken Grotesk',-apple-system,sans-serif;background:var(--bg);
           '</div>'+
           '<p class="'+descClass+'">'+m.desc+'</p>'+
           '<div class="'+tagsClass+'">'+m.tags.map(function(t){return '<span class="'+tagClass+'">'+t+'</span>'}).join('')+'</div>';
-        if(!isModal)det.scrollIntoView({behavior:'smooth',block:'nearest'});
+        det.scrollIntoView({behavior:'smooth',block:'nearest'});
       };
     }
   }
@@ -6020,6 +6020,8 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
       +'<div class="oc-fact"><span>Direct reports</span><span>'+(reports.length||'—')+'</span></div>'
       +(reports.length?'<div class="oc-fact"><span>Reports</span><span>'+reports.map(function(r){return r.name.split(' ')[0]}).join(', ')+'</span></div>':'')
       +'<div class="oc-badge">Synced from HRIS · nightly</div>';
+    var ocPnl=document.getElementById('oc-panel');
+    if(ocPnl&&OC.sel&&window.innerWidth<700)ocPnl.scrollIntoView({behavior:'smooth',block:'nearest'});
   }
   function ocInit(){
     if(OC.inited)return; OC.inited=true;
@@ -6877,6 +6879,39 @@ body{line-height:1.65}
 .pano-diagram::before{background-image:radial-gradient(circle,rgba(154,110,0,0.07) 1px,transparent 1px)}
 .pano-summary p,.pp-desc,.pano-intro,.pano-portability p,.gov-item__desc{color:var(--text-secondary)}
 .pw-sub{color:var(--text-muted)}
+
+/* ── mobile pass (post-audit) ── */
+@media(max-width:768px){
+  .section{padding:56px 20px}
+  .divider{padding:0 20px}
+  .logo-strip{padding:22px 20px 26px}
+  #fun-stuff img{max-width:100%;height:auto}
+}
+@media(max-width:1100px){
+  /* data map: horizontal scroller instead of clipped/overlapping nodes */
+  .dap-frame{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .dap-frame .da-canvas{min-width:860px}
+  .da-canvas-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .da-canvas-wrap .da-canvas{min-width:860px}
+}
+@media(max-width:900px){
+  .roles-grid>.role-card{max-width:none}
+  /* gantt: horizontal scroller so year axis and future columns stay aligned */
+  .trp-frame{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .trp-frame .tr-axis,.trp-frame #trp-rows{min-width:660px}
+  .tr-board{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tr-board .tr-axis,.tr-board #tr-rows{min-width:660px}
+}
+@media(max-width:700px){
+  .arch-arrow{display:none}
+}
+@media(max-width:600px){
+  .oc-hint{display:none}
+}
+@media(pointer:coarse){
+  .tr-milestone{width:22px!important;height:22px!important}
+}
+.dm-body{overscroll-behavior:contain}
 
 /* demo launch buttons: quiet accent outline */
 .card-demo-btn{border-radius:4px}
