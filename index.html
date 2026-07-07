@@ -23,34 +23,77 @@ body{font-family:'Hanken Grotesk',-apple-system,sans-serif;background:var(--bg);
 ::selection{background:#FFB000;color:#17171B}
 
 .hero{
-  min-height:82vh;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,0.85fr);
-  align-content:center;align-items:center;column-gap:96px;
-  padding:120px 72px 72px;position:relative;
-  background:var(--bg);border-bottom:1px solid var(--border);color:var(--text);
+  display:block;background:var(--surface-2);border-bottom:1px solid var(--border);
+  color:var(--text);padding:88px 72px 72px;position:relative;
 }
-.hero-content{position:relative;z-index:1;max-width:none}
-.hero-aside{position:relative;z-index:1;width:100%;justify-self:stretch}
-.hero-quote{position:relative;padding:34px 0 0;border-top:1px solid var(--border)}
-.hero-quote__text{font-family:'Fraunces',Georgia,serif;font-style:normal;font-weight:460;font-size:clamp(1.2rem,1.65vw,1.62rem);line-height:1.48;color:var(--text);margin:0;letter-spacing:0}
+/* the open newspaper spread */
+.hero-spread{
+  position:relative;display:grid;grid-template-columns:1fr 1fr;
+  background:#FDFCF8;border:1px solid #E3E0D6;border-radius:4px;
+  box-shadow:0 24px 70px rgba(23,23,27,0.10),0 3px 10px rgba(23,23,27,0.05);
+  max-width:1560px;margin:0 auto;
+}
+.hero-spread::before{
+  content:'';position:absolute;top:0;bottom:0;left:50%;width:110px;transform:translateX(-50%);
+  background:linear-gradient(90deg,rgba(23,23,27,0) 0%,rgba(23,23,27,0.035) 38%,rgba(23,23,27,0.09) 50%,rgba(23,23,27,0.035) 62%,rgba(23,23,27,0) 100%);
+  pointer-events:none;z-index:1;
+}
+.hero-page{position:relative;padding:52px 60px 48px}
+.hero-content{border-right:1px solid rgba(23,23,27,0.06);max-width:none}
+.hero-aside{display:flex;flex-direction:column;width:auto;justify-self:auto}
+.hero-page-head{
+  display:flex;justify-content:space-between;gap:16px;
+  font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:1.8px;text-transform:uppercase;
+  color:var(--text-muted);border-top:2px solid var(--text);border-bottom:1px solid var(--border);
+  padding:9px 1px;margin-bottom:38px;
+}
+.hero-quote{position:relative;padding:0;border-top:none;margin:auto 0}
+.hero-quote__text{font-family:'Fraunces',Georgia,serif;font-style:normal;font-weight:460;font-size:clamp(1.22rem,1.72vw,1.7rem);line-height:1.52;color:var(--text);margin:0;letter-spacing:0}
 .hero-quote__attr{font-family:'Hanken Grotesk',sans-serif;font-size:0.85rem;letter-spacing:0;text-transform:none;color:var(--text-muted);margin-top:22px;display:flex;align-items:center;gap:10px}
 .hero-quote__attr::before{content:'';width:24px;height:1px;background:var(--border-hover)}
+.hero-eyebrow{
+  font-family:'Hanken Grotesk',sans-serif;font-size:0.95rem;font-weight:500;letter-spacing:0;
+  text-transform:none;color:var(--text-muted);margin-bottom:20px;
+}
+.hero h1{
+  font-family:'Hanken Grotesk',sans-serif;font-size:clamp(2.7rem,4.8vw,4.2rem);
+  line-height:1.02;font-weight:700;margin-bottom:24px;letter-spacing:-0.028em;
+}
+.hero h1 .accent{font-style:normal;color:var(--accent)}
+.hero-role{
+  font-size:1.05rem;color:var(--text-secondary);font-weight:400;
+  max-width:600px;line-height:1.7;margin-bottom:34px;
+}
+.hero-metrics{
+  display:flex;flex-wrap:wrap;column-gap:48px;row-gap:6px;
+  border-top:1px solid var(--border);max-width:none;background:none;border-radius:0;overflow:visible;
+}
+.metric{background:none;padding:18px 0 0}
+.metric .val{font-family:'Hanken Grotesk',sans-serif;font-variant-numeric:tabular-nums;font-size:1.55rem;line-height:1.15;font-weight:700;color:var(--text)}
+.metric .lbl{font-family:'Hanken Grotesk',sans-serif;font-size:0.76rem;letter-spacing:0;text-transform:none;color:var(--text-muted);margin-top:2px}
 @media(max-width:1100px){
-  .hero{column-gap:56px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .hero{padding:76px 40px 56px}
+  .hero-page{padding:42px 38px 40px}
 }
 @media(max-width:900px){
-  .hero{grid-template-columns:1fr;align-content:center;row-gap:44px;padding:96px 40px 56px;min-height:0}
-  .hero-aside{max-width:640px;justify-self:start}
+  .hero{padding:72px 28px 48px}
+  .hero-spread{grid-template-columns:1fr}
+  .hero-spread::before{display:none}
+  .hero-content{border-right:none;border-bottom:1px solid rgba(23,23,27,0.08)}
+  .hero-aside{max-width:none;justify-self:auto}
 }
 @media(max-width:600px){
-  .hero{padding:80px 22px 44px;row-gap:36px}
-  .hero h1{font-size:clamp(2.3rem,10vw,3.1rem);margin-bottom:16px}
-  .hero-eyebrow{font-size:0.85rem;margin-bottom:14px}
-  .hero-role{font-size:0.98rem;line-height:1.65}
-  .hero-quote__text{font-size:clamp(1.05rem,4.2vw,1.3rem)}
-  .hero-metrics{gap:0}
-  .metric{padding:16px 26px 0 0}
-  .metric .val{font-size:1.35rem}
-  .metric .lbl{font-size:0.72rem}
+  .hero{padding:60px 14px 36px}
+  .hero-page{padding:32px 22px 30px}
+  .hero-page-head{font-size:0.54rem;letter-spacing:1.2px;margin-bottom:26px}
+  .hero h1{font-size:clamp(2.1rem,9vw,2.8rem);margin-bottom:16px}
+  .hero-eyebrow{font-size:0.82rem;margin-bottom:14px}
+  .hero-role{font-size:0.96rem;line-height:1.65}
+  .hero-quote__text{font-size:clamp(1.02rem,4.1vw,1.25rem)}
+  .metric{padding:14px 24px 0 0}
+  .metric .val{font-size:1.3rem}
+  .metric .lbl{font-size:0.7rem}
+}
 }
 @media(max-width:380px){
   .hero{padding:72px 16px 40px}
@@ -458,8 +501,10 @@ body{font-family:'Hanken Grotesk',-apple-system,sans-serif;background:var(--bg);
 @media(max-width:560px){.resume-btn{font-size:0.82rem;padding:11px 18px}}
 </style>
 <section class="hero">
-  <div class="hero-content">
-    <div class="hero-eyebrow">Founder &amp; Principal, Aplodex · AI &amp; Technology Advisor</div>
+<div class="hero-spread">
+  <div class="hero-content hero-page">
+    <div class="hero-page-head"><span>Vol. I &middot; Atlanta, GA</span><span>AI &amp; Technology Advisory</span></div>
+    <div class="hero-eyebrow">Founder &amp; Principal, Aplodex</div>
     <h1>Dre <span class="accent">Forbes</span></h1>
     <p class="hero-role">Founder of Aplodex, advising wealth management and financial services firms on AI strategy, agent design, model and platform selection, and integration architecture. Before that, the sole technology authority at a $9B+ AUM RIA: cybersecurity, IT operations, enterprise software, and the firm’s agentic AI platform. Builder and systems architect. 15 production domains, 425+ agent tools across 11 MCP servers.</p>
     <div class="hero-cta">
@@ -475,12 +520,14 @@ body{font-family:'Hanken Grotesk',-apple-system,sans-serif;background:var(--bg);
       <div class="metric"><div class="val">$7M</div><div class="lbl">Value Delivered</div></div>
     </div>
   </div>
-  <aside class="hero-aside">
+  <aside class="hero-aside hero-page">
+      <div class="hero-page-head"><span>In his words</span><span>Est. 2007</span></div>
       <blockquote class="hero-quote">
         <p class="hero-quote__text">Simple isn’t easy. Too long has finance avoided the embrace of technology. There are those who talk about building rocket ships and those who can actually build the rocket ships. Often they’re not the same person. I pride myself on being a fusion of both, one who is not only able to tell you how we’re going to get to the moon but also get us there.</p>
         <div class="hero-quote__attr">Dre Forbes</div>
       </blockquote>
     </aside>
+</div>
 </section>
 
 <section class="logo-strip" aria-label="Platforms in production">
