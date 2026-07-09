@@ -724,7 +724,7 @@ body{font-family:'Hanken Grotesk',-apple-system,sans-serif;background:var(--bg);
 <section class="section obs" id="now">
   <div class="section-num" style="text-align:center">01 / APLODEX · CURRENT WORK</div>
   <div class="section-title" style="text-align:center">What I&rsquo;m Doing Now</div>
-  <div class="section-desc" style="text-align:center;max-width:880px;margin-left:auto;margin-right:auto">Aplodex is my full-time focus. I work with financial firms that were told to settle for the tools they have, and I show them how much higher the ceiling actually is. Different processes, different workflows, different day to day, and productivity numbers they wouldn&rsquo;t have thought were on the table. Each of these firms is trusting me with how their business runs. I&rsquo;m humbled by that every single time, and it&rsquo;s exactly why the work gets my best.</div>
+  <div class="section-desc" style="text-align:center;max-width:880px;margin-left:auto;margin-right:auto">I help companies actually understand how their business runs, then improve it without spending a fortune to do it. Technology comes first, then the right implementation, governance, and AI layered on top, so the work automates and scales. Same team, more output, a lot less stress.</div>
   <div class="now-grid">
     <div class="now-card">
       <div class="now-eyebrow">13-Week Engagement · Investment Counsel Firm</div>
@@ -6972,9 +6972,10 @@ body.book-mode #bk-stage{display:flex}
 .bk-ch-contents__row{display:flex;align-items:baseline;gap:12px;padding:6px 0;font-family:'Hanken Grotesk',sans-serif;font-size:0.92rem;color:#3B352B;border-bottom:1px dotted #E3DCC6}
 .bk-ch-contents__i{font-family:'IBM Plex Mono',monospace;font-size:0.64rem;color:#9A6E00}
 .bk-chtitle__folio{position:absolute;left:0;bottom:8%;font-family:'IBM Plex Mono',monospace;font-size:0.58rem;letter-spacing:2.5px;text-transform:uppercase;color:#BDB4A0}
-.bk-halftitle{align-items:center;text-align:center;padding:0 6%;justify-content:center}
-.bk-halftitle .bk-chtitle__name{font-size:clamp(1.9rem,2.6vw,2.8rem)}
-.bk-halftitle .bk-colo{font-family:'IBM Plex Mono',monospace;font-size:0.66rem;letter-spacing:2.5px;text-transform:uppercase;color:#A79E86;line-height:2.2}
+.bk-halftitle{align-items:center;text-align:center;padding:0 6%;justify-content:center;gap:18px}
+.bk-halftitle .bk-chtitle__name{font-size:clamp(2rem,2.9vw,3.1rem)}
+.bk-halfby{font-family:'Hanken Grotesk',sans-serif;font-size:1.1rem;font-weight:600;letter-spacing:0.02em;color:#2A251E}
+.bk-halftitle .bk-colo{font-family:'IBM Plex Mono',monospace;font-size:0.66rem;letter-spacing:2.5px;text-transform:uppercase;color:#A79E86;line-height:2.2;margin-top:2px}
 /* chapter-end colophon that fills the trailing blank page (odd-column spacer) */
 .bk-endmark{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;color:#B0A891}
 .bk-endmark__orn{font-family:'Fraunces',Georgia,serif;font-size:2.4rem;color:#D8CDB2}
@@ -7010,9 +7011,11 @@ body.book-mode .bk-flow .pano-principles{grid-template-columns:1fr 1fr}
 body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
 
 /* per-page furniture */
-.bk-folio{position:absolute;bottom:12px;z-index:40;font-family:'Fraunces',Georgia,serif;font-size:0.82rem;color:#8A8168;pointer-events:none}
-.bk-folio--l{left:3.2%}
-.bk-folio--r{right:3.2%}
+.bk-folio{position:absolute;bottom:22px;z-index:40;font-family:'Fraunces',Georgia,serif;font-size:0.82rem;color:#8A8168;pointer-events:none}
+.bk-folio--l{left:50%;transform:translateX(-160%)}
+.bk-folio--r{left:50%;transform:translateX(60%)}
+body.bk-1up .bk-folio--l{transform:translateX(-50%)}
+body.bk-1up .bk-folio--r{display:none}
 .bk-rhead{position:absolute;top:13px;z-index:40;font-family:'IBM Plex Mono',monospace;font-size:0.58rem;letter-spacing:2.5px;text-transform:uppercase;color:#A79E86;pointer-events:none;white-space:nowrap}
 .bk-rhead--l{left:3.2%}
 .bk-rhead--r{right:12%}
@@ -7063,6 +7066,8 @@ body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
   -webkit-background-clip:text;background-clip:text;color:transparent;
   filter:drop-shadow(0 1px 0 rgba(0,0,0,0.55))}
 .bk-cover-sub{font-family:'Hanken Grotesk',sans-serif;font-size:0.98rem;color:rgba(245,239,220,0.82);max-width:460px;line-height:1.65}
+.bk-cover-by{font-family:'Hanken Grotesk',sans-serif;font-size:1.12rem;font-weight:600;letter-spacing:0.02em;color:#F5EFDC}
+.bk-cover-title br{display:block}
 .bk-cover-rule{width:72px;height:2px;background:linear-gradient(90deg,#C77F00,#FFD34D,#C77F00)}
 .bk-cover-foot{position:absolute;bottom:40px;left:0;right:0;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:0.64rem;letter-spacing:3px;text-transform:uppercase;color:rgba(245,239,220,0.55)}
 .bk-cover-hint{position:absolute;bottom:78px;left:0;right:0;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:0.66rem;letter-spacing:2.5px;text-transform:uppercase;color:#FFB000;opacity:0;animation:bkHint 2.6s 1.6s ease-in-out infinite}
@@ -7070,10 +7075,23 @@ body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
 
 /* counter + hint */
 .bk-counter{position:absolute;bottom:-26px;left:50%;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:2.5px;color:rgba(245,239,220,0.55);text-transform:uppercase;white-space:nowrap}
-.bk-turnhint{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);z-index:45;pointer-events:none;
-  font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:2.5px;text-transform:uppercase;color:#9A6E00;
-  animation:bkHint 3s 1.2s ease-in-out infinite}
+.bk-turnhint{position:absolute;bottom:56px;left:50%;transform:translateX(-50%);z-index:45;pointer-events:none;
+  font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:#9A6E00;white-space:nowrap;
+  animation:bkHint 2.6s 1s ease-in-out infinite}
 .bk-turnhint.bk-done{display:none}
+.bk-turnhint__ic{display:inline-block;color:#C77F00;font-size:0.85rem;animation:bkNudge 1.6s ease-in-out infinite}
+.bk-turnhint__ic:last-child{animation-delay:0.2s}
+@keyframes bkNudge{0%,100%{transform:translateX(0)}50%{transform:translateX(3px)}}
+
+/* visible page-turn buttons at the bottom corners */
+.bk-nav{position:absolute;bottom:12px;z-index:465;width:46px;height:46px;border-radius:50%;border:1px solid rgba(60,45,10,0.18);
+  background:rgba(253,252,248,0.9);color:#6E5A2A;font-size:1.5rem;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,0.14);
+  transition:background 0.15s,color 0.15s,transform 0.15s}
+.bk-nav:hover{background:#FFB000;color:#221E16;transform:translateY(-1px)}
+.bk-nav--prev{left:16px}
+.bk-nav--next{right:16px}
+body.bk-1up .bk-nav{width:52px;height:52px;font-size:1.7rem;bottom:14px}
 
 /* turn hotspots at fore-edges */
 .bk-hot{position:absolute;top:0;bottom:0;width:64px;z-index:450;display:flex;align-items:center;justify-content:center;
@@ -7141,6 +7159,15 @@ body.bk-1up .bk-rhead--r{display:none}
 /* content breathes a touch more on a single page */
 body.bk-1up .bk-chtitle{padding-right:0}
 body.bk-1up .bk-chtitle__name{font-size:clamp(2rem,7vw,2.9rem)}
+/* keep the top of each page clear of the bookmark ribbon */
+body.bk-1up .bk-flow .hero-quote{padding-top:52px}
+body.bk-1up .bk-flow .hero-aside{padding-top:8px}
+/* center the platforms strip so it reads balanced on a phone */
+body.bk-1up .bk-flow .logo-strip{flex-direction:column;align-items:center;text-align:center;gap:16px;padding:30px 0 8px}
+body.bk-1up .bk-flow .logo-strip__label{width:100%;text-align:center}
+body.bk-1up .bk-flow .logo-strip__row{justify-content:center;column-gap:32px;row-gap:18px;width:100%}
+body.bk-1up .bk-flow .logo-strip .lg{height:26px!important;max-height:26px!important}
+body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-width:30ch;margin:0 auto}
 @media(max-width:600px){
   body.bk-1up .bk-rhead{font-size:0.5rem;letter-spacing:1.5px}
   body.bk-1up .bk-cover-title{font-size:clamp(2.2rem,10vw,3.4rem)}
@@ -7157,7 +7184,7 @@ body.bk-1up .bk-chtitle__name{font-size:clamp(2rem,7vw,2.9rem)}
 
   var CHAPTERS=[
     {t:'The Front Page',sub:'Who I am, what I build, and the numbers behind it.',sel:['.hero','.logo-strip']},
-    {t:'What I’m Doing Now',sub:'Current engagements across finance and construction.',sel:['#now']},
+    {t:'What I’m Doing Now',sub:'',sel:['#now']},
     {t:'What I’ve Owned',sub:'End-to-end technology leadership.',sel:['#roles']},
     {t:'Operations',sub:'Systems mastered and capabilities in production.',sel:['#ops','#skills']},
     {t:'Applications I’ve Built',sub:'Production software on React, Express, and PostgreSQL.',sel:['#dev']},
@@ -7188,15 +7215,16 @@ body.bk-1up .bk-chtitle__name{font-size:clamp(2rem,7vw,2.9rem)}
       var flow=el('div','bk-flow');
       var title=el('div','bk-chtitle'+(c===0?' bk-halftitle':''));
       if(c===0){
-        title.appendChild(el('div','bk-chtitle__num','Vol. I &middot; Atlanta, GA'));
-        title.appendChild(el('div','bk-chtitle__name','Dre Forbes'));
+        title.appendChild(el('div','bk-chtitle__num','Volume One'));
+        title.appendChild(el('div','bk-chtitle__name','The Department of One'));
         title.appendChild(el('div','bk-chtitle__rule'));
-        title.appendChild(el('div','bk-colo','Founder &amp; Principal, Aplodex<br>AI &amp; Technology Advisory<br>&copy; 2026 &middot; aplodex.com'));
+        title.appendChild(el('div','bk-halfby','By Dre Forbes'));
+        title.appendChild(el('div','bk-colo','Technologist Virtuoso'));
       }else{
         title.appendChild(el('div','bk-chtitle__num','Chapter '+String(c+1).padStart(2,'0')));
         title.appendChild(el('div','bk-chtitle__name',ch.t));
         title.appendChild(el('div','bk-chtitle__rule'));
-        title.appendChild(el('div','bk-chtitle__sub',ch.sub));
+        if(ch.sub)title.appendChild(el('div','bk-chtitle__sub',ch.sub));
         /* mini chapter contents: the sub-section headings inside this chapter */
         var subs=[];
         ch.sel.forEach(function(s){
@@ -7228,7 +7256,7 @@ body.bk-1up .bk-chtitle__name{font-size:clamp(2rem,7vw,2.9rem)}
     sheet.appendChild(el('div','bk-rhead bk-rhead--r',''));
     sheet.appendChild(el('div','bk-folio bk-folio--l',''));
     sheet.appendChild(el('div','bk-folio bk-folio--r',''));
-    turnHint=el('div','bk-turnhint','Scroll, drag, or tap the edge');
+    turnHint=el('div','bk-turnhint','<span class="bk-turnhint__ic">&#8592;</span> Swipe or tap the arrows to turn <span class="bk-turnhint__ic">&#8594;</span>');
     sheet.appendChild(turnHint);
     book.appendChild(sheet);
     book.appendChild(el('div','bk-edge bk-edge--l'));
@@ -7245,21 +7273,27 @@ body.bk-1up .bk-chtitle__name{font-size:clamp(2rem,7vw,2.9rem)}
     cover=el('div','bk-cover');
     var cf=el('div','bk-cface bk-cface--front');
     cf.appendChild(el('div','bk-cover-inner',
-      '<div class="bk-cover-kicker">Vol. I &middot; Atlanta, GA</div>'+
-      '<div class="bk-cover-title">Dre Forbes</div>'+
+      '<div class="bk-cover-kicker">Volume One</div>'+
+      '<div class="bk-cover-title">The Department<br>of One</div>'+
       '<div class="bk-cover-rule"></div>'+
-      '<div class="bk-cover-sub">Founder &amp; Principal, Aplodex. AI &amp; technology advisory for firms that want the ceiling, not the settle.</div>'));
-    cf.appendChild(el('div','bk-cover-hint','Scroll, tap, or drag to open'));
-    cf.appendChild(el('div','bk-cover-foot','Aplodex &middot; AI &amp; Technology Advisory'));
+      '<div class="bk-cover-by">By Dre Forbes</div>'));
+    cf.appendChild(el('div','bk-cover-hint','Scroll, tap, or swipe to open'));
+    cf.appendChild(el('div','bk-cover-foot','Technologist Virtuoso'));
     cover.appendChild(cf);
     cover.appendChild(el('div','bk-cface bk-cface--back'));
     cover.addEventListener('click',function(){open()});
     book.appendChild(cover);
 
-    var prev=el('button','bk-hot bk-hot--prev','&lsaquo;');prev.setAttribute('aria-label','Previous page');
-    var next=el('button','bk-hot bk-hot--next','&rsaquo;');next.setAttribute('aria-label','Next page');
+    var prev=el('button','bk-hot bk-hot--prev','');prev.setAttribute('aria-label','Previous page');
+    var next=el('button','bk-hot bk-hot--next','');next.setAttribute('aria-label','Next page');
     book.appendChild(prev);book.appendChild(next);
     bindDrag(next,1);bindDrag(prev,-1);
+    /* visible nav buttons, bottom corners */
+    var navP=el('button','bk-nav bk-nav--prev','&lsaquo;');navP.setAttribute('aria-label','Back');
+    var navN=el('button','bk-nav bk-nav--next','&rsaquo;');navN.setAttribute('aria-label','Forward');
+    navP.addEventListener('click',function(e){e.stopPropagation();opened?step(-1):open()});
+    navN.addEventListener('click',function(e){e.stopPropagation();opened?step(1):open()});
+    book.appendChild(navP);book.appendChild(navN);
 
     var ribbon=el('button','bk-ribbon');ribbon.setAttribute('aria-label','Table of contents');
     ribbon.appendChild(el('span','bk-ribbon-label','Contents'));
