@@ -6920,6 +6920,7 @@ body{line-height:1.65}
 /* ═══════════ THE BOOK v2 — true two-page spread, real pagination ═══════════ */
 body.book-mode{overflow:hidden!important}
 body.book-mode .nav,body.book-mode .divider{display:none!important}
+body.book-mode #ask-trigger,body.book-mode .scroll-hint{display:none!important}
 body.book-mode .obs .section-num,body.book-mode .obs .section-title,body.book-mode .obs .section-desc{opacity:1!important;transform:none!important}
 body.book-mode .obs{opacity:1!important}
 
@@ -6953,15 +6954,25 @@ body.book-mode #bk-stage{display:flex}
 .bk-flow>*{max-width:100%}
 .bk-flow img{max-width:100%;height:auto}
 
-/* chapter title page block (occupies its own column) */
-.bk-chtitle{height:100%;break-after:column;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:22px;padding-right:8%}
+/* chapter title page block (occupies its own column) — fills the page top-to-bottom */
+.bk-chtitle{height:100%;break-after:column;display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;gap:20px;padding:11% 8% 8% 0;position:relative}
 .bk-chtitle__num{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:5px;text-transform:uppercase;color:#9A6E00}
-.bk-chtitle__name{font-family:'Fraunces',Georgia,serif;font-weight:560;font-size:clamp(2.4rem,3.6vw,4rem);line-height:1.06;color:#2A251E;letter-spacing:-0.01em}
+.bk-chtitle__name{font-family:'Fraunces',Georgia,serif;font-weight:560;font-size:clamp(2.6rem,3.9vw,4.4rem);line-height:1.05;color:#2A251E;letter-spacing:-0.01em}
 .bk-chtitle__rule{width:64px;height:2px;background:#FFB000}
-.bk-chtitle__sub{font-family:'Hanken Grotesk',sans-serif;font-size:0.95rem;color:#6E6E78;max-width:34ch;line-height:1.6}
-.bk-halftitle{align-items:center;text-align:center;padding-right:0}
+.bk-chtitle__sub{font-family:'Hanken Grotesk',sans-serif;font-size:1rem;color:#6E6E78;max-width:34ch;line-height:1.6}
+.bk-ch-contents{margin-top:14px;width:100%;max-width:30ch;border-top:1px solid var(--border);padding-top:16px}
+.bk-ch-contents__lbl{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:2.5px;text-transform:uppercase;color:#A79E86;margin-bottom:12px}
+.bk-ch-contents__row{display:flex;align-items:baseline;gap:12px;padding:6px 0;font-family:'Hanken Grotesk',sans-serif;font-size:0.92rem;color:#3B352B;border-bottom:1px dotted #E3DCC6}
+.bk-ch-contents__i{font-family:'IBM Plex Mono',monospace;font-size:0.64rem;color:#9A6E00}
+.bk-chtitle__folio{position:absolute;left:0;bottom:8%;font-family:'IBM Plex Mono',monospace;font-size:0.58rem;letter-spacing:2.5px;text-transform:uppercase;color:#BDB4A0}
+.bk-halftitle{align-items:center;text-align:center;padding:0 6%;justify-content:center}
 .bk-halftitle .bk-chtitle__name{font-size:clamp(1.9rem,2.6vw,2.8rem)}
 .bk-halftitle .bk-colo{font-family:'IBM Plex Mono',monospace;font-size:0.66rem;letter-spacing:2.5px;text-transform:uppercase;color:#A79E86;line-height:2.2}
+/* chapter-end colophon that fills the trailing blank page (odd-column spacer) */
+.bk-endmark{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;color:#B0A891}
+.bk-endmark__orn{font-family:'Fraunces',Georgia,serif;font-size:2.4rem;color:#D8CDB2}
+.bk-endmark__t{font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:1.05rem;color:#8A8168}
+.bk-endmark__n{font-family:'IBM Plex Mono',monospace;font-size:0.58rem;letter-spacing:2.5px;text-transform:uppercase;color:#BDB4A0}
 
 /* content adjustments inside the flow */
 body.book-mode .bk-flow .section{padding:0 0 34px!important}
@@ -6973,6 +6984,9 @@ body.book-mode .bk-flow .hero-quote{margin:0;padding-top:30px;border-top:1px sol
 body.book-mode .bk-flow .hero-page-head{display:none}
 body.book-mode .bk-flow .logo-strip{padding:26px 0;background:none;border-bottom:none;border-top:1px solid var(--border);break-inside:avoid}
 body.book-mode .bk-flow .section-title{font-size:clamp(1.5rem,2.2vw,2.1rem)}
+/* keep headings clear of the CONTENTS ribbon in the top-right */
+body.book-mode .bk-flow :is(.section-title,.pano-h3,.hero h1){padding-right:88px}
+body.bk-1up .bk-flow :is(.section-title,.pano-h3,.hero h1){padding-right:56px}
 body.book-mode .bk-flow .section-desc{margin-bottom:26px}
 .bk-flow :is(.now-card,.role-card,.project-card,.skill-cat,.gov-layer,.pp-card,.impact-row,.tl-item,.edu-card,.int-card,.metric,.hero-metrics,.hero-cta,.pano-summary,.pano-diagram,.pano-example,.pano-portability,.gov-regs,.gov-foundation,.impact-total,.trp-frame,.dap-frame,.ma-arch,.ma-phase,.tdoc-stage,.tdoc-metrics){break-inside:avoid}
 .bk-flow :is(h1,h2,h3,h4,.section-title,.pano-h3){break-after:avoid}
@@ -7045,7 +7059,7 @@ body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
 @keyframes bkHint{0%,100%{opacity:0.2}50%{opacity:0.95}}
 
 /* counter + hint */
-.bk-counter{position:absolute;bottom:-34px;left:50%;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:0.64rem;letter-spacing:2.5px;color:rgba(245,239,220,0.55);text-transform:uppercase;white-space:nowrap}
+.bk-counter{position:absolute;bottom:-26px;left:50%;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:2.5px;color:rgba(245,239,220,0.55);text-transform:uppercase;white-space:nowrap}
 .bk-turnhint{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);z-index:45;pointer-events:none;
   font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:2.5px;text-transform:uppercase;color:#9A6E00;
   animation:bkHint 3s 1.2s ease-in-out infinite}
@@ -7068,7 +7082,7 @@ body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
 .bk-hot--next:hover::after{border-width:0 0 40px 40px;border-color:transparent transparent rgba(60,45,10,0.22) transparent}
 
 /* ── bookmark ribbon + TOC (unchanged look) ── */
-.bk-ribbon{position:absolute;top:-19px;right:7%;width:54px;height:138px;z-index:2600;cursor:pointer;border:none;padding:0;
+.bk-ribbon{position:absolute;top:-30px;right:3.5%;width:50px;height:126px;z-index:2600;cursor:pointer;border:none;padding:0;
   background:linear-gradient(180deg,#FFC133 0%,#FFB000 48%,#E89C00 100%);
   clip-path:polygon(0 0,100% 0,100% 100%,50% 84%,0 100%);
   box-shadow:0 10px 22px rgba(0,0,0,0.45);transition:transform 0.25s ease}
@@ -7076,7 +7090,7 @@ body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
   background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,0.35) 45%,transparent 60%)}
 .bk-ribbon:hover{transform:translateY(10px)}
 .bk-ribbon::after{content:'☰';position:absolute;top:34px;left:0;right:0;text-align:center;color:#221E16;font-size:1.05rem}
-.bk-ribbon-label{position:absolute;top:62px;left:50%;transform:translateX(-50%);color:#221E16;
+.bk-ribbon-label{position:absolute;top:56px;left:50%;transform:translateX(-50%);color:#221E16;
   font-family:'IBM Plex Mono',monospace;font-size:0.52rem;letter-spacing:2px;text-transform:uppercase;writing-mode:vertical-rl}
 .bk-toc{position:absolute;top:-14px;right:calc(7% + 62px);width:350px;max-height:82%;z-index:2500;overflow-y:auto;overscroll-behavior:contain;
   background:linear-gradient(180deg,#FBF8EE,#F4EFDF);border:1px solid #D9D2BC;border-top:none;border-radius:0 0 10px 10px;
@@ -7169,10 +7183,27 @@ body.bk-1up .bk-chtitle__name{font-size:clamp(2rem,7vw,2.9rem)}
         title.appendChild(el('div','bk-chtitle__name',ch.t));
         title.appendChild(el('div','bk-chtitle__rule'));
         title.appendChild(el('div','bk-chtitle__sub',ch.sub));
+        /* mini chapter contents: the sub-section headings inside this chapter */
+        var subs=[];
+        ch.sel.forEach(function(s){
+          var n=document.querySelector(s);if(!n)return;
+          var h=n.querySelector('.section-title')||(n.tagName==='FOOTER'?null:n.querySelector('h2,h3'));
+          if(h){var tt=h.textContent.trim();if(tt&&subs.indexOf(tt)<0)subs.push(tt)}
+        });
+        if(subs.length>1){
+          var box=el('div','bk-ch-contents');
+          box.appendChild(el('div','bk-ch-contents__lbl','In this chapter'));
+          subs.slice(0,8).forEach(function(t,k){
+            box.appendChild(el('div','bk-ch-contents__row','<span class="bk-ch-contents__i">'+String(k+1).padStart(2,'0')+'</span><span>'+t+'</span>'));
+          });
+          title.appendChild(box);
+        }
+        title.appendChild(el('div','bk-chtitle__folio','&mdash; '+ch.t+' &middot; Vol. I &mdash;'));
       }
       flow.appendChild(title);
       ch.sel.forEach(function(s){var n=document.querySelector(s);if(n)flow.appendChild(n)});
       var spacer=el('div','bk-colspacer');spacer.style.cssText='break-before:column;height:100%;display:none';
+      spacer.innerHTML='<div class="bk-endmark"><span class="bk-endmark__orn">&#167;</span><span class="bk-endmark__t">End of '+(c===0?'the front matter':ch.t)+'</span>'+(CHAPTERS[c+1]?'<span class="bk-endmark__n">'+ (c+2<10?'0':'') + (c+2) +' &middot; '+CHAPTERS[c+1].t+' follows</span>':'<span class="bk-endmark__n">aplodex.com</span>')+'</div>';
       flow.appendChild(spacer);
       wrap.appendChild(flow);
       sheet.appendChild(wrap);
@@ -7251,7 +7282,7 @@ body.bk-1up .bk-chtitle__name{font-size:clamp(2rem,7vw,2.9rem)}
     pagesPer=oneUp?1:2;
     document.body.classList.toggle('bk-1up',oneUp);
     book.style.width=bw+'px';book.style.height=bh+'px';
-    var padX=Math.round(bw*(oneUp?0.045:0.032)),padTop=oneUp?40:44,padBot=oneUp?36:44;
+    var padX=Math.round(bw*(oneUp?0.045:0.032)),padTop=oneUp?44:52,padBot=oneUp?36:44;
     gutter=oneUp?48:Math.round(bw*0.052);
     var W=bw-2*padX,H=bh-padTop-padBot;
     colW=oneUp?W:Math.floor((W-gutter)/2);
