@@ -6961,17 +6961,17 @@ body.book-mode #bk-stage{display:flex}
 .bk-flow>*{max-width:100%}
 .bk-flow img{max-width:100%;height:auto}
 
-/* chapter title page block (occupies its own column) — fills the page top-to-bottom */
-.bk-chtitle{height:100%;break-after:column;display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;gap:20px;padding:11% 8% 8% 0;position:relative}
-.bk-chtitle__num{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:5px;text-transform:uppercase;color:#9A6E00}
-.bk-chtitle__name{font-family:'Fraunces',Georgia,serif;font-weight:560;font-size:clamp(2.6rem,3.9vw,4.4rem);line-height:1.05;color:#2A251E;letter-spacing:-0.01em}
-.bk-chtitle__rule{width:64px;height:2px;background:#FFB000}
-.bk-chtitle__sub{font-family:'Hanken Grotesk',sans-serif;font-size:1rem;color:#6E6E78;max-width:34ch;line-height:1.6}
-.bk-ch-contents{margin-top:14px;width:100%;max-width:30ch;border-top:1px solid var(--border);padding-top:16px}
-.bk-ch-contents__lbl{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:2.5px;text-transform:uppercase;color:#A79E86;margin-bottom:12px}
-.bk-ch-contents__row{display:flex;align-items:baseline;gap:12px;padding:6px 0;font-family:'Hanken Grotesk',sans-serif;font-size:0.92rem;color:#3B352B;border-bottom:1px dotted #E3DCC6}
-.bk-ch-contents__i{font-family:'IBM Plex Mono',monospace;font-size:0.64rem;color:#9A6E00}
-.bk-chtitle__folio{position:absolute;left:0;bottom:8%;font-family:'IBM Plex Mono',monospace;font-size:0.58rem;letter-spacing:2.5px;text-transform:uppercase;color:#BDB4A0}
+/* chapter title page — CENTERED and large, fills the page (no top-left dead space) */
+.bk-chtitle{height:100%;break-after:column;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:22px;padding:8% 8%;position:relative}
+.bk-chtitle__num{font-family:'IBM Plex Mono',monospace;font-size:0.78rem;letter-spacing:5px;text-transform:uppercase;color:#9A6E00}
+.bk-chtitle__name{font-family:'Fraunces',Georgia,serif;font-weight:560;font-size:clamp(3.2rem,5vw,5.4rem);line-height:1.03;color:#2A251E;letter-spacing:-0.015em}
+.bk-chtitle__rule{width:70px;height:2px;background:#FFB000}
+.bk-chtitle__sub{font-family:'Hanken Grotesk',sans-serif;font-size:1.12rem;color:#6E6E78;max-width:32ch;line-height:1.6}
+.bk-ch-contents{margin-top:16px;width:auto;max-width:32ch;display:flex;flex-direction:column;align-items:center;gap:2px}
+.bk-ch-contents__lbl{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:2.5px;text-transform:uppercase;color:#A79E86;margin-bottom:12px}
+.bk-ch-contents__row{display:flex;align-items:baseline;gap:12px;justify-content:center;padding:7px 0;font-family:'Hanken Grotesk',sans-serif;font-size:1.02rem;color:#3B352B}
+.bk-ch-contents__i{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:#9A6E00}
+.bk-chtitle__folio{position:absolute;left:0;right:0;text-align:center;bottom:7%;font-family:'IBM Plex Mono',monospace;font-size:0.58rem;letter-spacing:2.5px;text-transform:uppercase;color:#BDB4A0}
 .bk-halftitle{align-items:center;text-align:center;padding:0 6%;justify-content:center;gap:18px}
 .bk-halftitle .bk-chtitle__name{font-size:clamp(2rem,2.9vw,3.1rem)}
 .bk-halfby{font-family:'Hanken Grotesk',sans-serif;font-size:1.1rem;font-weight:600;letter-spacing:0.02em;color:#2A251E}
@@ -7147,21 +7147,41 @@ body.bk-1up .bk-cover{left:0;right:-6px}
 body.bk-1up .bk-cface--front::before{inset:14px}
 body.bk-1up .bk-cface--front::after{inset:21px}
 /* wider tap zones for thumbs; keep them out of the reading center */
-body.bk-1up .bk-hot{width:22%}
-body.bk-1up .bk-hot--next::after{border-width:0 0 34px 34px}
-body.bk-1up .bk-ribbon{right:16px;width:46px;height:116px;top:-14px}
-body.bk-1up .bk-ribbon-label{top:52px}
-body.bk-1up .bk-toc{right:8px;left:8px;width:auto;top:-8px;max-height:74%}
-body.bk-1up .bk-counter{bottom:-28px;font-size:0.58rem}
-body.bk-1up .bk-folio{bottom:9px}
-body.bk-1up .bk-rhead{top:11px}
+/* MOBILE: drop the full-height edge drag zones so the whole page scrolls freely;
+   turning is by horizontal swipe + the bottom-corner arrows */
+body.bk-1up .bk-hot{display:none}
+/* pages scroll now, so tall blocks don't need capping on mobile */
+body.bk-1up .bk-flow :is(.pano-diagram,.pano-example,.dap-frame,.trp-frame,.ma-arch,.gov-layer,.tdoc-flow){max-height:none;overflow-y:visible}
+/* mobile chrome sits in clear top/bottom bands, never over the scrolling page */
+body.bk-1up .bk-ribbon{right:14px;width:40px;height:52px;top:6px;clip-path:polygon(0 0,100% 0,100% 100%,50% 78%,0 100%)}
+body.bk-1up .bk-ribbon::after{top:12px;font-size:0.9rem}
+body.bk-1up .bk-ribbon-label{display:none}
+body.bk-1up .bk-toc{right:8px;left:8px;width:auto;top:56px;max-height:72%}
+body.bk-1up .bk-counter{display:none}
+body.bk-1up .bk-folio{bottom:26px}
+body.bk-1up .bk-rhead{top:16px}
 body.bk-1up .bk-rhead--r{display:none}
-/* content breathes a touch more on a single page */
-body.bk-1up .bk-chtitle{padding-right:0}
-body.bk-1up .bk-chtitle__name{font-size:clamp(2rem,7vw,2.9rem)}
+/* soft fades where the scrolling page meets the top/bottom chrome */
+body.bk-1up .bk-sheet::before{content:'';position:absolute;left:0;right:0;top:0;height:52px;z-index:28;pointer-events:none;background:linear-gradient(180deg,#FDFCF8 42%,rgba(253,252,248,0))}
+body.bk-1up .bk-sheet::after{content:'';position:absolute;left:0;right:0;bottom:0;height:72px;z-index:28;pointer-events:none;background:linear-gradient(0deg,#FDFCF8 46%,rgba(253,252,248,0))}
+/* MOBILE chapter opener fills the first screen, centered + big */
+body.bk-1up .bk-chtitle{height:auto;min-height:var(--bk-ph);break-after:auto;padding:14% 7%}
+body.bk-1up .bk-chtitle__name{font-size:clamp(2.7rem,11vw,4rem)}
+body.bk-1up .bk-chtitle__sub{font-size:1.16rem}
+body.bk-1up .bk-chtitle__folio{bottom:2%}
+/* MOBILE content: centered, larger, fills the width */
+body.bk-1up .bk-flow .section{padding:0 0 40px!important}
+body.bk-1up .bk-flow .section-title{text-align:center;font-size:clamp(2rem,7.5vw,2.6rem);padding-right:0;margin-bottom:16px}
+body.bk-1up .bk-flow .section-desc{text-align:center;font-size:1.14rem;line-height:1.72;max-width:36ch;margin-left:auto;margin-right:auto;margin-bottom:34px}
+body.bk-1up .bk-flow .section-num{text-align:center}
+body.bk-1up .bk-flow .now-note{font-size:1.4rem}
 /* keep the top of each page clear of the bookmark ribbon */
-body.bk-1up .bk-flow .hero-quote{padding-top:52px}
+body.bk-1up .bk-flow .hero-quote{padding-top:8px}
 body.bk-1up .bk-flow .hero-aside{padding-top:8px}
+body.bk-1up .bk-flow .hero h1{text-align:center;padding-right:0}
+body.bk-1up .bk-flow .hero-eyebrow,body.bk-1up .bk-flow .hero-role{text-align:center}
+body.bk-1up .bk-flow .hero-metrics{justify-content:center}
+body.bk-1up .bk-flow .hero-cta{justify-content:center}
 /* center the platforms strip so it reads balanced on a phone */
 body.bk-1up .bk-flow .logo-strip{flex-direction:column;align-items:center;text-align:center;gap:16px;padding:30px 0 8px}
 body.bk-1up .bk-flow .logo-strip__label{width:100%;text-align:center}
@@ -7199,7 +7219,7 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
   var stage,book,sheet,leaf,cover,toc,counter,turnHint;
   var wraps=[],flows=[],spreadsPer=[],cumSpreads=[0],cumCols=[0];
   var cur=0,total=0,opened=false,animating=0,tocOpen=false;
-  var colW=0,gutter=0,pagesPer=2,acc=0,accT=null,cooldownUntil=0;
+  var colW=0,gutter=0,pagesPer=2,oneUp=false,acc=0,accT=null,cooldownUntil=0;
   var drag=null;
 
   function el(tag,cls,html){var d=document.createElement(tag);if(cls)d.className=cls;if(html!=null)d.innerHTML=html;return d}
@@ -7316,7 +7336,7 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
 
   function fit(){
     var vw=window.innerWidth,vh=window.innerHeight;
-    var oneUp=vw<760||vw/vh<1.02;
+    oneUp=vw<760||vw/vh<1.02;
     var bw,bh;
     if(!oneUp){
       bh=Math.round(vh*0.945);
@@ -7330,22 +7350,42 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
     pagesPer=oneUp?1:2;
     document.body.classList.toggle('bk-1up',oneUp);
     book.style.width=bw+'px';book.style.height=bh+'px';
-    var padX=Math.round(bw*(oneUp?0.045:0.032)),padTop=oneUp?44:52,padBot=oneUp?36:44;
+    var padX=Math.round(bw*(oneUp?0.055:0.032)),padTop=oneUp?58:52,padBot=oneUp?76:44;
     gutter=oneUp?48:Math.round(bw*0.052);
     var W=bw-2*padX,H=bh-padTop-padBot;
     colW=oneUp?W:Math.floor((W-gutter)/2);
     sheet.style.setProperty('--bk-ph',(H-6)+'px');
+
+    if(oneUp){
+      /* MOBILE: each chapter is one naturally-flowing, vertically-scrollable page
+         (fixed-height multicol clips + can't scroll on phones, per MDN/Smashing) */
+      wraps.forEach(function(w,i){
+        w.style.left=padX+'px';w.style.top=padTop+'px';w.style.width=W+'px';w.style.height=H+'px';
+        w.style.overflowY='auto';w.style.overflowX='hidden';w.style.webkitOverflowScrolling='touch';
+        var f=flows[i];
+        f.style.columnWidth='auto';f.style.columnCount='1';f.style.columnGap='0';
+        f.style.height='auto';f.style.minHeight=H+'px';f.style.paddingRight='0';
+        var spc=f.querySelector('.bk-colspacer');if(spc)spc.style.display='none';
+      });
+      spreadsPer=[];cumSpreads=[0];cumCols=[0];total=0;
+      CHAPTERS.forEach(function(ch,i){spreadsPer.push(1);total+=1;cumSpreads.push(total);cumCols.push(i+1)});
+      toc.querySelectorAll('.bk-toc-item').forEach(function(it,c){var pg=it.querySelector('.bk-toc-pg-'+c);if(pg)pg.textContent=''});
+      return;
+    }
+
+    /* DESKTOP/TABLET: two-page multicol pagination */
     wraps.forEach(function(w,i){
+      w.style.overflowY='hidden';w.style.overflowX='hidden';w.style.webkitOverflowScrolling='';
       w.style.left=padX+'px';w.style.top=padTop+'px';w.style.width=W+'px';w.style.height=H+'px';
       var f=flows[i];
-      f.style.columnWidth=colW+'px';f.style.columnGap=gutter+'px';f.style.height=H+'px';
+      f.style.columnWidth=colW+'px';f.style.columnCount='';f.style.columnGap=gutter+'px';f.style.height=H+'px';f.style.minHeight='';
     });
     spreadsPer=[];cumSpreads=[0];cumCols=[0];total=0;
     wraps.forEach(function(w,i){
       var spc=flows[i].querySelector('.bk-colspacer');spc.style.display='none';
       var cols=Math.max(1,Math.round((w.scrollWidth+gutter)/(colW+gutter)));
-      if(!oneUp&&cols%2===1)spc.style.display='block';
-      var sp=oneUp?cols:Math.ceil(cols/2);
+      if(cols%2===1)spc.style.display='block';
+      var sp=Math.ceil(cols/2);
       spreadsPer.push(sp);total+=sp;
       cumSpreads.push(total);
       cumCols.push(cumCols[i]+cols);
@@ -7363,6 +7403,19 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
 
   function render(spread){
     cur=Math.max(0,Math.min(spread,total-1));
+    if(oneUp){
+      var c=cur;
+      wraps.forEach(function(w,i){w.style.visibility=i===c?'visible':'hidden'});
+      wraps[c].scrollTop=0;
+      sheet.querySelector('.bk-folio--l').textContent=String(c+1);
+      sheet.querySelector('.bk-folio--r').textContent='';
+      sheet.querySelector('.bk-rhead--r').textContent=CHAPTERS[c].t;
+      counter.textContent='Chapter '+(c+1)+' of '+CHAPTERS.length+' · '+CHAPTERS[c].t;
+      toc.querySelectorAll('.bk-toc-item').forEach(function(it,i){it.classList.toggle('bk-here',i===c)});
+      var gn=CHAPTERS[c+1]?CHAPTERS[c+1].t:'';
+      leaf.querySelector('.bk-lface--back .bk-lghost').textContent=gn?('Next: '+gn):'';
+      return;
+    }
     var loc=locate(cur);
     wraps.forEach(function(w,i){w.style.visibility=i===loc.c?'visible':'hidden'});
     wraps[loc.c].scrollLeft=loc.s*pagesPer*(colW+gutter);
