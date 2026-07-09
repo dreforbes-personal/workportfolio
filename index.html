@@ -6916,5 +6916,405 @@ body{line-height:1.65}
 /* demo launch buttons: quiet accent outline */
 .card-demo-btn{border-radius:4px}
 </style>
+<style id="book-styles">
+/* ═══════════ THE BOOK (2D at rest, 3D only during turns) ═══════════ */
+body.book-mode{overflow:hidden!important}
+body.book-mode .nav,body.book-mode .divider{display:none!important}
+body.book-mode .obs .section-num,body.book-mode .obs .section-title,body.book-mode .obs .section-desc{opacity:1!important;transform:none!important}
+body.book-mode .obs{opacity:1!important}
+
+#bk-stage{position:fixed;inset:0;z-index:900;display:none;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse 130% 95% at 50% 40%,#33302A 0%,#26231E 55%,#181613 100%)}
+body.book-mode #bk-stage{display:flex}
+
+.bk-book{position:relative;width:min(96vw,1760px);height:min(93vh,1180px);
+  transform:scale(0.94);transition:transform 1.1s cubic-bezier(0.3,0.09,0.25,1)}
+.bk-book.bk-opened{transform:scale(1)}
+/* 3D machinery exists ONLY while a turn is in flight */
+.bk-book.bk-3d{perspective:calc(min(96vw,1760px) * 2.4);perspective-origin:50% 50%}
+
+.bk-spine{position:absolute;left:0;top:6px;bottom:6px;width:30px;border-radius:8px 0 0 8px;z-index:2000;
+  background:linear-gradient(90deg,#4A3D18 0%,#6B5722 45%,#3E3312 100%);
+  box-shadow:inset -3px 0 6px rgba(0,0,0,0.4),0 12px 44px rgba(0,0,0,0.55)}
+.bk-edges{position:absolute;left:28px;top:10px;bottom:10px;width:14px;z-index:1;
+  background:repeating-linear-gradient(90deg,#EFEAD8 0 1.5px,#D9D2BC 1.5px 3px);
+  border-radius:0 3px 3px 0;box-shadow:2px 0 8px rgba(0,0,0,0.25)}
+.bk-under{position:absolute;left:40px;right:-6px;top:8px;bottom:2px;z-index:1;border-radius:0 8px 8px 0;
+  background:#E8E2CE;
+  box-shadow:3px 3px 0 -1px #EFEAD8,5px 5px 0 -1px #DDD6C0,8px 8px 0 -1px #EFEAD8,10px 10px 0 -1px #D5CEB6,14px 16px 40px rgba(0,0,0,0.6)}
+
+.bk-leaves{position:absolute;left:40px;right:0;top:4px;bottom:8px}
+.bk-book.bk-3d .bk-leaves{transform-style:preserve-3d}
+.bk-leaf{position:absolute;inset:0;transform-origin:left center;visibility:hidden}
+.bk-book.bk-3d .bk-leaf{transform-style:preserve-3d}
+.bk-leaf.bk-anim{transition:transform var(--bk-ms,750ms) cubic-bezier(0.35,0.06,0.25,1);will-change:transform}
+.bk-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  border-radius:0 8px 8px 0;overflow:hidden;background:#FDFCF8;contain:layout paint}
+.bk-face--back{transform:rotateY(180deg);
+  background:linear-gradient(105deg,#F4EFDF 0%,#FBF8EE 30%,#F1ECDA 100%)}
+.bk-scroll{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:#C9C2AC transparent}
+.bk-scroll::-webkit-scrollbar{width:8px}
+.bk-scroll::-webkit-scrollbar-thumb{background:#C9C2AC;border-radius:4px}
+/* gutter shade near the spine on every content page */
+.bk-face--front::before{content:'';position:absolute;top:0;bottom:0;left:0;width:44px;z-index:4;pointer-events:none;
+  background:linear-gradient(90deg,rgba(60,45,10,0.14),rgba(60,45,10,0.04) 55%,transparent)}
+/* "page continues" bottom fade while the inner scroller is not at its end */
+.bk-face--front::after{content:'';position:absolute;left:0;right:0;bottom:0;height:64px;z-index:4;pointer-events:none;
+  background:linear-gradient(180deg,rgba(253,252,248,0),rgba(253,252,248,0.95));opacity:0;transition:opacity 0.3s}
+.bk-leaf.bk-more .bk-face--front::after{opacity:1}
+
+/* moving fold shade on the turning leaf, mirrored per face */
+.bk-shadef{position:absolute;inset:0;pointer-events:none;opacity:0;z-index:5;
+  background:linear-gradient(90deg,rgba(0,0,0,0.4),rgba(0,0,0,0.14) 22%,transparent 55%);
+  transition:opacity var(--bk-ms,750ms) cubic-bezier(0.35,0.06,0.25,1)}
+.bk-face--back .bk-shadef{background:linear-gradient(270deg,rgba(0,0,0,0.4),rgba(0,0,0,0.14) 22%,transparent 55%)}
+.bk-leaf.bk-anim.bk-lift .bk-shadef{opacity:1}
+/* cast shadow pulse on whatever lies beneath */
+.bk-cast{position:absolute;inset:0;z-index:450;pointer-events:none;opacity:0;
+  background:linear-gradient(90deg,rgba(0,0,0,0.30),rgba(0,0,0,0) 58%)}
+.bk-book.bk-turning .bk-cast{animation:bkCast var(--bk-ms,750ms) cubic-bezier(0.35,0.06,0.25,1) both}
+@keyframes bkCast{0%{opacity:0}45%{opacity:1}100%{opacity:0}}
+
+/* ── cover: cloth + gold foil ── */
+.bk-face--cover{background:
+  repeating-linear-gradient(0deg,rgba(255,255,255,0.022) 0 1px,transparent 1px 3px),
+  repeating-linear-gradient(90deg,rgba(0,0,0,0.05) 0 1px,transparent 1px 3px),
+  radial-gradient(ellipse 90% 70% at 30% 18%,rgba(255,176,0,0.13),transparent 60%),
+  linear-gradient(135deg,#242019 0%,#191713 55%,#211D15 100%)}
+.bk-face--cover::before{content:'';position:absolute;inset:16px;border:1.5px solid rgba(255,176,0,0.5);border-radius:4px}
+.bk-face--cover::after{content:'';position:absolute;inset:25px;border:1px solid rgba(255,176,0,0.2);border-radius:3px}
+.bk-cover-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:28px;color:#F5EFDC}
+.bk-cover-kicker{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:7px;text-transform:uppercase;color:#FFB000}
+.bk-cover-title{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:clamp(3.2rem,6.4vw,6rem);line-height:1.03;letter-spacing:0.04em;text-transform:uppercase;
+  background:linear-gradient(168deg,#FFE9A8 0%,#FFB000 38%,#C77F00 62%,#FFD34D 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 1px 0 rgba(0,0,0,0.55)) drop-shadow(0 -1px 0 rgba(255,255,255,0.08))}
+.bk-cover-sub{font-family:'Hanken Grotesk',sans-serif;font-size:1.02rem;color:rgba(245,239,220,0.82);max-width:540px;line-height:1.65}
+.bk-cover-rule{width:76px;height:2px;background:linear-gradient(90deg,#C77F00,#FFD34D,#C77F00)}
+.bk-cover-foot{position:absolute;bottom:46px;left:0;right:0;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:0.66rem;letter-spacing:3px;text-transform:uppercase;color:rgba(245,239,220,0.55)}
+.bk-cover-hint{position:absolute;bottom:88px;left:0;right:0;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:0.68rem;letter-spacing:2.5px;text-transform:uppercase;color:#FFB000;opacity:0;animation:bkHint 2.6s 2s ease-in-out infinite}
+@keyframes bkHint{0%,100%{opacity:0.2}50%{opacity:0.95}}
+.bk-colophon{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:#6B6455;font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;text-align:center}
+
+.bk-verso{position:absolute;bottom:26px;left:34px;font-family:'Fraunces',Georgia,serif;font-size:0.85rem;color:#A79E86}
+.bk-chapter-ghost{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:'Fraunces',Georgia,serif;font-size:clamp(1.4rem,2.4vw,2.2rem);color:rgba(107,100,85,0.4);font-style:italic;white-space:nowrap}
+
+.bk-pageno{position:absolute;bottom:12px;right:20px;z-index:6;font-family:'Fraunces',Georgia,serif;font-size:0.85rem;color:#8A8168;pointer-events:none}
+.bk-counter{position:absolute;bottom:-36px;left:50%;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:0.66rem;letter-spacing:2.5px;color:rgba(245,239,220,0.55);text-transform:uppercase;white-space:nowrap}
+
+.bk-hot{position:absolute;top:0;bottom:0;width:58px;z-index:1500;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:rgba(23,23,27,0);font-size:1.7rem;transition:color 0.2s,background 0.2s;background:transparent;border:none;font-family:'Hanken Grotesk',sans-serif;padding:0}
+.bk-hot--next{right:0;border-radius:0 8px 8px 0}
+.bk-hot--prev{left:40px}
+.bk-hot:hover{color:rgba(23,23,27,0.55);background:linear-gradient(90deg,transparent,rgba(0,0,0,0.05))}
+.bk-hot--prev:hover{background:linear-gradient(270deg,transparent,rgba(0,0,0,0.05))}
+
+.bk-turnhint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:6;pointer-events:none;
+  font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:2.5px;text-transform:uppercase;color:#9A6E00;
+  animation:bkHint 3s 1.2s ease-in-out infinite}
+.bk-turnhint.bk-done{display:none}
+
+/* ── bookmark ribbon + TOC ── */
+.bk-ribbon{position:absolute;top:-6px;right:8%;width:54px;height:136px;z-index:2600;cursor:pointer;border:none;padding:0;
+  background:linear-gradient(180deg,#FFC133 0%,#FFB000 48%,#E89C00 100%);
+  clip-path:polygon(0 0,100% 0,100% 100%,50% 84%,0 100%);
+  box-shadow:0 10px 22px rgba(0,0,0,0.45);transition:transform 0.25s ease}
+.bk-ribbon::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,0.35) 45%,transparent 60%)}
+.bk-ribbon:hover{transform:translateY(10px)}
+.bk-ribbon::after{content:'☰';position:absolute;top:32px;left:0;right:0;text-align:center;color:#221E16;font-size:1.05rem}
+.bk-ribbon-label{position:absolute;top:60px;left:50%;transform:translateX(-50%);color:#221E16;
+  font-family:'IBM Plex Mono',monospace;font-size:0.52rem;letter-spacing:2px;text-transform:uppercase;writing-mode:vertical-rl}
+.bk-toc{position:absolute;top:0;right:calc(8% + 62px);width:340px;max-height:80%;z-index:2500;overflow-y:auto;overscroll-behavior:contain;
+  background:linear-gradient(180deg,#FBF8EE,#F4EFDF);border:1px solid #D9D2BC;border-top:none;border-radius:0 0 10px 10px;
+  box-shadow:0 30px 70px rgba(0,0,0,0.6);
+  transform:translateY(-105%);transition:transform 0.4s cubic-bezier(0.3,0.1,0.2,1);
+  padding:20px 0 12px;visibility:hidden}
+.bk-toc.bk-open{transform:translateY(0);visibility:visible}
+.bk-toc-head{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:3px;text-transform:uppercase;color:#8A8168;padding:6px 24px 12px;border-bottom:1px solid #E3DCC6;margin-bottom:6px}
+.bk-toc-item{display:flex;align-items:baseline;gap:12px;width:100%;text-align:left;background:none;border:none;cursor:pointer;
+  padding:10px 24px;font-family:'Hanken Grotesk',sans-serif;font-size:0.92rem;font-weight:500;color:#2A251E;transition:background 0.15s}
+.bk-toc-item:hover{background:rgba(255,176,0,0.15)}
+.bk-toc-item.bk-here{background:rgba(255,176,0,0.24)}
+.bk-toc-num{font-family:'IBM Plex Mono',monospace;font-size:0.66rem;color:#9A6E00;min-width:22px}
+.bk-toc-dots{flex:1;border-bottom:1px dotted #C9C2AC;transform:translateY(-3px)}
+.bk-toc-pg{font-family:'Fraunces',Georgia,serif;font-size:0.8rem;color:#8A8168}
+
+@media(max-width:899px){#bk-stage{display:none!important}}
+</style>
+<script id="book-script">
+(function(){
+  'use strict';
+  var MIN_W=900;
+  if(window.innerWidth<MIN_W)return;
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+
+  var CHAPTERS=[
+    {t:'The Front Page',sel:['.hero','.logo-strip']},
+    {t:'What I’m Doing Now',sel:['#now']},
+    {t:'What I’ve Owned',sel:['#roles']},
+    {t:'Operations',sel:['#ops','#skills']},
+    {t:'Applications I’ve Built',sel:['#dev']},
+    {t:'Salesforce',sel:['#salesforce','#fun-stuff']},
+    {t:'Connected Systems',sel:['#integrations']},
+    {t:'Architecture',sel:['#architecture','#innovation','#tech-roadmap','#data-architecture','#tax-document-automation']},
+    {t:'The AI Platform',sel:['#ai-architect','#ai-governance']},
+    {t:'Value Delivered',sel:['#impact']},
+    {t:'Career',sel:['#timeline','#education','footer.footer']}
+  ];
+
+  var stage,book,leaves=[],turned=0,animating=0,toc,tocOpen=false,counter,turnHint;
+  var acc=0,accT=null,edgeSince=0,cooldownUntil=0;
+
+  function el(tag,cls,html){var d=document.createElement(tag);if(cls)d.className=cls;if(html!=null)d.innerHTML=html;return d}
+
+  function build(){
+    stage=el('div');stage.id='bk-stage';
+    book=el('div','bk-book');
+    book.appendChild(el('div','bk-under'));
+    book.appendChild(el('div','bk-edges'));
+    var leavesBox=el('div','bk-leaves');
+
+    /* cover leaf */
+    var cover=el('div','bk-leaf');
+    var cf=el('div','bk-face bk-face--front bk-face--cover');
+    cf.appendChild(el('div','bk-cover-inner',
+      '<div class="bk-cover-kicker">Vol. I &middot; Atlanta, GA</div>'+
+      '<div class="bk-cover-title">Dre Forbes</div>'+
+      '<div class="bk-cover-rule"></div>'+
+      '<div class="bk-cover-sub">Founder &amp; Principal, Aplodex. AI &amp; technology advisory for firms that want the ceiling, not the settle.</div>'));
+    cf.appendChild(el('div','bk-cover-hint','Scroll, click, or press &rarr; to open'));
+    cf.appendChild(el('div','bk-cover-foot','Aplodex &middot; AI &amp; Technology Advisory'));
+    cf.appendChild(el('div','bk-shadef'));
+    var cb=el('div','bk-face bk-face--back');
+    cb.appendChild(el('div','bk-colophon','<div>Dre Forbes &middot; Vol. I</div><div>Set in Hanken Grotesk &amp; Fraunces</div><div>Composed in Atlanta, GA</div><div>&copy; 2026 &middot; aplodex.com</div>'));
+    cb.appendChild(el('div','bk-shadef'));
+    cover.appendChild(cf);cover.appendChild(cb);
+    leavesBox.appendChild(cover);leaves.push(cover);
+
+    /* chapter leaves */
+    CHAPTERS.forEach(function(ch,i){
+      var leaf=el('div','bk-leaf');
+      var front=el('div','bk-face bk-face--front');
+      var scroll=el('div','bk-scroll');
+      ch.sel.forEach(function(s){var n=document.querySelector(s);if(n)scroll.appendChild(n)});
+      scroll.addEventListener('scroll',function(){syncMore(leaf,scroll)},{passive:true});
+      front.appendChild(scroll);
+      front.appendChild(el('div','bk-pageno',String(i+1)));
+      if(i===0){turnHint=el('div','bk-turnhint','Scroll to turn the page');front.appendChild(turnHint)}
+      front.appendChild(el('div','bk-shadef'));
+      var back=el('div','bk-face bk-face--back');
+      var nxt=CHAPTERS[i+1];
+      back.appendChild(el('div','bk-chapter-ghost',nxt?('Next: '+nxt.t):'The End &middot; aplodex.com'));
+      back.appendChild(el('div','bk-verso',String(i+1)));
+      back.appendChild(el('div','bk-shadef'));
+      leaf.appendChild(front);leaf.appendChild(back);
+      leavesBox.appendChild(leaf);leaves.push(leaf);
+    });
+
+    book.appendChild(leavesBox);
+    book.appendChild(el('div','bk-cast'));
+    book.appendChild(el('div','bk-spine'));
+
+    var prev=el('button','bk-hot bk-hot--prev','&lsaquo;');prev.setAttribute('aria-label','Previous page');
+    var next=el('button','bk-hot bk-hot--next','&rsaquo;');next.setAttribute('aria-label','Next page');
+    prev.addEventListener('click',function(){step(-1)});
+    next.addEventListener('click',function(){if(turned===0){step(1)}else{step(1)}});
+    book.appendChild(prev);book.appendChild(next);
+
+    var ribbon=el('button','bk-ribbon');ribbon.setAttribute('aria-label','Table of contents');
+    ribbon.appendChild(el('span','bk-ribbon-label','Contents'));
+    toc=el('div','bk-toc');
+    toc.appendChild(el('div','bk-toc-head','Table of Contents'));
+    CHAPTERS.forEach(function(ch,i){
+      var item=el('button','bk-toc-item',
+        '<span class="bk-toc-num">'+String(i+1).padStart(2,'0')+'</span><span>'+ch.t+'</span><span class="bk-toc-dots"></span><span class="bk-toc-pg">'+(i+1)+'</span>');
+      item.addEventListener('click',function(){closeToc();goTo(i+1)});
+      toc.appendChild(item);
+    });
+    ribbon.addEventListener('click',function(e){e.stopPropagation();tocOpen?closeToc():openToc()});
+    book.appendChild(ribbon);book.appendChild(toc);
+    counter=el('div','bk-counter','');book.appendChild(counter);
+
+    /* cover click opens */
+    cf.addEventListener('click',function(){if(turned===0)step(1)});
+
+    stage.appendChild(book);
+    document.body.appendChild(stage);
+    document.body.classList.add('book-mode');
+    update();
+  }
+
+  function syncMore(leaf,scroll){
+    var more=scroll.scrollTop+scroll.clientHeight<scroll.scrollHeight-6;
+    leaf.classList.toggle('bk-more',more);
+  }
+
+  function openToc(){toc.classList.add('bk-open');tocOpen=true}
+  function closeToc(){toc.classList.remove('bk-open');tocOpen=false}
+
+  function currentLeaf(){return leaves[Math.min(turned,leaves.length-1)]}
+  function currentScroller(){var lf=currentLeaf();return lf?lf.querySelector('.bk-scroll'):null}
+
+  /* 2D at rest: only current leaf (and the one beneath during turns) visible */
+  function update(){
+    leaves.forEach(function(lf,i){
+      lf.style.visibility=(i===Math.min(turned,leaves.length-1))?'visible':'hidden';
+      lf.style.zIndex=200;
+      lf.style.transform='';
+    });
+    var cur=currentLeaf();
+    if(cur){
+      cur.querySelectorAll('.obs').forEach(function(s){s.classList.add('visible')});
+      var sc=cur.querySelector('.bk-scroll');if(sc)syncMore(cur,sc);
+    }
+    var N=leaves.length;
+    counter.textContent=turned===0?'Dre Forbes · Vol. I · click to open':
+      ('Page '+Math.min(turned,N-1)+' of '+(N-1)+' · '+(CHAPTERS[Math.min(turned,N-1)-1]||{t:''}).t);
+    toc.querySelectorAll('.bk-toc-item').forEach(function(it,i){it.classList.toggle('bk-here',i===turned-1)});
+  }
+
+  /* turn leaf i forward (dir=1: rotate 0 -> -180) or backward (dir=-1: -180 -> 0) */
+  function turnLeaf(i,dir,ms,onDone){
+    var lf=leaves[i];if(!lf){if(onDone)onDone();return}
+    animating++;
+    book.classList.add('bk-3d','bk-turning');
+    /* the leaf beneath (i+1) must be visible during flight in both directions:
+       forward reveals it; backward covers it back up */
+    if(leaves[i+1]){leaves[i+1].style.visibility='visible';leaves[i+1].style.zIndex=150}
+    lf.style.visibility='visible';
+    lf.style.zIndex=500+i;
+    lf.style.setProperty('--bk-ms',ms+'ms');
+    if(dir>0){
+      lf.style.transform='rotateY(0.001deg)';
+      void lf.offsetWidth;
+      lf.classList.add('bk-anim','bk-lift');
+      requestAnimationFrame(function(){lf.style.transform='rotateY(-179deg)'});
+    }else{
+      lf.style.transform='rotateY(-179deg)';
+      void lf.offsetWidth;
+      lf.classList.add('bk-anim','bk-lift');
+      requestAnimationFrame(function(){lf.style.transform='rotateY(0.001deg)'});
+    }
+    setTimeout(function(){
+      lf.classList.remove('bk-anim','bk-lift');
+      lf.style.transform='';
+      lf.style.removeProperty('--bk-ms');
+      animating--;
+      if(animating<=0){animating=0;book.classList.remove('bk-3d','bk-turning')}
+      if(onDone)onDone();
+    },ms+40);
+  }
+  function step(dir){
+    var now=Date.now();
+    if(animating||now<cooldownUntil)return;
+    if(dir>0&&turned<leaves.length-1){
+      var i=turned;turned++;
+      if(i===0)book.classList.add('bk-opened');
+      turnLeaf(i,1,i===0?1100:750,update);
+      if(turnHint&&!turnHint.classList.contains('bk-done')&&turned>1){turnHint.classList.add('bk-done');try{localStorage.setItem('bk-hinted','1')}catch(e){}}
+    }else if(dir<0&&turned>0){
+      turned--;var j=turned;
+      if(j===0)book.classList.remove('bk-opened');
+      turnLeaf(j,-1,750,update);
+    }
+    acc=0;edgeSince=0;
+    cooldownUntil=Date.now()+900;
+  }
+
+  function goTo(target){
+    target=Math.max(0,Math.min(target,leaves.length-1));
+    if(animating||target===turned)return;
+    var dir=target>turned?1:-1;
+    var seq=[];
+    if(dir>0){for(var i=turned;i<target;i++)seq.push(i)}
+    else{for(var j=turned-1;j>=target;j--)seq.push(j)}
+    /* riffle: animate at most first 3 + last 2; snap the middle */
+    var animSet=new Set();
+    if(seq.length<=5){seq.forEach(function(x){animSet.add(x)})}
+    else{animSet.add(seq[0]);animSet.add(seq[1]);animSet.add(seq[2]);animSet.add(seq[seq.length-2]);animSet.add(seq[seq.length-1])}
+    turned=target;
+    if(target>0)book.classList.add('bk-opened');else book.classList.remove('bk-opened');
+    var delay=0,animLeaves=seq.filter(function(x){return animSet.has(x)});
+    animLeaves.forEach(function(idx,k){
+      setTimeout(function(){turnLeaf(idx,dir,280,k===animLeaves.length-1?update:null)},delay);
+      delay+=85;
+    });
+    cooldownUntil=Date.now()+900;
+  }
+
+  function atEdge(sc,dir){
+    if(!sc)return true;
+    if(dir>0)return sc.scrollTop+sc.clientHeight>=sc.scrollHeight-2;
+    return sc.scrollTop<=2;
+  }
+  function onWheel(e){
+    if(tocOpen)return;
+    var dir=e.deltaY>0?1:-1;
+    var sc=currentScroller();
+    if(turned>0&&sc&&!atEdge(sc,dir)){acc=0;edgeSince=0;return}
+    e.preventDefault();
+    if(animating||Date.now()<cooldownUntil)return;
+    var now=Date.now();
+    if(!edgeSince)edgeSince=now;
+    /* dwell: ignore momentum for 300ms after first reaching the edge */
+    if(now-edgeSince<300)return;
+    acc+=e.deltaY;
+    clearTimeout(accT);accT=setTimeout(function(){acc=0},260);
+    if(Math.abs(acc)>170){step(acc>0?1:-1)}
+  }
+
+  var tY=null,tX=null;
+  function onTouchStart(e){tY=e.touches[0].clientY;tX=e.touches[0].clientX}
+  function onTouchEnd(e){
+    if(tY==null)return;
+    var dy=tY-e.changedTouches[0].clientY,dx=tX-e.changedTouches[0].clientX;
+    var sc=currentScroller();
+    if(Math.abs(dx)>80&&Math.abs(dx)>Math.abs(dy)){step(dx>0?1:-1)}
+    else if(Math.abs(dy)>90&&(turned===0||atEdge(sc,dy>0?1:-1))){step(dy>0?1:-1)}
+    tY=tX=null;
+  }
+  function onKey(e){
+    if(e.key==='Escape'&&tocOpen){closeToc();return}
+    var tag=(e.target.tagName||'').toLowerCase();
+    if(tag==='input'||tag==='textarea')return;
+    var openModal=document.querySelector('.dm-overlay');
+    if(openModal&&getComputedStyle(openModal).display!=='none')return;
+    if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();step(1)}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();step(-1)}
+    else if(e.key==='Home'){goTo(1)}
+    else if(e.key==='End'){goTo(leaves.length-1)}
+  }
+
+  function hookIntro(){
+    var ov=document.getElementById('term-overlay');
+    if(!ov||ov.classList.contains('dismissed')){setTimeout(function(){step(1)},600);return}
+    var mo=new MutationObserver(function(){
+      if(ov.classList.contains('dismissed')){mo.disconnect();setTimeout(function(){step(1)},480)}
+    });
+    mo.observe(ov,{attributes:true,attributeFilter:['class']});
+  }
+
+  function init(){
+    build();
+    try{if(localStorage.getItem('bk-hinted')&&turnHint)turnHint.classList.add('bk-done')}catch(e){}
+    stage.addEventListener('wheel',onWheel,{passive:false});
+    stage.addEventListener('touchstart',onTouchStart,{passive:true});
+    stage.addEventListener('touchend',onTouchEnd,{passive:true});
+    document.addEventListener('keydown',onKey);
+    document.addEventListener('click',function(e){if(tocOpen&&!toc.contains(e.target))closeToc()});
+    var rt;window.addEventListener('resize',function(){
+      clearTimeout(rt);rt=setTimeout(function(){if(window.innerWidth<MIN_W)location.reload()},400);
+    });
+    window.__bookGoTo=goTo;
+    hookIntro();
+  }
+
+  if(document.readyState==='complete'){setTimeout(init,0)}
+  else{window.addEventListener('load',function(){setTimeout(init,0)})}
+})();
+</script>
 </body>
 </html>
