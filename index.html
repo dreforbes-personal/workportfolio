@@ -6924,9 +6924,13 @@ body.book-mode #ask-trigger,body.book-mode .scroll-hint{display:none!important}
 body.book-mode .obs .section-num,body.book-mode .obs .section-title,body.book-mode .obs .section-desc{opacity:1!important;transform:none!important}
 body.book-mode .obs{opacity:1!important}
 
+#term-overlay{display:none!important}
 #bk-stage{position:fixed;inset:0;z-index:900;display:none;align-items:center;justify-content:center;
-  background:radial-gradient(ellipse 130% 95% at 50% 40%,#33302A 0%,#26231E 55%,#181613 100%)}
+  background:radial-gradient(ellipse 130% 95% at 50% 40%,#33302A 0%,#26231E 55%,#181613 100%);
+  transition:transform 0.95s cubic-bezier(0.2,0.78,0.2,1)}
 body.book-mode #bk-stage{display:flex}
+/* slide-down entrance: the book drops in from above onto its cover */
+#bk-stage.bk-enter{transform:translateY(-103%)}
 
 /* JS sets explicit px width/height to fill the viewport (ratio-capped) */
 .bk-book{position:relative;transition:transform 1.05s cubic-bezier(0.3,0.09,0.25,1)}
@@ -6945,8 +6949,11 @@ body.book-mode #bk-stage{display:flex}
 .bk-edge--l{left:-9px;border-radius:6px 0 0 6px;box-shadow:-3px 4px 14px rgba(0,0,0,0.35)}
 .bk-edge--r{right:-9px;border-radius:0 6px 6px 0;box-shadow:3px 4px 14px rgba(0,0,0,0.35)}
 
+/* sealed = closed on the cover: the paginated pages are invisible behind the cover */
+.bk-book.bk-sealed .bk-sheet{opacity:0;pointer-events:none}
+.bk-book.bk-sealed .bk-spinecrease,.bk-book.bk-sealed .bk-edge{opacity:0}
 /* the open sheet: one window, content flows in CSS columns = pages */
-.bk-sheet{position:absolute;inset:0;background:
+.bk-sheet{position:absolute;inset:0;transition:opacity 0.3s ease;background:
   linear-gradient(90deg,#F7F4E9 0%,#FDFCF8 8%,#FDFCF8 92%,#F7F4E9 100%);
   border-radius:6px;overflow:hidden;z-index:10}
 .bk-flowwrap{position:absolute;overflow:hidden}
@@ -6996,6 +7003,9 @@ body.book-mode .dap-frame{overflow-x:auto;-webkit-overflow-scrolling:touch}
 body.book-mode .dap-frame .da-canvas{min-width:820px}
 body.book-mode .trp-frame{overflow-x:auto;-webkit-overflow-scrolling:touch}
 body.book-mode .trp-frame .tr-axis,body.book-mode .trp-frame #trp-rows{min-width:640px}
+/* single unbreakable blocks taller than a page get capped + scroll internally
+   (a vertical swipe/wheel scrolls them; it never clips content off the page) */
+body.book-mode .bk-flow :is(.pano-diagram,.pano-example,.dap-frame,.trp-frame,.ma-arch,.gov-layer,.tdoc-flow){max-height:var(--bk-ph,760px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 body.book-mode .bk-flow .pano-principles{grid-template-columns:1fr 1fr}
 body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
 
@@ -7072,7 +7082,7 @@ body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
 .bk-hot--prev{left:0;border-radius:6px 0 0 6px}
 .bk-hot:hover{color:rgba(23,23,27,0.5);background:linear-gradient(90deg,transparent,rgba(0,0,0,0.045))}
 .bk-hot--prev:hover{background:linear-gradient(270deg,transparent,rgba(0,0,0,0.045))}
-.bk-hot{cursor:grab;touch-action:none}
+.bk-hot{cursor:grab;touch-action:pan-y}
 .bk-hot:active{cursor:grabbing}
 .bk-leaf.bk-drag{transition:none!important}
 /* dog-ear peel affordance on the next-page corner */
@@ -7139,7 +7149,11 @@ body.bk-1up .bk-chtitle__name{font-size:clamp(2rem,7vw,2.9rem)}
 <script id="book-script">
 (function(){
   'use strict';
-  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  /* retire the old terminal-code intro; the book's slide-down replaces it */
+  var _term=document.getElementById('term-overlay');
+  if(_term&&_term.parentNode)_term.parentNode.removeChild(_term);
+  var _reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(_reduce){document.body.style.overflow='';return;}
 
   var CHAPTERS=[
     {t:'The Front Page',sub:'Who I am, what I build, and the numbers behind it.',sel:['.hero','.logo-strip']},
@@ -7286,6 +7300,7 @@ body.bk-1up .bk-chtitle__name{font-size:clamp(2rem,7vw,2.9rem)}
     gutter=oneUp?48:Math.round(bw*0.052);
     var W=bw-2*padX,H=bh-padTop-padBot;
     colW=oneUp?W:Math.floor((W-gutter)/2);
+    sheet.style.setProperty('--bk-ph',(H-6)+'px');
     wraps.forEach(function(w,i){
       w.style.left=padX+'px';w.style.top=padTop+'px';w.style.width=W+'px';w.style.height=H+'px';
       var f=flows[i];
@@ -7351,6 +7366,7 @@ body.bk-1up .bk-chtitle__name{font-size:clamp(2rem,7vw,2.9rem)}
   function step(dir){
     var now=Date.now();
     if(!opened||animating||drag||now<cooldownUntil)return;
+    if(dir<0&&cur===0){close();cooldownUntil=Date.now()+700;return}
     var t=cur+dir;
     if(t<0||t>total-1)return;
     turn(dir,750,t);
@@ -7378,15 +7394,40 @@ body.bk-1up .bk-chtitle__name{font-size:clamp(2rem,7vw,2.9rem)}
   function open(){
     if(opened||animating)return;
     opened=true;animating++;
+    hideHint();
     book.classList.add('bk-3d');
     book.classList.remove('bk-closed');
+    book.classList.remove('bk-sealed');
     render(0);
+    cover.style.visibility='visible';
     cover.classList.add('bk-anim');
+    cover.style.transform='rotateY(0deg)';
     void cover.offsetWidth;
     requestAnimationFrame(function(){cover.style.transform='rotateY(-179.9deg)'});
     setTimeout(function(){
       cover.style.visibility='hidden';
       cover.classList.remove('bk-anim');
+      animating--;
+      if(animating<=0){animating=0;book.classList.remove('bk-3d')}
+    },1300);
+  }
+
+  function close(){
+    if(!opened||animating)return;
+    opened=false;animating++;
+    render(0);
+    book.classList.add('bk-3d');
+    cover.style.visibility='visible';
+    cover.classList.add('bk-anim');
+    cover.style.transform='rotateY(-179.9deg)';
+    void cover.offsetWidth;
+    requestAnimationFrame(function(){
+      cover.style.transform='rotateY(0deg)';
+      book.classList.add('bk-closed');
+    });
+    setTimeout(function(){
+      cover.classList.remove('bk-anim');
+      book.classList.add('bk-sealed');
       animating--;
       if(animating<=0){animating=0;book.classList.remove('bk-3d')}
     },1300);
@@ -7401,23 +7442,40 @@ body.bk-1up .bk-chtitle__name{font-size:clamp(2rem,7vw,2.9rem)}
       if(!opened){if(dir>0)open();return}
       if(animating||drag||tocOpen)return;
       var target=cur+dir;
-      if(target<0||target>total-1)return;
-      e.preventDefault();
+      var closing=(dir<0&&cur===0); /* back-edge on page one closes the book */
+      if(!closing&&(target<0||target>total-1))return;
       try{zone.setPointerCapture(e.pointerId)}catch(err){}
       var w=leaf.getBoundingClientRect().width||1;
-      drag={dir:dir,target:target,base:cur,x0:e.clientX,w:w,prog:dir>0?0:1,shown:cur,moved:false,
+      /* start PENDING — don't lift the leaf until we see horizontal intent,
+         so a vertical swipe near the edge is left free to scroll */
+      drag={dir:dir,target:target,base:cur,x0:e.clientX,y0:e.clientY,w:w,prog:dir>0?0:1,
+            shown:cur,moved:false,active:false,closing:closing,pid:e.pointerId,zone:zone,
             lastX:e.clientX,lastT:performance.now(),v:0};
-      book.classList.add('bk-3d');
-      leaf.classList.add('bk-drag','bk-lift');
-      leaf.style.transform='rotateY('+(-180*drag.prog)+'deg)';
     });
     zone.addEventListener('pointermove',function(e){
       if(!drag)return;
       var d=drag;
-      var dx=e.clientX-d.x0;
+      var dx=e.clientX-d.x0, dyv=e.clientY-d.y0;
+      if(d.closing){ /* no leaf to lift; abort on vertical so page can scroll */
+        if(Math.abs(dyv)>10&&Math.abs(dyv)>=Math.abs(dx)){try{zone.releasePointerCapture(d.pid)}catch(err){}drag=null}
+        else if(Math.abs(dx)>6)d.moved=true;
+        return;
+      }
+      if(!d.active){
+        if(Math.abs(dyv)>10&&Math.abs(dyv)>=Math.abs(dx)){ /* vertical → release, let it scroll */
+          try{zone.releasePointerCapture(d.pid)}catch(err){}
+          drag=null;return;
+        }
+        if(Math.abs(dx)>8){
+          d.active=true;
+          book.classList.add('bk-3d');
+          leaf.classList.add('bk-drag','bk-lift');
+          leaf.style.transform='rotateY('+(-180*d.prog)+'deg)';
+        }else return;
+      }
+      e.preventDefault();
       if(Math.abs(dx)>6)d.moved=true;
-      var p=d.dir>0?Math.min(1,Math.max(0,-dx/d.w)):Math.min(1,Math.max(0,1+dx/d.w*-1));
-      if(d.dir<0)p=Math.min(1,Math.max(0,1-(dx/d.w)));
+      var p=d.dir>0?Math.min(1,Math.max(0,-dx/d.w)):Math.min(1,Math.max(0,1-(dx/d.w)));
       var now=performance.now();
       d.v=0.8*d.v+0.2*((d.lastX-e.clientX)/Math.max(1,now-d.lastT));
       d.lastX=e.clientX;d.lastT=now;
@@ -7433,8 +7491,13 @@ body.bk-1up .bk-chtitle__name{font-size:clamp(2rem,7vw,2.9rem)}
     function finish(e){
       if(!drag)return;
       var d=drag;drag=null;
-      var tap=!d.moved;
-      var commit=tap||(d.dir>0?(d.prog>0.45||d.v>0.4):(d.prog<0.55||d.v<-0.4));
+      if(d.closing){close();return}
+      if(!d.active){ /* never became a horizontal drag: a tap turns, a stray gesture does nothing */
+        if(!d.moved)step(d.dir);
+        return;
+      }
+      var tap=false;
+      var commit=(d.dir>0?(d.prog>0.45||d.v>0.4):(d.prog<0.55||d.v<-0.4));
       var endProg=d.dir>0?(commit?1:0):(commit?0:1);
       var finalSpread=commit?d.target:d.base;
       var dist=Math.abs(endProg-d.prog);
@@ -7489,8 +7552,9 @@ body.bk-1up .bk-chtitle__name{font-size:clamp(2rem,7vw,2.9rem)}
   function onTouchEnd(e){
     if(tY==null||drag){tY=tX=null;return}
     var dy=tY-e.changedTouches[0].clientY,dx=tX-e.changedTouches[0].clientX;
-    if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)){opened?step(dx>0?1:-1):open()}
-    else if(Math.abs(dy)>90){opened?step(dy>0?1:-1):open()}
+    /* only a clearly HORIZONTAL swipe turns the page; vertical is left alone (scroll/no-op) */
+    if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.4){opened?step(dx>0?1:-1):open()}
+    else if(!opened&&Math.abs(dy)>90){open()}
     tY=tX=null;
   }
   function onKey(e){
@@ -7505,13 +7569,13 @@ body.bk-1up .bk-chtitle__name{font-size:clamp(2rem,7vw,2.9rem)}
     else if(e.key==='End'){goTo(total-1)}
   }
 
-  function hookIntro(){
-    var ov=document.getElementById('term-overlay');
-    if(!ov||ov.classList.contains('dismissed')){setTimeout(open,650);return}
-    var mo=new MutationObserver(function(){
-      if(ov.classList.contains('dismissed')){mo.disconnect();setTimeout(open,480)}
-    });
-    mo.observe(ov,{attributes:true,attributeFilter:['class']});
+  function slideIn(){
+    /* the book drops in from the top and rests on its cover */
+    stage.classList.add('bk-enter');
+    void stage.offsetWidth;
+    requestAnimationFrame(function(){requestAnimationFrame(function(){
+      stage.classList.remove('bk-enter');
+    })});
   }
 
   function init(){
@@ -7519,6 +7583,7 @@ body.bk-1up .bk-chtitle__name{font-size:clamp(2rem,7vw,2.9rem)}
     document.querySelectorAll('.obs').forEach(function(s){s.classList.add('visible')});
     fit();
     render(0);
+    book.classList.add('bk-sealed'); /* stay closed on the cover until the reader opens it */
     try{if(localStorage.getItem('bk-hinted')&&turnHint)turnHint.classList.add('bk-done')}catch(e){}
     stage.addEventListener('wheel',onWheel,{passive:false});
     stage.addEventListener('touchstart',onTouchStart,{passive:true});
@@ -7533,8 +7598,9 @@ body.bk-1up .bk-chtitle__name{font-size:clamp(2rem,7vw,2.9rem)}
         render(cur);
       },350);
     });
-    window.__bookGoTo=function(c){goTo(cumSpreads[Math.max(0,Math.min(c,CHAPTERS.length-1))])};
-    hookIntro();
+    window.__bookGoTo=function(c){if(!opened)open();goTo(cumSpreads[Math.max(0,Math.min(c,CHAPTERS.length-1))])};
+    window.__bookClose=close;
+    slideIn();
   }
 
   if(document.readyState==='complete'){setTimeout(init,0)}
