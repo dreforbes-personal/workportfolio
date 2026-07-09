@@ -7058,6 +7058,14 @@ body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
 .bk-hot--prev{left:0;border-radius:6px 0 0 6px}
 .bk-hot:hover{color:rgba(23,23,27,0.5);background:linear-gradient(90deg,transparent,rgba(0,0,0,0.045))}
 .bk-hot--prev:hover{background:linear-gradient(270deg,transparent,rgba(0,0,0,0.045))}
+.bk-hot{cursor:grab;touch-action:none}
+.bk-hot:active{cursor:grabbing}
+.bk-leaf.bk-drag{transition:none!important}
+/* dog-ear peel affordance on the next-page corner */
+.bk-hot--next::after{content:'';position:absolute;right:0;bottom:0;width:0;height:0;
+  border-style:solid;border-width:0 0 28px 28px;border-color:transparent transparent rgba(60,45,10,0.14) transparent;
+  transition:border-width 0.2s ease}
+.bk-hot--next:hover::after{border-width:0 0 40px 40px;border-color:transparent transparent rgba(60,45,10,0.22) transparent}
 
 /* ── bookmark ribbon + TOC (unchanged look) ── */
 .bk-ribbon{position:absolute;top:-19px;right:7%;width:54px;height:138px;z-index:2600;cursor:pointer;border:none;padding:0;
@@ -7085,13 +7093,38 @@ body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
 .bk-toc-dots{flex:1;border-bottom:1px dotted #C9C2AC;transform:translateY(-3px)}
 .bk-toc-pg{font-family:'Fraunces',Georgia,serif;font-size:0.8rem;color:#8A8168}
 
-@media(max-width:899px){#bk-stage{display:none!important}}
+/* ── one-page mode (mobile / portrait): a single page fills the screen ── */
+body.bk-1up .bk-book.bk-closed{transform:scale(0.97)}
+body.bk-1up .bk-spinecrease{display:none}
+body.bk-1up .bk-edge--l{left:-6px}
+body.bk-1up .bk-edge--r{right:-6px}
+body.bk-1up .bk-sheet{background:linear-gradient(90deg,#FBF8EE 0%,#FDFCF8 5%,#FDFCF8 100%)}
+/* leaf spans the whole page and hinges on the LEFT edge */
+body.bk-1up .bk-leaf{left:0;right:0}
+body.bk-1up .bk-cover{left:0;right:-6px}
+body.bk-1up .bk-cface--front::before{inset:14px}
+body.bk-1up .bk-cface--front::after{inset:21px}
+/* wider tap zones for thumbs; keep them out of the reading center */
+body.bk-1up .bk-hot{width:22%}
+body.bk-1up .bk-hot--next::after{border-width:0 0 34px 34px}
+body.bk-1up .bk-ribbon{right:16px;width:46px;height:116px;top:-14px}
+body.bk-1up .bk-ribbon-label{top:52px}
+body.bk-1up .bk-toc{right:8px;left:8px;width:auto;top:-8px;max-height:74%}
+body.bk-1up .bk-counter{bottom:-28px;font-size:0.58rem}
+body.bk-1up .bk-folio{bottom:9px}
+body.bk-1up .bk-rhead{top:11px}
+body.bk-1up .bk-rhead--r{display:none}
+/* content breathes a touch more on a single page */
+body.bk-1up .bk-chtitle{padding-right:0}
+body.bk-1up .bk-chtitle__name{font-size:clamp(2rem,7vw,2.9rem)}
+@media(max-width:600px){
+  body.bk-1up .bk-rhead{font-size:0.5rem;letter-spacing:1.5px}
+  body.bk-1up .bk-cover-title{font-size:clamp(2.2rem,10vw,3.4rem)}
+}
 </style>
 <script id="book-script">
 (function(){
   'use strict';
-  var MIN_W=900;
-  if(window.innerWidth<MIN_W)return;
   if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
 
   var CHAPTERS=[
@@ -7111,7 +7144,8 @@ body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
   var stage,book,sheet,leaf,cover,toc,counter,turnHint;
   var wraps=[],flows=[],spreadsPer=[],cumSpreads=[0],cumCols=[0];
   var cur=0,total=0,opened=false,animating=0,tocOpen=false;
-  var colW=0,gutter=0,acc=0,accT=null,cooldownUntil=0;
+  var colW=0,gutter=0,pagesPer=2,acc=0,accT=null,cooldownUntil=0;
+  var drag=null;
 
   function el(tag,cls,html){var d=document.createElement(tag);if(cls)d.className=cls;if(html!=null)d.innerHTML=html;return d}
 
@@ -7145,12 +7179,11 @@ body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
       wraps.push(wrap);flows.push(flow);
     });
 
-    /* page furniture */
     sheet.appendChild(el('div','bk-rhead bk-rhead--l','Dre Forbes &middot; Vol. I'));
     sheet.appendChild(el('div','bk-rhead bk-rhead--r',''));
     sheet.appendChild(el('div','bk-folio bk-folio--l',''));
     sheet.appendChild(el('div','bk-folio bk-folio--r',''));
-    turnHint=el('div','bk-turnhint','Scroll to turn the page');
+    turnHint=el('div','bk-turnhint','Scroll, drag, or tap the edge');
     sheet.appendChild(turnHint);
     book.appendChild(sheet);
     book.appendChild(el('div','bk-edge bk-edge--l'));
@@ -7158,14 +7191,12 @@ body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
     book.appendChild(el('div','bk-cast'));
     book.appendChild(el('div','bk-spinecrease'));
 
-    /* turning leaf */
     leaf=el('div','bk-leaf');
     var lf=el('div','bk-lface bk-lface--front');lf.appendChild(el('div','bk-lghost',''));lf.appendChild(el('div','bk-lshade'));
     var lb=el('div','bk-lface bk-lface--back');lb.appendChild(el('div','bk-lghost',''));lb.appendChild(el('div','bk-lshade'));
     leaf.appendChild(lf);leaf.appendChild(lb);
     book.appendChild(leaf);
 
-    /* cover */
     cover=el('div','bk-cover');
     var cf=el('div','bk-cface bk-cface--front');
     cf.appendChild(el('div','bk-cover-inner',
@@ -7173,21 +7204,18 @@ body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
       '<div class="bk-cover-title">Dre Forbes</div>'+
       '<div class="bk-cover-rule"></div>'+
       '<div class="bk-cover-sub">Founder &amp; Principal, Aplodex. AI &amp; technology advisory for firms that want the ceiling, not the settle.</div>'));
-    cf.appendChild(el('div','bk-cover-hint','Scroll, click, or press &rarr; to open'));
+    cf.appendChild(el('div','bk-cover-hint','Scroll, tap, or drag to open'));
     cf.appendChild(el('div','bk-cover-foot','Aplodex &middot; AI &amp; Technology Advisory'));
     cover.appendChild(cf);
     cover.appendChild(el('div','bk-cface bk-cface--back'));
     cover.addEventListener('click',function(){open()});
     book.appendChild(cover);
 
-    /* hotspots */
-    var prev=el('button','bk-hot bk-hot--prev','&lsaquo;');prev.setAttribute('aria-label','Previous pages');
-    var next=el('button','bk-hot bk-hot--next','&rsaquo;');next.setAttribute('aria-label','Next pages');
-    prev.addEventListener('click',function(){step(-1)});
-    next.addEventListener('click',function(){opened?step(1):open()});
+    var prev=el('button','bk-hot bk-hot--prev','&lsaquo;');prev.setAttribute('aria-label','Previous page');
+    var next=el('button','bk-hot bk-hot--next','&rsaquo;');next.setAttribute('aria-label','Next page');
     book.appendChild(prev);book.appendChild(next);
+    bindDrag(next,1);bindDrag(prev,-1);
 
-    /* ribbon + toc */
     var ribbon=el('button','bk-ribbon');ribbon.setAttribute('aria-label','Table of contents');
     ribbon.appendChild(el('span','bk-ribbon-label','Contents'));
     toc=el('div','bk-toc');
@@ -7209,31 +7237,38 @@ body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
 
   function fit(){
     var vw=window.innerWidth,vh=window.innerHeight;
-    var bh=Math.round(vh*0.94);
-    var bw=Math.round(Math.min(vw*0.965,bh*1.95));
-    if(bw<vw*0.72){bh=Math.round(Math.min(vh*0.94,vw*0.72/1.4));bw=Math.round(Math.min(vw*0.965,bh*1.95))}
+    var oneUp=vw<760||vw/vh<1.02;
+    var bw,bh;
+    if(!oneUp){
+      bh=Math.round(vh*0.945);
+      bw=Math.round(Math.min(vw*0.975,bh*2.2));
+      if(bw/bh<1.28)oneUp=true;
+    }
+    if(oneUp){
+      bw=Math.round(vw*0.99);
+      bh=Math.round(vh*0.985);
+    }
+    pagesPer=oneUp?1:2;
+    document.body.classList.toggle('bk-1up',oneUp);
     book.style.width=bw+'px';book.style.height=bh+'px';
-    var padX=Math.round(bw*0.032),padTop=44,padBot=44;
-    gutter=Math.round(bw*0.052);
+    var padX=Math.round(bw*(oneUp?0.045:0.032)),padTop=oneUp?40:44,padBot=oneUp?36:44;
+    gutter=oneUp?48:Math.round(bw*0.052);
     var W=bw-2*padX,H=bh-padTop-padBot;
-    colW=Math.floor((W-gutter)/2);
+    colW=oneUp?W:Math.floor((W-gutter)/2);
     wraps.forEach(function(w,i){
       w.style.left=padX+'px';w.style.top=padTop+'px';w.style.width=W+'px';w.style.height=H+'px';
       var f=flows[i];
       f.style.columnWidth=colW+'px';f.style.columnGap=gutter+'px';f.style.height=H+'px';
     });
-    /* measure spreads per chapter */
     spreadsPer=[];cumSpreads=[0];cumCols=[0];total=0;
     wraps.forEach(function(w,i){
-      var prevVis=w.style.visibility;
       var spc=flows[i].querySelector('.bk-colspacer');spc.style.display='none';
       var cols=Math.max(1,Math.round((w.scrollWidth+gutter)/(colW+gutter)));
-      if(cols%2===1)spc.style.display='block';
-      var sp=Math.ceil(cols/2);
+      if(!oneUp&&cols%2===1)spc.style.display='block';
+      var sp=oneUp?cols:Math.ceil(cols/2);
       spreadsPer.push(sp);total+=sp;
       cumSpreads.push(total);
       cumCols.push(cumCols[i]+cols);
-      w.style.visibility=prevVis;
     });
     toc.querySelectorAll('.bk-toc-item').forEach(function(it,c){
       var pg=it.querySelector('.bk-toc-pg-'+c);if(pg)pg.textContent=String(cumCols[c]+1);
@@ -7250,15 +7285,15 @@ body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
     cur=Math.max(0,Math.min(spread,total-1));
     var loc=locate(cur);
     wraps.forEach(function(w,i){w.style.visibility=i===loc.c?'visible':'hidden'});
-    wraps[loc.c].scrollLeft=loc.s*2*(colW+gutter);
-    var pl=cumCols[loc.c]+loc.s*2+1,pr=pl+1;
+    wraps[loc.c].scrollLeft=loc.s*pagesPer*(colW+gutter);
+    var pl=cumCols[loc.c]+loc.s*pagesPer+1,pr=pl+1;
+    var chCols=cumCols[loc.c+1]-cumCols[loc.c];
     sheet.querySelector('.bk-folio--l').textContent=String(pl);
-    sheet.querySelector('.bk-folio--r').textContent=pr<=cumCols[loc.c]+Math.round((wraps[loc.c].scrollWidth+gutter)/(colW+gutter))?String(pr):'';
+    sheet.querySelector('.bk-folio--r').textContent=(pagesPer===2&&loc.s*2+2<=chCols)?String(pr):'';
     sheet.querySelector('.bk-rhead--r').textContent=CHAPTERS[loc.c].t;
-    counter.textContent='Pages '+pl+'–'+pr+' of '+cumCols[CHAPTERS.length]+' · '+CHAPTERS[loc.c].t;
+    counter.textContent=(pagesPer===2?('Pages '+pl+'–'+pr):('Page '+pl))+' of '+cumCols[CHAPTERS.length]+' · '+CHAPTERS[loc.c].t;
     toc.querySelectorAll('.bk-toc-item').forEach(function(it,i){it.classList.toggle('bk-here',i===loc.c)});
-    var curLoc=locate(cur);
-    var ghostNext=curLoc.s===spreadsPer[curLoc.c]-1&&CHAPTERS[curLoc.c+1]?CHAPTERS[curLoc.c+1].t:'';
+    var ghostNext=loc.s===spreadsPer[loc.c]-1&&CHAPTERS[loc.c+1]?CHAPTERS[loc.c+1].t:'';
     leaf.querySelector('.bk-lface--back .bk-lghost').textContent=ghostNext?('Next: '+ghostNext):'';
   }
 
@@ -7267,8 +7302,7 @@ body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
     book.classList.add('bk-3d','bk-turning');
     book.style.setProperty('--bk-ms',ms+'ms');
     leaf.style.setProperty('--bk-ms',ms+'ms');
-    if(dir>0){leaf.style.transform='rotateY(0.001deg)'}
-    else{leaf.style.transform='rotateY(-179.9deg)'}
+    leaf.style.transform=dir>0?'rotateY(0.001deg)':'rotateY(-179.9deg)';
     void leaf.offsetWidth;
     leaf.classList.add('bk-anim','bk-lift');
     requestAnimationFrame(function(){
@@ -7285,25 +7319,29 @@ body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
 
   function step(dir){
     var now=Date.now();
-    if(!opened||animating||now<cooldownUntil)return;
+    if(!opened||animating||drag||now<cooldownUntil)return;
     var t=cur+dir;
     if(t<0||t>total-1)return;
-    turn(dir,850,t);
+    turn(dir,750,t);
+    hideHint();
+    acc=0;cooldownUntil=Date.now()+700;
+  }
+
+  function hideHint(){
     if(turnHint&&!turnHint.classList.contains('bk-done')){turnHint.classList.add('bk-done');try{localStorage.setItem('bk-hinted','1')}catch(e){}}
-    acc=0;cooldownUntil=Date.now()+800;
   }
 
   function goTo(target){
     target=Math.max(0,Math.min(target,total-1));
-    if(!opened||animating||target===cur)return;
+    if(!opened||animating||drag||target===cur)return;
     var dir=target>cur?1:-1;
-    if(Math.abs(target-cur)===1){turn(dir,850,target)}
+    if(Math.abs(target-cur)===1){turn(dir,750,target)}
     else{
       var mid=cur+dir;
       turn(dir,300,mid);
       setTimeout(function(){turn(dir,300,target)},330);
     }
-    cooldownUntil=Date.now()+800;
+    cooldownUntil=Date.now()+700;
   }
 
   function open(){
@@ -7326,7 +7364,72 @@ body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
   function openToc(){toc.classList.add('bk-open');tocOpen=true}
   function closeToc(){toc.classList.remove('bk-open');tocOpen=false}
 
-  /* wheel: let scrollable widgets inside pages scroll natively */
+  /* ── interactive drag turn with physics ── */
+  function bindDrag(zone,dir){
+    zone.addEventListener('pointerdown',function(e){
+      if(!opened){if(dir>0)open();return}
+      if(animating||drag||tocOpen)return;
+      var target=cur+dir;
+      if(target<0||target>total-1)return;
+      e.preventDefault();
+      try{zone.setPointerCapture(e.pointerId)}catch(err){}
+      var w=leaf.getBoundingClientRect().width||1;
+      drag={dir:dir,target:target,base:cur,x0:e.clientX,w:w,prog:dir>0?0:1,shown:cur,moved:false,
+            lastX:e.clientX,lastT:performance.now(),v:0};
+      book.classList.add('bk-3d');
+      leaf.classList.add('bk-drag','bk-lift');
+      leaf.style.transform='rotateY('+(-180*drag.prog)+'deg)';
+    });
+    zone.addEventListener('pointermove',function(e){
+      if(!drag)return;
+      var d=drag;
+      var dx=e.clientX-d.x0;
+      if(Math.abs(dx)>6)d.moved=true;
+      var p=d.dir>0?Math.min(1,Math.max(0,-dx/d.w)):Math.min(1,Math.max(0,1+dx/d.w*-1));
+      if(d.dir<0)p=Math.min(1,Math.max(0,1-(dx/d.w)));
+      var now=performance.now();
+      d.v=0.8*d.v+0.2*((d.lastX-e.clientX)/Math.max(1,now-d.lastT));
+      d.lastX=e.clientX;d.lastT=now;
+      d.prog=p;
+      leaf.style.transform='rotateY('+(-180*p)+'deg)';
+      /* content swap at the edge-on moment, with hysteresis.
+         forward: past 90deg show target; backward: below 90deg show target */
+      var want=d.shown;
+      if(d.dir>0){if(p>0.52)want=d.target;else if(p<0.48)want=d.base}
+      else{if(p<0.48)want=d.target;else if(p>0.52)want=d.base}
+      if(want!==d.shown){render(want);d.shown=want}
+    });
+    function finish(e){
+      if(!drag)return;
+      var d=drag;drag=null;
+      var tap=!d.moved;
+      var commit=tap||(d.dir>0?(d.prog>0.45||d.v>0.4):(d.prog<0.55||d.v<-0.4));
+      var endProg=d.dir>0?(commit?1:0):(commit?0:1);
+      var finalSpread=commit?d.target:d.base;
+      var dist=Math.abs(endProg-d.prog);
+      var ms=Math.max(200,Math.round(220+dist*430));
+      animating++;
+      leaf.classList.remove('bk-drag');
+      leaf.style.setProperty('--bk-ms',ms+'ms');
+      leaf.classList.add('bk-anim');
+      void leaf.offsetWidth;
+      requestAnimationFrame(function(){leaf.style.transform='rotateY('+(-180*endProg)+'deg)'});
+      if(d.shown!==finalSpread){setTimeout(function(){render(finalSpread)},Math.round(ms*0.45))}
+      setTimeout(function(){
+        leaf.classList.remove('bk-anim','bk-lift');
+        leaf.style.transform='';
+        leaf.style.removeProperty('--bk-ms');
+        render(finalSpread);
+        animating--;
+        if(animating<=0){animating=0;book.classList.remove('bk-3d')}
+        hideHint();
+      },ms+40);
+      cooldownUntil=Date.now()+350;
+    }
+    zone.addEventListener('pointerup',finish);
+    zone.addEventListener('pointercancel',finish);
+  }
+
   function scrollableAncestor(node,dir){
     while(node&&node!==sheet&&node.nodeType===1){
       var cs=getComputedStyle(node);
@@ -7344,7 +7447,7 @@ body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
     if(e.target&&scrollableAncestor(e.target,dir)){acc=0;return}
     e.preventDefault();
     if(!opened){if(Math.abs(e.deltaY)>20)open();return}
-    if(animating||Date.now()<cooldownUntil)return;
+    if(animating||drag||Date.now()<cooldownUntil)return;
     acc+=e.deltaY;
     clearTimeout(accT);accT=setTimeout(function(){acc=0},260);
     if(Math.abs(acc)>150){step(acc>0?1:-1)}
@@ -7353,7 +7456,7 @@ body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
   var tY=null,tX=null;
   function onTouchStart(e){tY=e.touches[0].clientY;tX=e.touches[0].clientX}
   function onTouchEnd(e){
-    if(tY==null)return;
+    if(tY==null||drag){tY=tX=null;return}
     var dy=tY-e.changedTouches[0].clientY,dx=tX-e.changedTouches[0].clientX;
     if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)){opened?step(dx>0?1:-1):open()}
     else if(Math.abs(dy)>90){opened?step(dy>0?1:-1):open()}
@@ -7393,10 +7496,9 @@ body.book-mode .bk-flow .impact-split{grid-template-columns:1fr}
     document.addEventListener('click',function(e){if(tocOpen&&!toc.contains(e.target))closeToc()});
     var rt;window.addEventListener('resize',function(){
       clearTimeout(rt);rt=setTimeout(function(){
-        if(window.innerWidth<MIN_W){location.reload();return}
         var loc=locate(cur);
         fit();
-        cur=Math.min(cumSpreads[loc.c]+loc.s,total-1);
+        cur=Math.min(cumSpreads[loc.c]+Math.min(loc.s,spreadsPer[loc.c]-1),total-1);
         render(cur);
       },350);
     });
