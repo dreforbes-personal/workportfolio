@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2317100b'/><text x='50' y='66' text-anchor='middle' font-size='52' font-family='Georgia' fill='%23ffb000'>DF</text></svg>">
 <title>Dre Forbes | Founder &amp; Principal, Aplodex</title>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..800;1,300..800&family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -21,6 +22,11 @@
 html{scroll-behavior:smooth;font-size:19px}
 body{font-family:'Hanken Grotesk',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.75;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 ::selection{background:#FFB000;color:#17171B}
+:where(a,button,input,select,textarea,[tabindex]):focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
+}
 
 .hero{
   display:block;background:var(--surface-2);border-bottom:1px solid var(--border);
@@ -93,7 +99,6 @@ body{font-family:'Hanken Grotesk',-apple-system,sans-serif;background:var(--bg);
   .metric{padding:14px 24px 0 0}
   .metric .val{font-size:1.3rem}
   .metric .lbl{font-size:0.7rem}
-}
 }
 @media(max-width:380px){
   .hero{padding:72px 16px 40px}
@@ -508,7 +513,7 @@ body{font-family:'Hanken Grotesk',-apple-system,sans-serif;background:var(--bg);
     <h1>Dre <span class="accent">Forbes</span></h1>
     <p class="hero-role">Founder of Aplodex, advising wealth management and financial services firms on AI strategy, agent design, model and platform selection, and integration architecture. Before that, the sole technology authority at a $9B+ AUM RIA: cybersecurity, IT operations, enterprise software, and the firm’s agentic AI platform. Builder and systems architect. 15 production domains, 425+ agent tools across 11 MCP servers.</p>
     <div class="hero-cta">
-      <a class="resume-btn" href="Andre-Forbes-Resume.pdf" download="Andre Forbes - Resume.pdf" aria-label="Download Dre Forbes resume as PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download Résumé (PDF)</a>
+      <a class="resume-btn" href="Andre%20Forbes%20-%20Resume.pdf" download="Andre Forbes - Resume.pdf" aria-label="Download Dre Forbes resume as PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download Résumé (PDF)</a>
     </div>
     <div class="hero-metrics">
       <div class="metric"><div class="val">15</div><div class="lbl">Domains</div></div>
@@ -699,6 +704,7 @@ body{font-family:'Hanken Grotesk',-apple-system,sans-serif;background:var(--bg);
   <button class="nav-btn active" data-section="now">Now</button>
   <button class="nav-btn" data-section="roles">Roles</button>
   <button class="nav-btn" data-section="ops">Operations</button>
+  <button class="nav-btn" data-section="cybersecurity">Security</button>
   <button class="nav-btn" data-section="dev">Development</button>
   <button class="nav-btn" data-section="salesforce">Salesforce</button>
   <button class="nav-btn" data-section="integrations">Integrations</button>
@@ -1014,6 +1020,52 @@ body{font-family:'Hanken Grotesk',-apple-system,sans-serif;background:var(--bg);
 </section>
 <div class="divider"><hr></div>
 
+<section class="section obs" id="cybersecurity">
+  <div class="section-num">02.7 / CYBERSECURITY</div>
+  <div class="section-title">Cybersecurity</div>
+  <div class="section-desc">Security is where I made my bones. I inherited a program fresh off an SEC cyber exam with findings, leaning on an MSP that was taking advantage of the firm. I brought it in-house, rebuilt it on a NIST foundation, and the next exam came back with zero cybersecurity findings.</div>
+  <div class="now-grid">
+    <div class="now-card">
+      <div class="now-eyebrow">The Rebuild</div>
+      <div class="now-title">From Findings to Zero Findings</div>
+      <div class="now-body">NIST-aligned cybersecurity framework built from scratch on CIS Controls. Fired the MSP, internalized the whole program, and stood up the policies, evidence, and tooling to back it. The next SEC exam: zero cybersecurity findings.</div>
+      <div class="now-tags"><span class="now-tag">NIST CSF</span><span class="now-tag">CIS Controls</span><span class="now-tag">Zero findings</span></div>
+    </div>
+    <div class="now-card">
+      <div class="now-eyebrow">Identity &amp; Access</div>
+      <div class="now-title">One Identity, Every Door</div>
+      <div class="now-body">MFA across all systems with Duo. SSO federated through Keycloak SAML with Rippling as the IdP. Entra ID conditional access, least-privilege access reviews, and an identity governance strategy that survives audits.</div>
+      <div class="now-tags"><span class="now-tag">Duo MFA</span><span class="now-tag">Keycloak SAML</span><span class="now-tag">Entra ID</span></div>
+    </div>
+    <div class="now-card">
+      <div class="now-eyebrow">Defense Stack</div>
+      <div class="now-title">Endpoint to Edge</div>
+      <div class="now-body">Endpoint protection and monitoring layered with SentinelOne and Huntress, managed through NinjaOne. DLP policies on the data, Meraki security at the network edge, Keeper for secrets, and a managed SSL/TLS certificate lifecycle.</div>
+      <div class="now-tags"><span class="now-tag">SentinelOne</span><span class="now-tag">Huntress</span><span class="now-tag">DLP</span><span class="now-tag">Meraki</span></div>
+    </div>
+    <div class="now-card">
+      <div class="now-eyebrow">Testing &amp; Monitoring</div>
+      <div class="now-title">Watch Everything, Prove It</div>
+      <div class="now-body">Built-in penetration testing and a security scanner integrated with the stack, plus a unified Security &amp; Network Monitoring Dashboard that rolls 10+ vendor systems into one live traffic-light view of the firm&rsquo;s posture.</div>
+      <div class="now-tags"><span class="now-tag">Pen testing</span><span class="now-tag">10+ systems</span><span class="now-tag">Live posture</span></div>
+      <button class="card-demo-btn" onclick="window.openShowcaseDemo('security')">Launch live demo</button>
+    </div>
+    <div class="now-card">
+      <div class="now-eyebrow">Governance &amp; Compliance</div>
+      <div class="now-title">Examination-Ready, Always</div>
+      <div class="now-body">Regulation S-P and Rule 206(4)-7 mapped to real controls, a SOC 2 vendor review process stood up from nothing, and vendor security assessments with due diligence documented for the evidence file before the regulator ever asks.</div>
+      <div class="now-tags"><span class="now-tag">Reg S-P</span><span class="now-tag">SOC 2</span><span class="now-tag">Vendor DD</span></div>
+    </div>
+    <div class="now-card">
+      <div class="now-eyebrow">People &amp; Response</div>
+      <div class="now-title">The Human Layer</div>
+      <div class="now-body">Incident response planning with executive tabletop exercises, employee phishing awareness and security training, and clear escalation paths. The tech holds the wall, the people know what to do when something gets through.</div>
+      <div class="now-tags"><span class="now-tag">IR tabletops</span><span class="now-tag">Phishing training</span><span class="now-tag">Escalation</span></div>
+    </div>
+  </div>
+</section>
+<div class="divider"><hr></div>
+
 <section class="section obs" id="dev">
   <div class="section-num">03 / DEVELOPMENT</div>
   <div class="section-title">Applications I've Built</div>
@@ -1244,7 +1296,7 @@ body{font-family:'Hanken Grotesk',-apple-system,sans-serif;background:var(--bg);
   .card-demo-btn{font-size:0.7rem;padding:6px 12px}
   /* Demo modals: full-bleed on small screens */
   .dm-overlay{padding:0}
-  .dm-shell{max-height:100vh;border-radius:0}
+  .dm-shell{max-height:100vh;max-height:100dvh;border-radius:0}
 }
 @media(max-width:480px){
   .tdoc-stage__icon{width:38px;height:38px;font-size:1.15rem}
@@ -2714,7 +2766,7 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
   .ah-kpi-grid{grid-template-columns:repeat(2,1fr)}
   .ah-detail-panel{padding:14px}
   .ah-action-btn{font-size:0.72rem;padding:5px 10px}
-  .ah-modal-container{height:100vh;max-height:100vh;border-radius:0}
+  .ah-modal-container{height:100vh;height:100dvh;max-height:100vh;max-height:100dvh;border-radius:0}
   .ah-modal-overlay{padding:0}
   .ah-tabs{overflow-x:auto;-webkit-overflow-scrolling:touch}
   .ah-tab{min-width:0;flex-shrink:0}
@@ -5468,7 +5520,7 @@ window.addEventListener('scroll',()=>{let c=sids[0];sids.forEach(id=>{const el=d
 .ask-suggest:hover{background:rgba(0,0,0,0.08);border-color:rgba(0,0,0,0.14)}
 
 @media(max-width:480px){
-  .ask-panel{right:9px;left:9px;bottom:64px;width:auto;max-height:calc(100vh - 80px)}
+  .ask-panel{right:9px;left:9px;bottom:calc(64px + env(safe-area-inset-bottom));width:auto;max-height:calc(100vh - 80px);max-height:calc(100dvh - 80px - env(safe-area-inset-bottom))}
   .ask-trigger{right:12px;bottom:12px;width:46px;height:46px}
 }
 </style>
@@ -7207,6 +7259,7 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
     {t:'What I’m Doing Now',sub:'',sel:['#now']},
     {t:'What I’ve Owned',sub:'End-to-end technology leadership.',sel:['#roles']},
     {t:'Operations',sub:'Systems mastered and capabilities in production.',sel:['#ops','#skills']},
+    {t:'Cybersecurity',sub:'The program behind zero SEC findings.',sel:['#cybersecurity']},
     {t:'Applications I’ve Built',sub:'Production software on React, Express, and PostgreSQL.',sel:['#dev']},
     {t:'Salesforce',sub:'CRM dashboards, LWCs, and the culture around them.',sel:['#salesforce','#fun-stuff']},
     {t:'Connected Systems',sub:'The integration fabric across 23+ vendor platforms.',sel:['#integrations']},
