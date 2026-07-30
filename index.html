@@ -7154,6 +7154,14 @@ body.bk-1up .bk-folio--r{display:none}
   font-family:'IBM Plex Mono',monospace;font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:#9A6E00;white-space:nowrap;
   animation:bkHint 2.6s 1s ease-in-out infinite}
 .bk-turnhint.bk-done{display:none}
+/* subtle "more below" cue: shows only when the current page can scroll further */
+.bk-scrollmore{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:47;pointer-events:none;
+  display:flex;flex-direction:column;align-items:center;gap:0;opacity:0;transition:opacity 0.35s ease}
+.bk-scrollmore.bk-on{opacity:1}
+.bk-scrollmore__lbl{display:none}
+.bk-scrollmore__ch{color:#C9A227;font-size:1.35rem;line-height:0.7;animation:bkMoreBob 1.8s ease-in-out infinite}
+@keyframes bkMoreBob{0%,100%{transform:translateY(0);opacity:0.55}50%{transform:translateY(5px);opacity:1}}
+.bk-book.bk-sealed .bk-scrollmore,.bk-book.bk-opening .bk-scrollmore{opacity:0!important}
 .bk-turnhint__ic{display:inline-block;color:#C77F00;font-size:0.85rem;animation:bkNudge 1.6s ease-in-out infinite}
 .bk-turnhint__ic:last-child{animation-delay:0.2s}
 @keyframes bkNudge{0%,100%{transform:translateX(0)}50%{transform:translateX(3px)}}
@@ -7303,7 +7311,7 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
     {t:'Career',sub:'The road from enterprise media to founding Aplodex.',sel:['#timeline','#education','footer.footer']}
   ];
 
-  var stage,book,sheet,leaf,cover,toc,counter,turnHint;
+  var stage,book,sheet,leaf,cover,toc,counter,turnHint,scrollMore;
   var wraps=[],flows=[],spreadsPer=[],cumSpreads=[0],cumCols=[0];
   var cur=0,total=0,opened=false,animating=0,tocOpen=false;
   var colW=0,gutter=0,pagesPer=2,oneUp=false,acc=0,accT=null,cooldownUntil=0;
@@ -7365,6 +7373,9 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
     sheet.appendChild(el('div','bk-folio bk-folio--r',''));
     turnHint=el('div','bk-turnhint','<span class="bk-turnhint__ic">&#8592;</span> Swipe or tap the arrows to turn <span class="bk-turnhint__ic">&#8594;</span>');
     sheet.appendChild(turnHint);
+    scrollMore=el('div','bk-scrollmore','<span class="bk-scrollmore__lbl">More</span><span class="bk-scrollmore__ch">&#8964;</span>');
+    sheet.appendChild(scrollMore);
+    wraps.forEach(function(w){w.addEventListener('scroll',updateScrollMore,{passive:true})});
     book.appendChild(sheet);
     book.appendChild(el('div','bk-edge bk-edge--l'));
     book.appendChild(el('div','bk-edge bk-edge--r'));
@@ -7501,6 +7512,7 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
       toc.querySelectorAll('.bk-toc-item').forEach(function(it,i){it.classList.toggle('bk-here',i===c)});
       var gn=CHAPTERS[c+1]?CHAPTERS[c+1].t:'';
       leaf.querySelector('.bk-lface--back .bk-lghost').textContent=gn?('Next: '+gn):'';
+      updateScrollMore();
       return;
     }
     var loc=locate(cur);
@@ -7515,6 +7527,7 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
     toc.querySelectorAll('.bk-toc-item').forEach(function(it,i){it.classList.toggle('bk-here',i===loc.c)});
     var ghostNext=loc.s===spreadsPer[loc.c]-1&&CHAPTERS[loc.c+1]?CHAPTERS[loc.c+1].t:'';
     leaf.querySelector('.bk-lface--back .bk-lghost').textContent=ghostNext?('Next: '+ghostNext):'';
+    updateScrollMore();
   }
 
   /* ── corner-peel curl engine (fold = perpendicular bisector of corner→pointer) ── */
@@ -7651,6 +7664,18 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
     turn(dir,750,t);
     hideHint();
     acc=0;cooldownUntil=Date.now()+700;
+  }
+
+  function updateScrollMore(){
+    if(!scrollMore)return;
+    var on=false;
+    if(oneUp&&opened){
+      var w=wraps[Math.min(cur,wraps.length-1)];
+      if(w&&w.style.visibility!=='hidden'&&w.scrollHeight>w.clientHeight+40){
+        on=w.scrollTop+w.clientHeight<w.scrollHeight-28;
+      }
+    }
+    scrollMore.classList.toggle('bk-on',on);
   }
 
   function hideHint(){
