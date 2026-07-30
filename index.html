@@ -7266,11 +7266,14 @@ body.bk-1up .bk-nav{width:38px;height:38px;font-size:1.3rem;bottom:12px;color:rg
 .bk-gesture__mouse{width:27px;height:39px;border:2px solid currentColor;border-radius:15px;position:relative;background:rgba(255,255,255,.18)}
 .bk-gesture__mouse::before{content:'';position:absolute;top:5px;left:50%;width:3px;height:8px;border-radius:2px;background:currentColor;transform:translateX(-50%)}
 .bk-gesture__finger{line-height:1;display:block;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
-.bk-hand-svg{display:block;color:#F2E6C9}
-.bk-hand-svg--down{width:64px;height:64px}
-.bk-hand-svg--grab{width:52px;height:60px}
-.bk-gesture--page .bk-hand-svg,.bk-gesture--cover .bk-hand-svg{color:#4A3C1E}
-body.bk-1up .bk-gesture--scroll .bk-hand-svg--down{width:70px;height:70px}
+.bk-hand-svg{display:block;color:#F5EBD2}
+.bk-hand-svg--down{width:66px;height:66px}
+.bk-hand-svg--grab{width:66px;height:66px}
+/* dark ink on cream pages, warm cream on the dark cover */
+.bk-gesture--page .bk-hand-svg,.bk-gesture--scroll .bk-hand-svg{color:#4A3C1E}
+.bk-gesture--cover .bk-hand-svg{color:#F5EBD2;filter:drop-shadow(0 2px 5px rgba(0,0,0,.6))}
+body.bk-1up .bk-gesture--scroll .bk-hand-svg--down{width:72px;height:72px}
+body.bk-1up .bk-hand-svg--grab{width:72px;height:72px}
 .bk-gesture__label{font:600 .66rem/1.2 'IBM Plex Mono',monospace;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;background:rgba(20,18,15,.78);color:#fff;padding:7px 9px;border-radius:5px}
 @keyframes bkGesture{0%,8%{opacity:0;left:90%}20%{opacity:1}62%{opacity:1;left:57%}82%,100%{opacity:0;left:57%}}
 .bk-book.bk-demo-cover .bk-cover{animation:bkCoverTeach 2.5s ease-in-out}
@@ -7303,6 +7306,8 @@ body.bk-1up .bk-ribbon::after{top:12px;font-size:0.9rem}
 body.bk-1up .bk-ribbon-label{display:block;top:29px;font-size:.34rem;letter-spacing:.6px;writing-mode:horizontal-tb}
 body.bk-1up .bk-sound{top:10px;left:10px;width:32px;height:32px}
 body.bk-1up .bk-gesture{top:68%;transform:translateX(-100%)}
+@keyframes bkGestureCoverM{0%,8%{opacity:0;left:97%}20%{opacity:1}62%{opacity:1;left:74%}82%,100%{opacity:0;left:74%}}
+body.bk-1up .bk-gesture--cover{animation:bkGestureCoverM 2.5s ease-in-out both}
 body.bk-1up .bk-gesture__label{font-size:.56rem}
 body.bk-1up .bk-gesture--scroll{top:42%;animation:bkGestureScroll 2.45s ease-in-out both}
 body.bk-1up .bk-gesture--page{top:70%;animation:bkGestureTurn 2.55s ease-in-out both}
@@ -7421,14 +7426,15 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
   function cancelTutorials(){
     tutorialTimers.forEach(clearTimeout);tutorialTimers=[];clearGesture();
   }
+  var BK_HAND_DOWN='M10 9a1 1 0 0 1 1-1a1 1 0 0 1 1 1v4.47l1.21.13l4.94 2.19c.53.24.85.77.85 1.35v4.36c-.03.82-.68 1.47-1.5 1.5H11c-.38 0-.74-.15-1-.43l-4.9-4.2l.74-.77c.19-.21.46-.32.74-.32h.22L10 19zM1 9l3 3l3-3H5V3H3v6z';
   function showGesture(kind){
     if(_reduce||(kind==='cover'?coverDemoShown:(kind==='scroll'?scrollDemoShown:pageDemoShown)))return;
     if(kind==='cover')coverDemoShown=true;else if(kind==='scroll')scrollDemoShown=true;else pageDemoShown=true;
     clearGesture();
     var mobile=oneUp,label=kind==='cover'?(mobile?'Swipe or drag to open':'Click + drag to open'):(kind==='scroll'?'Swipe down to scroll':(mobile?'Swipe left to turn page':'Click + drag to turn'));
     var handSvg=(kind==='scroll')
-      ? '<svg class="bk-hand-svg bk-hand-svg--down" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10 9a1 1 0 0 1 1-1a1 1 0 0 1 1 1v4.47l1.21.13l4.94 2.19c.53.24.85.77.85 1.35v4.36c-.03.82-.68 1.47-1.5 1.5H11c-.38 0-.74-.15-1-.43l-4.9-4.2l.74-.77c.19-.21.46-.32.74-.32h.22L10 19zM1 9l3 3l3-3H5V3H3v6z"/></svg>'
-      : '<svg class="bk-hand-svg bk-hand-svg--grab" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" d="M144 0c-26.5 0-48 21.5-48 48v128c0 8.8-7.2 16-16 16s-16-7.2-16-16v-26.7l-9 7.5C40.4 169 32 187 32 206v38c0 38 16.9 74 46.1 98.3L128 384v96c0 17.7 14.3 32 32 32h160c17.7 0 32-14.3 32-32V374.7c46.9-19 80-65 80-118.7V144c0-26.5-21.5-48-48-48c-12.4 0-23.6 4.7-32.1 12.3C350 83.5 329.3 64 304 64c-12.4 0-23.6 4.7-32.1 12.3C270 51.5 249.3 32 224 32c-12.4 0-23.6 4.7-32.1 12.3C190 19.5 169.3 0 144 0"/></svg>';
+      ? '<svg class="bk-hand-svg bk-hand-svg--down" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="'+BK_HAND_DOWN+'"/></svg>'
+      : '<svg class="bk-hand-svg bk-hand-svg--grab" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10 9a1 1 0 0 1 1-1a1 1 0 0 1 1 1v4.47l1.21.13l4.94 2.19c.53.24.85.77.85 1.35v4.36c-.03.82-.68 1.47-1.5 1.5H11c-.38 0-.74-.15-1-.43l-4.9-4.2l.74-.77c.19-.21.46-.32.74-.32h.22L10 19zM3 4l3 3V5h6V3H6V1z"/></svg>';
     gestureEl=el('div','bk-gesture bk-gesture--'+kind,
       '<span class="'+(mobile?'bk-gesture__finger':'bk-gesture__mouse')+'">'+(mobile?handSvg:'')+'</span><span class="bk-gesture__label">'+label+'</span>');
     book.appendChild(gestureEl);book.classList.add('bk-demo-'+kind);
