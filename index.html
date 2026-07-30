@@ -7158,15 +7158,15 @@ body.bk-1up .bk-folio--r{display:none}
 .bk-turnhint__ic:last-child{animation-delay:0.2s}
 @keyframes bkNudge{0%,100%{transform:translateX(0)}50%{transform:translateX(3px)}}
 
-/* visible page-turn buttons at the bottom corners */
-.bk-nav{position:absolute;bottom:12px;z-index:465;width:46px;height:46px;border-radius:50%;border:1px solid rgba(60,45,10,0.18);
-  background:rgba(253,252,248,0.9);color:#6E5A2A;font-size:1.5rem;line-height:1;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,0.14);
-  transition:background 0.15s,color 0.15s,transform 0.15s}
-.bk-nav:hover{background:#FFB000;color:#221E16;transform:translateY(-1px)}
-.bk-nav--prev{left:16px}
-.bk-nav--next{right:16px}
-body.bk-1up .bk-nav{width:52px;height:52px;font-size:1.7rem;bottom:14px}
+/* page-turn buttons: whisper-subtle until hovered */
+.bk-nav{position:absolute;bottom:14px;z-index:465;width:32px;height:32px;border-radius:50%;border:none;
+  background:transparent;color:rgba(110,90,42,0.30);font-size:1.15rem;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;box-shadow:none;
+  transition:background 0.18s,color 0.18s,transform 0.18s}
+.bk-nav:hover{background:rgba(255,176,0,0.9);color:#221E16;transform:translateY(-1px)}
+.bk-nav--prev{left:14px}
+.bk-nav--next{right:14px}
+body.bk-1up .bk-nav{width:38px;height:38px;font-size:1.3rem;bottom:12px;color:rgba(110,90,42,0.35)}
 
 /* ── corner-peel layers: blank "next page" reveal + folded-over paper flap ── */
 .bk-peel-reveal{position:absolute;inset:0;z-index:90;pointer-events:none;display:none;
@@ -7231,10 +7231,11 @@ body.bk-1up .bk-cover{left:0;right:-6px}
 body.bk-1up .bk-cface--front::before{inset:14px}
 body.bk-1up .bk-cface--front::after{inset:21px}
 /* wider tap zones for thumbs; keep them out of the reading center */
-/* MOBILE: edge zones shrink to bottom-corner GRAB zones (curl the page corner);
-   the rest of the page scrolls freely; horizontal swipe + arrows still turn */
-body.bk-1up .bk-hot{display:block;width:34%;height:130px;top:auto;bottom:0;background:transparent}
+/* MOBILE: the very edges are pinchable full-height (grab anywhere along them);
+   pan-y keeps vertical scroll native; page interior scrolls freely */
+body.bk-1up .bk-hot{display:block;width:30px;top:0;bottom:0;height:auto;background:transparent}
 body.bk-1up .bk-hot:hover{background:transparent;color:transparent}
+body.bk-1up .bk-hot--next::after{border-width:0 0 30px 30px}
 /* pages scroll now, so tall blocks don't need capping on mobile */
 body.bk-1up .bk-flow :is(.pano-diagram,.pano-example,.dap-frame,.trp-frame,.ma-arch,.gov-layer,.tdoc-flow){max-height:none;overflow-y:visible}
 /* mobile chrome sits in clear top/bottom bands, never over the scrolling page */
@@ -7306,7 +7307,7 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
   var wraps=[],flows=[],spreadsPer=[],cumSpreads=[0],cumCols=[0];
   var cur=0,total=0,opened=false,animating=0,tocOpen=false;
   var colW=0,gutter=0,pagesPer=2,oneUp=false,acc=0,accT=null,cooldownUntil=0;
-  var drag=null;
+  var drag=null,clickBlockUntil=0;
 
   function el(tag,cls,html){var d=document.createElement(tag);if(cls)d.className=cls;if(html!=null)d.innerHTML=html;return d}
 
@@ -7534,10 +7535,11 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
     var vx=p.x-sx,vy=p.y-sy,l=Math.hypot(vx,vy);
     if(l<=r)return p;var k=r/l;return {x:sx+vx*k,y:sy+vy*k};
   }
-  function clampP(P,W,H){
-    P=clampCircle(P,0,H,W);
-    P=clampCircle(P,0,0,Math.hypot(W,H));
-    P=clampCircle(P,0,H,W);
+  function clampP(P,W,H,Cy){
+    var rTop=Math.hypot(W,Cy),rBot=Math.hypot(W,H-Cy);
+    P=clampCircle(P,0,H,rBot);
+    P=clampCircle(P,0,0,rTop);
+    P=clampCircle(P,0,H,rBot);
     return P;
   }
   function clipHP(poly,M,d){
@@ -7563,9 +7565,9 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
   }
   /* render the fold for pointer P given in LOCAL page coords (x from spine, y from top) */
   function renderPeel(f,P){
-    var W=f.W,H=f.H;
-    P=clampP(P,W,H);
-    var C={x:W,y:H},dx=P.x-C.x,dy=P.y-C.y;
+    var W=f.W,H=f.H,Cy=(f.Cy==null?H:f.Cy);
+    P=clampP(P,W,H,Cy);
+    var C={x:W,y:Cy},dx=P.x-C.x,dy=P.y-C.y;
     peel.reveal.style.display='block';peel.flap.style.display='block';
     if(dx*dx+dy*dy<2){
       peel.reveal.style.clipPath='polygon(0 0,0 0,0 0)';
@@ -7729,8 +7731,9 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
       peelEls();
       var f=peelFrame(dir);
       var r=sheet.getBoundingClientRect();
+      f.Cy=Math.max(0,Math.min(f.H,e.clientY-r.top)); /* pinch the edge where grabbed */
       drag={dir:dir,target:target,base:cur,f:f,rect:r,x0:e.clientX,y0:e.clientY,
-            P:{x:f.W-1,y:f.H-1},moved:false,active:false,closing:closing,pid:e.pointerId,zone:zone,
+            P:{x:f.W-1,y:f.Cy},moved:false,active:false,closing:closing,pid:e.pointerId,zone:zone,
             lastX:e.clientX,lastT:performance.now(),v:0,pendingEv:null,rafQueued:false};
     });
     zone.addEventListener('pointermove',function(e){
@@ -7775,13 +7778,14 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
         if(!d.moved)step(d.dir);
         return;
       }
-      var W=d.f.W,H=d.f.H;
+      var W=d.f.W,H=d.f.H,Cy=(d.f.Cy==null?H:d.f.Cy);
       var commit=(pagesPer===1?d.P.x<W*0.45:d.P.x<0)||d.v<-0.7;
-      var to=commit?{x:-W+1,y:H}:{x:W-1,y:H-1};
+      var to=commit?{x:-W+1,y:Cy}:{x:W-1,y:Cy};
       var dist=Math.hypot(to.x-d.P.x,to.y-d.P.y);
       var ms=Math.max(150,Math.min(450,Math.round(dist/2.2)));
       peelAnimate(d.f,d.P,to,ms,commit?d.target:null,function(){hideHint()});
       cooldownUntil=Date.now()+250;
+      clickBlockUntil=Date.now()+400; /* a drag release must never click what's under it */
     }
     zone.addEventListener('pointerup',finish);
     zone.addEventListener('pointercancel',finish);
@@ -7848,6 +7852,9 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
     render(0);
     book.classList.add('bk-sealed'); /* stay closed on the cover until the reader opens it */
     try{if(localStorage.getItem('bk-hinted')&&turnHint)turnHint.classList.add('bk-done')}catch(e){}
+    stage.addEventListener('click',function(e){
+      if(Date.now()<clickBlockUntil){e.stopPropagation();e.preventDefault()}
+    },true);
     stage.addEventListener('wheel',onWheel,{passive:false});
     stage.addEventListener('touchstart',onTouchStart,{passive:true});
     stage.addEventListener('touchend',onTouchEnd,{passive:true});
