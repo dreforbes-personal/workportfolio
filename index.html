@@ -7246,6 +7246,7 @@ body.bk-1up .bk-nav{width:38px;height:38px;font-size:1.3rem;bottom:12px;color:rg
 .bk-gesture--page{color:#2A251E;top:72%}
 .bk-gesture__mouse{width:27px;height:39px;border:2px solid currentColor;border-radius:15px;position:relative;background:rgba(255,255,255,.18)}
 .bk-gesture__mouse::before{content:'';position:absolute;top:5px;left:50%;width:3px;height:8px;border-radius:2px;background:currentColor;transform:translateX(-50%)}
+.bk-gesture__finger{font-size:2rem;line-height:1;display:block;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
 .bk-gesture__label{font:600 .66rem/1.2 'IBM Plex Mono',monospace;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;background:rgba(20,18,15,.78);color:#fff;padding:7px 9px;border-radius:5px}
 @keyframes bkGesture{0%,8%{opacity:0;left:90%}20%{opacity:1}62%{opacity:1;left:57%}82%,100%{opacity:0;left:57%}}
 .bk-book.bk-demo-cover .bk-cover{animation:bkCoverTeach 2.5s ease-in-out}
@@ -7279,6 +7280,12 @@ body.bk-1up .bk-ribbon-label{display:block;top:29px;font-size:.34rem;letter-spac
 body.bk-1up .bk-sound{top:10px;left:10px;width:32px;height:32px}
 body.bk-1up .bk-gesture{top:68%;transform:translateX(-100%)}
 body.bk-1up .bk-gesture__label{font-size:.56rem}
+body.bk-1up .bk-gesture--scroll{top:42%;animation:bkGestureScroll 2.45s ease-in-out both}
+body.bk-1up .bk-gesture--page{top:70%;animation:bkGestureTurn 2.55s ease-in-out both}
+@keyframes bkGestureScroll{0%,8%{opacity:0;left:58%;transform:translate(-50%,-18px)}20%{opacity:1}62%{opacity:1;left:58%;transform:translate(-50%,22px)}84%,100%{opacity:0;left:58%;transform:translate(-50%,22px)}}
+@keyframes bkGestureTurn{0%,8%{opacity:0;left:62%;transform:translateX(-100%)}20%{opacity:1}62%{opacity:1;left:88%;transform:translateX(-100%)}84%,100%{opacity:0;left:88%;transform:translateX(-100%)}}
+.bk-flowwrap.bk-demo-scroll-nudge{animation:bkScrollPageNudge 2.45s ease-in-out}
+@keyframes bkScrollPageNudge{0%,18%,100%{transform:translateY(0)}62%{transform:translateY(14px)}82%{transform:translateY(0)}}
 body.bk-1up .bk-toc{right:8px;left:8px;width:auto;top:56px;max-height:72%}
 body.bk-1up .bk-counter{display:none}
 body.bk-1up .bk-folio{bottom:26px}
@@ -7345,7 +7352,7 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
   var cur=0,total=0,opened=false,animating=0,tocOpen=false,pendingTarget=null;
   var colW=0,gutter=0,pagesPer=2,oneUp=false,acc=0,accT=null,cooldownUntil=0;
   var drag=null,clickBlockUntil=0;
-  var audioCtx=null,soundOn=false,gestureEl=null,coverDemoShown=false,pageDemoShown=false;
+  var audioCtx=null,soundOn=false,gestureEl=null,coverDemoShown=false,scrollDemoShown=false,pageDemoShown=false,tutorialTimers=[],demoPeelRaf=0;
 
   function el(tag,cls,html){var d=document.createElement(tag);if(cls)d.className=cls;if(html!=null)d.innerHTML=html;return d}
   function wakeAudio(){
@@ -7384,14 +7391,29 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
   function clearGesture(){
     if(gestureEl&&gestureEl.parentNode)gestureEl.parentNode.removeChild(gestureEl);gestureEl=null;
     if(book)book.classList.remove('bk-demo-cover','bk-demo-page');
+    wraps.forEach(function(w){w.classList.remove('bk-demo-scroll-nudge')});
+    if(demoPeelRaf){cancelAnimationFrame(demoPeelRaf);demoPeelRaf=0;if(peel&&peel.reveal)hidePeel()}
+  }
+  function cancelTutorials(){
+    tutorialTimers.forEach(clearTimeout);tutorialTimers=[];clearGesture();
   }
   function showGesture(kind){
-    if(_reduce||(kind==='cover'?coverDemoShown:pageDemoShown))return;
-    if(kind==='cover')coverDemoShown=true;else pageDemoShown=true;
-    clearGesture();gestureEl=el('div','bk-gesture bk-gesture--'+kind,
-      '<span class="bk-gesture__mouse"></span><span class="bk-gesture__label">Click + drag to '+(kind==='cover'?'open':'turn')+'</span>');
+    if(_reduce||(kind==='cover'?coverDemoShown:(kind==='scroll'?scrollDemoShown:pageDemoShown)))return;
+    if(kind==='cover')coverDemoShown=true;else if(kind==='scroll')scrollDemoShown=true;else pageDemoShown=true;
+    clearGesture();
+    var mobile=oneUp,label=kind==='cover'?(mobile?'Swipe or drag to open':'Click + drag to open'):(kind==='scroll'?'Swipe down to scroll':(mobile?'Swipe right to turn page':'Click + drag to turn'));
+    gestureEl=el('div','bk-gesture bk-gesture--'+kind,
+      '<span class="'+(mobile?'bk-gesture__finger':'bk-gesture__mouse')+'">'+(mobile?'☝️':'')+'</span><span class="bk-gesture__label">'+label+'</span>');
     book.appendChild(gestureEl);book.classList.add('bk-demo-'+kind);
-    setTimeout(clearGesture,2600);
+    if(kind==='scroll'&&wraps[cur])wraps[cur].classList.add('bk-demo-scroll-nudge');
+    if(kind==='page'&&mobile)demoPagePeel();
+    tutorialTimers.push(setTimeout(clearGesture,kind==='scroll'?2500:2650));
+  }
+  function startOpenTutorials(){
+    if(oneUp){
+      tutorialTimers.push(setTimeout(function(){showGesture('scroll')},260));
+      tutorialTimers.push(setTimeout(function(){showGesture('page')},3150));
+    }else tutorialTimers.push(setTimeout(function(){showGesture('page')},260));
   }
 
   function build(){
@@ -7697,6 +7719,16 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
     peel.flap.style.background='linear-gradient('+th.toFixed(1)+'deg, rgba(255,255,255,0.85) 0%, #FBF8EE 18%, #F3EEDD 60%, #EAE3CC 100%)';
     return P;
   }
+  function demoPagePeel(){
+    peelEls();var f=peelFrame(1),W=f.W,H=f.H,t0=performance.now(),dur=2450;
+    function frame(now){
+      var t=Math.min(1,(now-t0)/dur),p=t<.52?t/.52:(1-t)/.48;
+      var e=Math.sin(Math.max(0,p)*Math.PI/2);
+      renderPeel(f,{x:W*(1-.09*e),y:H*(.78-.035*e)});
+      if(t<1&&gestureEl){demoPeelRaf=requestAnimationFrame(frame)}else{demoPeelRaf=0;hidePeel()}
+    }
+    demoPeelRaf=requestAnimationFrame(frame);
+  }
   /* animate P to a target; commit=render(target) at the end */
   function peelAnimate(f,from,to,ms,commitSpread,onDone){
     if(commitSpread!=null)foley('page',Math.min(1,.4+Math.abs(from.x-to.x)/Math.max(1,f.W)));
@@ -7814,7 +7846,7 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
       animating--;
       if(animating<=0){animating=0;book.classList.remove('bk-3d')}
       if(pendingTarget!=null){var target=pendingTarget;pendingTarget=null;goTo(target)}
-      else setTimeout(function(){showGesture('page')},260);
+      else startOpenTutorials();
     },1300);
   }
 
@@ -7892,7 +7924,7 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
       }
       animating--;if(animating<0)animating=0;
       if(commit&&pendingTarget!=null){var target=pendingTarget;pendingTarget=null;goTo(target)}
-      else if(commit)setTimeout(function(){showGesture('page')},260);
+      else if(commit)startOpenTutorials();
     }
     requestAnimationFrame(frame);
     clickBlockUntil=Date.now()+ms+180;
@@ -7919,7 +7951,7 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
   function onDown(e){
     if(e.button!=null&&e.button!==0)return;
     if(tocOpen)return;
-    wakeAudio();clearGesture();
+    wakeAudio();cancelTutorials();
     var t=e.target;
     if(t.closest&&t.closest('.bk-toc,.bk-ribbon,.bk-sound'))return;
     if(!opened){
