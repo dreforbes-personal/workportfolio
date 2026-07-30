@@ -7309,12 +7309,12 @@ body.bk-1up .bk-gesture{top:68%;transform:translateX(-100%)}
 @keyframes bkGestureCoverM{0%,8%{opacity:0;left:97%}20%{opacity:1}62%{opacity:1;left:74%}82%,100%{opacity:0;left:74%}}
 body.bk-1up .bk-gesture--cover{animation:bkGestureCoverM 2.5s ease-in-out both}
 body.bk-1up .bk-gesture__label{font-size:.56rem}
-body.bk-1up .bk-gesture--scroll{top:42%;animation:bkGestureScroll 2.45s ease-in-out both}
+body.bk-1up .bk-gesture--scroll{top:76%;animation:bkGestureScroll 2.45s ease-in-out both}
 body.bk-1up .bk-gesture--page{top:70%;animation:bkGestureTurn 2.55s ease-in-out both}
-@keyframes bkGestureScroll{0%,8%{opacity:0;left:58%;transform:translate(-50%,-18px)}20%{opacity:1}62%{opacity:1;left:58%;transform:translate(-50%,22px)}84%,100%{opacity:0;left:58%;transform:translate(-50%,22px)}}
+@keyframes bkGestureScroll{0%,8%{opacity:0;left:58%;transform:translate(-50%,-26px)}20%{opacity:1}62%{opacity:1;left:58%;transform:translate(-50%,40px)}84%,100%{opacity:0;left:58%;transform:translate(-50%,40px)}}
 @keyframes bkGestureTurn{0%,8%{opacity:0;left:96%;transform:translateX(-100%)}20%{opacity:1}62%{opacity:1;left:58%;transform:translateX(-100%)}84%,100%{opacity:0;left:58%;transform:translateX(-100%)}}
 .bk-flowwrap.bk-demo-scroll-nudge{animation:bkScrollPageNudge 2.45s ease-in-out}
-@keyframes bkScrollPageNudge{0%,18%,100%{transform:translateY(0)}62%{transform:translateY(14px)}82%{transform:translateY(0)}}
+@keyframes bkScrollPageNudge{0%,18%,100%{transform:translateY(0)}62%{transform:translateY(34px)}82%{transform:translateY(0)}}
 body.bk-1up .bk-toc{right:8px;left:8px;width:auto;top:56px;max-height:72%}
 body.bk-1up .bk-counter{display:none}
 body.bk-1up .bk-folio{bottom:26px}
@@ -7557,9 +7557,6 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
     });
     ribbon.addEventListener('click',function(e){e.stopPropagation();tocOpen?closeToc():openToc()});
     book.appendChild(ribbon);book.appendChild(toc);
-    soundBtn=el('button','bk-sound','🔇');soundBtn.setAttribute('aria-label','Enable book sounds');soundBtn.setAttribute('aria-pressed','true');
-    soundBtn.addEventListener('click',function(e){e.stopPropagation();soundOn=!soundOn;soundBtn.textContent=soundOn?'🔊':'🔇';soundBtn.setAttribute('aria-pressed',String(!soundOn));soundBtn.setAttribute('aria-label',soundOn?'Mute book sounds':'Enable book sounds');if(soundOn){wakeAudio();foley('page',.35)}});
-    book.appendChild(soundBtn);
     counter=el('div','bk-counter','');book.appendChild(counter);
 
     stage.appendChild(book);
