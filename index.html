@@ -1039,7 +1039,7 @@ html.bk-preboot::after{content:'';position:fixed;inset:0;z-index:99998;pointer-e
 <section class="section obs" id="cybersecurity">
   <div class="section-num">02.7 / CYBERSECURITY</div>
   <div class="section-title">Cybersecurity</div>
-  <div class="section-desc">Security is where I made my bones. I inherited a program fresh off an SEC cyber exam with findings, leaning on an MSP that was taking advantage of the firm. I brought it in-house, rebuilt it on a NIST foundation, and the next exam came back with zero cybersecurity findings.</div>
+  <div class="section-desc">Security is a never-ending game of chess. It&rsquo;s impossible to win outright, the goal is to stay several moves ahead of whoever&rsquo;s trying to get in. Like everything else in technology, that takes constant learning and constant evolution. What I inherited could generously be called &lsquo;security documentation.&rsquo; What came out the other side was a full cybersecurity program, one that passed an SEC exam with zero findings.</div>
   <div class="now-grid">
     <div class="now-card">
       <div class="now-eyebrow">The Rebuild</div>
@@ -8005,7 +8005,15 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
       startDrag(e,forced,closing);
       return;
     }
-    pending={x0:e.clientX,y0:e.clientY,pid:e.pointerId,forced:null,openTap:false,moved:false};
+    /* only the outer edge bands can grab a page; the middle is free to scroll and swipe */
+    var sr=sheet.getBoundingClientRect();
+    var relX=e.clientX-sr.left;
+    var band=Math.max(70,sr.width*(pagesPer===2?0.11:0.20));
+    var edgeDir=null;
+    if(relX<=band)edgeDir=-1;
+    else if(relX>=sr.width-band)edgeDir=1;
+    if(edgeDir===null)return;
+    pending={x0:e.clientX,y0:e.clientY,pid:e.pointerId,forced:null,openTap:false,moved:false,edgeDir:edgeDir};
   }
   function onMove(e){
     if(coverDrag){
@@ -8049,7 +8057,7 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
         var coverSeed=pending;pending=null;startCoverDrag(e,coverSeed);return
       }
       if(animating){pending=null;return}
-      var dir=pdx<0?1:-1;
+      var dir=(pending&&pending.edgeDir!=null)?pending.edgeDir:(pdx<0?1:-1);
       var closing=(dir<0&&cur===0);
       var target=cur+dir;
       if(!closing&&(target<0||target>total-1)){pending=null;return}
