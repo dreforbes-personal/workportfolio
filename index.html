@@ -7216,7 +7216,11 @@ body.bk-1up .bk-nav{width:38px;height:38px;font-size:1.3rem;bottom:12px;color:rg
 .bk-hot--next{right:0;border-radius:0 6px 6px 0}
 .bk-hot--prev{left:0;border-radius:6px 0 0 6px}
 .bk-hot:hover{color:rgba(23,23,27,0.5);background:linear-gradient(90deg,transparent,rgba(0,0,0,0.045))}
-.bk-hot:focus,.bk-hot:focus-visible,.bk-nav:focus,.bk-nav:focus-visible,.bk-ribbon:focus{outline:none}
+/* mouse clicks stay clean; keyboard focus gets a real ring */
+.bk-hot:focus,.bk-nav:focus,.bk-ribbon:focus,.bk-cover:focus,.bk-toc-item:focus{outline:none}
+.bk-hot:focus-visible,.bk-nav:focus-visible,.bk-ribbon:focus-visible,.bk-cover:focus-visible,.bk-toc-item:focus-visible{outline:3px solid #FFB000;outline-offset:2px}
+.bk-nav:focus-visible{color:#221E16;background:rgba(255,176,0,0.9)}
+.bk-hot:focus-visible{background:linear-gradient(90deg,transparent,rgba(255,176,0,0.14))}
 .bk-hot--prev:hover{background:linear-gradient(270deg,transparent,rgba(0,0,0,0.045))}
 .bk-hot{cursor:grab;touch-action:pan-y}
 .bk-hot:active{cursor:grabbing}
@@ -7351,6 +7355,28 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
   body.bk-1up .bk-rhead{font-size:0.5rem;letter-spacing:1.5px}
   body.bk-1up .bk-cover-title{font-size:clamp(2.2rem,10vw,3.4rem)}
 }
+
+/* screen-reader page announcements */
+.bk-live{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+
+/* notched phones: keep chrome clear of system UI */
+body.bk-1up .bk-nav{bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+body.bk-1up .bk-folio{bottom:calc(26px + env(safe-area-inset-bottom,0px))}
+body.bk-1up .bk-ribbon{top:calc(6px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px))}
+body.bk-1up .bk-toc{top:calc(56px + env(safe-area-inset-top,0px))}
+body.bk-1up .bk-rhead{top:calc(16px + env(safe-area-inset-top,0px))}
+body.bk-1up .bk-sound{top:calc(10px + env(safe-area-inset-top,0px));left:calc(10px + env(safe-area-inset-left,0px))}
+body.bk-1up .bk-scrollmore{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+
+/* compositor hygiene: invitation loops stop once they've done their job */
+.bk-book:not(.bk-sealed):not(.bk-opening) .bk-cover-title{animation-play-state:paused}
+.bk-book:not(.bk-sealed):not(.bk-opening) .bk-cover-hint{animation-play-state:paused}
+.bk-book.bk-idleoff .bk-ribbon{animation:none}
+.bk-scrollmore:not(.bk-on) .bk-scrollmore__hand{animation-play-state:paused}
+
+@media(prefers-reduced-motion:reduce){
+  .bk-cover-title,.bk-cover-hint,.bk-turnhint,.bk-turnhint__ic,.bk-scrollmore__hand,.bk-ribbon{animation:none!important}
+}
 </style>
 <script id="book-script">
 (function(){
@@ -7359,7 +7385,7 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
   var _term=document.getElementById('term-overlay');
   if(_term&&_term.parentNode)_term.parentNode.removeChild(_term);
   var _reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(_reduce){document.body.style.overflow='';return;document.documentElement.classList.remove('bk-preboot');}
+  if(_reduce){document.documentElement.classList.remove('bk-preboot');document.body.style.overflow='';return;}
 
   var CHAPTERS=[
     {t:'The Front Page',sub:'Who I am, what I build, and the numbers behind it.',sel:['.hero','.logo-strip']},
@@ -7376,7 +7402,7 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
     {t:'Career',sub:'The road from enterprise media to founding Aplodex.',sel:['#timeline','#education','footer.footer']}
   ];
 
-  var stage,book,sheet,leaf,cover,toc,counter,turnHint,scrollMore,soundBtn;
+  var stage,book,sheet,leaf,cover,toc,counter,turnHint,scrollMore,soundBtn,ribbon,live,hotPrev,hotNext,navPrev,navNext;
   var wraps=[],flows=[],spreadsPer=[],cumSpreads=[0],cumCols=[0];
   var cur=0,total=0,opened=false,animating=0,tocOpen=false,pendingTarget=null;
   var colW=0,gutter=0,pagesPer=2,oneUp=false,acc=0,accT=null,cooldownUntil=0;
@@ -7429,6 +7455,8 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
   var BK_HAND_DOWN='M10 9a1 1 0 0 1 1-1a1 1 0 0 1 1 1v4.47l1.21.13l4.94 2.19c.53.24.85.77.85 1.35v4.36c-.03.82-.68 1.47-1.5 1.5H11c-.38 0-.74-.15-1-.43l-4.9-4.2l.74-.77c.19-.21.46-.32.74-.32h.22L10 19zM1 9l3 3l3-3H5V3H3v6z';
   function showGesture(kind){
     if(_reduce||(kind==='cover'?coverDemoShown:(kind==='scroll'?scrollDemoShown:pageDemoShown)))return;
+    /* the state a gesture teaches must still be current when its timer fires */
+    if(kind==='cover'?(opened||animating):(!opened||animating))return;
     if(kind==='cover')coverDemoShown=true;else if(kind==='scroll')scrollDemoShown=true;else pageDemoShown=true;
     clearGesture();
     var mobile=oneUp,label=kind==='cover'?(mobile?'Swipe or drag to open':'Click + drag to open'):(kind==='scroll'?'Swipe down to scroll':(mobile?'Swipe left to turn page':'Click + drag to turn'));
@@ -7444,9 +7472,9 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
   }
   function startOpenTutorials(){
     if(oneUp){
-      tutorialTimers.push(setTimeout(function(){showGesture('scroll')},260));
-      tutorialTimers.push(setTimeout(function(){showGesture('page')},3150));
-    }else tutorialTimers.push(setTimeout(function(){showGesture('page')},260));
+      if(!scrollDemoShown)tutorialTimers.push(setTimeout(function(){showGesture('scroll')},260));
+      if(!pageDemoShown)tutorialTimers.push(setTimeout(function(){showGesture('page')},3150));
+    }else if(!pageDemoShown)tutorialTimers.push(setTimeout(function(){showGesture('page')},260));
   }
 
   function build(){
@@ -7535,19 +7563,27 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
     cover.appendChild(cf);
     cover.appendChild(el('div','bk-cface bk-cface--back'));
     cover.addEventListener('click',function(){open()});
+    cover.setAttribute('role','button');
+    cover.setAttribute('aria-label','Open the book');
+    cover.tabIndex=0;
+    cover.addEventListener('keydown',function(e){
+      if((e.key==='Enter'||e.key===' ')&&!opened){e.preventDefault();open()}
+    });
     book.appendChild(cover);
 
-    var prev=el('button','bk-hot bk-hot--prev','');prev.setAttribute('aria-label','Previous page');
-    var next=el('button','bk-hot bk-hot--next','');next.setAttribute('aria-label','Next page');
-    book.appendChild(prev);book.appendChild(next);
+    hotPrev=el('button','bk-hot bk-hot--prev','');hotPrev.setAttribute('aria-label','Previous page');
+    hotNext=el('button','bk-hot bk-hot--next','');hotNext.setAttribute('aria-label','Next page');
+    book.appendChild(hotPrev);book.appendChild(hotNext);
     /* visible nav buttons, bottom corners */
-    var navP=el('button','bk-nav bk-nav--prev','&lsaquo;');navP.setAttribute('aria-label','Back');
-    var navN=el('button','bk-nav bk-nav--next','&rsaquo;');navN.setAttribute('aria-label','Forward');
-    book.appendChild(navP);book.appendChild(navN);
+    navPrev=el('button','bk-nav bk-nav--prev','&lsaquo;');navPrev.setAttribute('aria-label','Back');
+    navNext=el('button','bk-nav bk-nav--next','&rsaquo;');navNext.setAttribute('aria-label','Forward');
+    book.appendChild(navPrev);book.appendChild(navNext);
 
-    var ribbon=el('button','bk-ribbon');ribbon.setAttribute('aria-label','Table of contents');
+    ribbon=el('button','bk-ribbon');ribbon.setAttribute('aria-label','Table of contents');
+    ribbon.setAttribute('aria-controls','bk-toc');ribbon.setAttribute('aria-expanded','false');
     ribbon.appendChild(el('span','bk-ribbon-label','Contents'));
     toc=el('div','bk-toc');
+    toc.id='bk-toc';
     toc.appendChild(el('div','bk-toc-head','Table of Contents'));
     CHAPTERS.forEach(function(ch,c){
       var item=el('button','bk-toc-item',
@@ -7558,6 +7594,8 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
     ribbon.addEventListener('click',function(e){e.stopPropagation();tocOpen?closeToc():openToc()});
     book.appendChild(ribbon);book.appendChild(toc);
     counter=el('div','bk-counter','');book.appendChild(counter);
+    live=el('div','bk-live','');live.setAttribute('role','status');live.setAttribute('aria-live','polite');
+    book.appendChild(live);
 
     stage.appendChild(book);
     document.body.appendChild(stage);
@@ -7565,7 +7603,9 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
   }
 
   function fit(){
-    var vw=window.innerWidth,vh=window.innerHeight;
+    /* visualViewport tracks iOS chrome/keyboard; layout viewport lies there */
+    var vv=window.visualViewport;
+    var vw=(vv&&vv.width)||window.innerWidth,vh=(vv&&vv.height)||window.innerHeight;
     /* Phones stay single-page; desktop windows remain a true two-page spread,
        even when the browser is tall or nearly square. */
     var coarsePointer=window.matchMedia&&window.matchMedia('(pointer:coarse)').matches;
@@ -7614,10 +7654,14 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
       f.style.columnWidth=colW+'px';f.style.columnCount='';f.style.columnGap=gutter+'px';f.style.height=H+'px';f.style.minHeight='';
     });
     spreadsPer=[];cumSpreads=[0];cumCols=[0];total=0;
-    wraps.forEach(function(w,i){
-      var spc=flows[i].querySelector('.bk-colspacer');spc.style.display='none';
-      var cols=Math.max(1,Math.round((w.scrollWidth+gutter)/(colW+gutter)));
-      if(cols%2===1)spc.style.display='block';
+    /* write phase: hide all spacers; read phase: measure all; write phase: show needed.
+       Interleaving these forces a full multicol layout per chapter. */
+    var spacers=flows.map(function(f){return f.querySelector('.bk-colspacer')});
+    spacers.forEach(function(spc){spc.style.display='none'});
+    var widths=wraps.map(function(w){return w.scrollWidth});
+    widths.forEach(function(sw,i){
+      var cols=Math.max(1,Math.round((sw+gutter)/(colW+gutter)));
+      if(cols%2===1){spacers[i].style.display='block';cols+=1} /* the colophon column is a real page */
       var sp=Math.ceil(cols/2);
       spreadsPer.push(sp);total+=sp;
       cumSpreads.push(total);
@@ -7648,6 +7692,7 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
       sheet.querySelector('.bk-folio--r').textContent='';
       sheet.querySelector('.bk-rhead--r').textContent=CHAPTERS[c].t;
       counter.textContent='Chapter '+(c+1)+' of '+CHAPTERS.length+' · '+CHAPTERS[c].t;
+      if(live)live.textContent=counter.textContent;
       toc.querySelectorAll('.bk-toc-item').forEach(function(it,i){it.classList.toggle('bk-here',i===c)});
       var gn=CHAPTERS[c+1]?CHAPTERS[c+1].t:'';
       leaf.querySelector('.bk-lface--back .bk-lghost').textContent=gn?('Next: '+gn):'';
@@ -7663,6 +7708,7 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
     sheet.querySelector('.bk-folio--r').textContent=(pagesPer===2&&loc.s*2+2<=chCols)?String(pr):'';
     sheet.querySelector('.bk-rhead--r').textContent=CHAPTERS[loc.c].t;
     counter.textContent=(pagesPer===2?('Pages '+pl+'–'+pr):('Page '+pl))+' of '+cumCols[CHAPTERS.length]+' · '+CHAPTERS[loc.c].t;
+    if(live)live.textContent=counter.textContent;
     toc.querySelectorAll('.bk-toc-item').forEach(function(it,i){it.classList.toggle('bk-here',i===loc.c)});
     var ghostNext=loc.s===spreadsPer[loc.c]-1&&CHAPTERS[loc.c+1]?CHAPTERS[loc.c+1].t:'';
     leaf.querySelector('.bk-lface--back .bk-lghost').textContent=ghostNext?('Next: '+ghostNext):'';
@@ -7670,7 +7716,17 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
   }
 
   /* ── corner-peel curl engine (fold = perpendicular bisector of corner→pointer) ── */
-  var peel={reveal:null,flap:null,raf:0};
+  var peel={reveal:null,flap:null,raf:0,fadeT:0};
+
+  /* single exit point for turn animations: settle the count, then honor any
+     navigation the user queued while the page was in flight */
+  function endAnim(){
+    animating--;if(animating<0)animating=0;
+    if(!animating&&!drag&&!coverDrag&&opened&&pendingTarget!=null){
+      var t=pendingTarget;pendingTarget=null;
+      if(t!==cur)goTo(t);
+    }
+  }
 
   function peelEls(){
     if(peel.reveal)return;
@@ -7707,19 +7763,24 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
   }
   function hidePeel(){
     if(!peel.reveal)return;
+    clearTimeout(peel.fadeT);peel.fadeT=0;
     peel.reveal.style.display='none';peel.flap.style.display='none';
     peel.reveal.classList.remove('bk-peel-fade');peel.flap.classList.remove('bk-peel-fade');
   }
   function fadePeel(){
     if(!peel.reveal)return;
     peel.reveal.classList.add('bk-peel-fade');peel.flap.classList.add('bk-peel-fade');
-    setTimeout(hidePeel,170);
+    clearTimeout(peel.fadeT);
+    peel.fadeT=setTimeout(hidePeel,170);
   }
   /* render the fold for pointer P given in LOCAL page coords (x from spine, y from top) */
   function renderPeel(f,P){
     var W=f.W,H=f.H,Cy=(f.Cy==null?H:f.Cy);
     P=clampP(P,W,H,Cy);
     var C={x:W,y:Cy},dx=P.x-C.x,dy=P.y-C.y;
+    /* a stale fade from the previous turn must not hide this one */
+    if(peel.fadeT){clearTimeout(peel.fadeT);peel.fadeT=0}
+    peel.reveal.classList.remove('bk-peel-fade');peel.flap.classList.remove('bk-peel-fade');
     peel.reveal.style.display='block';peel.flap.style.display='block';
     if(dx*dx+dy*dy<2){
       peel.reveal.style.clipPath='polygon(0 0,0 0,0 0)';
@@ -7774,14 +7835,15 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
       else{
         if(commitSpread!=null)render(commitSpread);
         fadePeel();
-        animating--;if(animating<0)animating=0;
         if(onDone)onDone();
+        endAnim();
       }
     }
     peel.raf=requestAnimationFrame(frame);
   }
   /* full programmatic turn along a lifting bezier */
   function turn(dir,ms,target){
+    cancelTutorials(); /* keyboard/wheel/TOC turns must kill a running demo peel too */
     foley('page',.62);
     peelEls();
     var f=peelFrame(dir);
@@ -7800,7 +7862,7 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
       else{
         render(target);
         fadePeel();
-        animating--;if(animating<0)animating=0;
+        endAnim();
       }
     }
     peel.raf=requestAnimationFrame(frame);
@@ -7844,6 +7906,7 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
   }
 
   function goTo(target){
+    cancelTutorials();
     target=Math.max(0,Math.min(target,total-1));
     if(!opened){pendingTarget=target;open();return}
     if(animating||drag||coverDrag){pendingTarget=target;return}
@@ -7855,10 +7918,22 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
     cooldownUntil=Date.now()+700;
   }
 
+  /* keep hidden controls out of the tab order; the cover is the Open control while sealed */
+  function syncNavA11y(){
+    var on=opened;
+    [hotPrev,hotNext,navPrev,navNext].forEach(function(b){
+      if(!b)return;
+      b.tabIndex=on?0:-1;
+      b.setAttribute('aria-hidden',on?'false':'true');
+    });
+    if(cover){cover.tabIndex=on?-1:0;cover.setAttribute('aria-expanded',on?'true':'false')}
+  }
+
   function open(){
     if(opened||animating)return;
     opened=true;animating++;
-    clearGesture();foley('open',.8);
+    syncNavA11y();
+    cancelTutorials();foley('open',.8);
     hideHint();
     render(0);
     book.classList.add('bk-3d','bk-opening');
@@ -7883,7 +7958,8 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
   function close(){
     if(!opened||animating)return;
     opened=false;animating++;
-    clearGesture();foley('close',.82);
+    syncNavA11y();
+    cancelTutorials();foley('close',.82);
     render(0);
     book.classList.add('bk-3d');
     cover.style.visibility='visible';
@@ -7905,8 +7981,19 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
     },1300);
   }
 
-  function openToc(){toc.classList.add('bk-open');tocOpen=true}
-  function closeToc(){toc.classList.remove('bk-open');tocOpen=false}
+  function openToc(){
+    cancelTutorials();
+    book.classList.add('bk-idleoff'); /* the reader found Contents; stop the invite loop */
+    toc.classList.add('bk-open');tocOpen=true;
+    if(ribbon)ribbon.setAttribute('aria-expanded','true');
+    var it=toc.querySelector('.bk-toc-item.bk-here')||toc.querySelector('.bk-toc-item');
+    if(it)it.focus();
+  }
+  function closeToc(){
+    var wasInside=toc.contains(document.activeElement);
+    toc.classList.remove('bk-open');tocOpen=false;
+    if(ribbon){ribbon.setAttribute('aria-expanded','false');if(wasInside)ribbon.focus()}
+  }
 
   /* ── unified grab-anywhere: any horizontal gesture (or arrow press) puts the page in hand ── */
   var pending=null,coverDrag=null;
@@ -7952,6 +8039,7 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
         book.classList.add('bk-closed','bk-sealed');
         book.classList.remove('bk-opening','bk-3d');
       }
+      syncNavA11y();
       animating--;if(animating<0)animating=0;
       if(commit&&pendingTarget!=null){var target=pendingTarget;pendingTarget=null;goTo(target)}
       else if(commit)startOpenTutorials();
@@ -7995,7 +8083,13 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
     var nav=t.closest?t.closest('.bk-nav'):null;
     var hot=t.closest?t.closest('.bk-hot'):null;
     if(nav)forced=nav.classList.contains('bk-nav--next')?1:-1;
-    else if(hot)forced=hot.classList.contains('bk-hot--next')?1:-1;
+    else if(hot){
+      /* edge hotspots must not swallow vertical scrolls: arm the same
+         directional lock as sheet grabs; a clean tap still turns on release */
+      var hotDir=hot.classList.contains('bk-hot--next')?1:-1;
+      pending={x0:e.clientX,y0:e.clientY,pid:e.pointerId,forced:null,openTap:false,moved:false,edgeDir:hotDir,hotTap:true};
+      return;
+    }
     else{
       if(t.closest&&t.closest('button,a,input,textarea,select,.dm-overlay'))return;
       if(!t.closest||!t.closest('.bk-sheet'))return;
@@ -8024,7 +8118,16 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
       var now=performance.now();
       coverDrag.v=0.8*coverDrag.v+0.2*((coverDrag.lastX-e.clientX)/Math.max(1,now-coverDrag.lastT));
       coverDrag.lastX=e.clientX;coverDrag.lastT=now;
-      paintCoverDrag((coverDrag.x0-e.clientX)/coverDrag.W);
+      /* one style write per frame; 120Hz pointers deliver several events per frame */
+      coverDrag.pNext=(coverDrag.x0-e.clientX)/coverDrag.W;
+      if(!coverDrag.rafQueued){
+        coverDrag.rafQueued=true;
+        requestAnimationFrame(function(){
+          if(!coverDrag)return;
+          coverDrag.rafQueued=false;
+          paintCoverDrag(coverDrag.pNext);
+        });
+      }
       return;
     }
     if(drag){
@@ -8094,8 +8197,30 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
       if(!opened&&!p.moved){
         var t=e.target;
         if(t.closest&&t.closest('.bk-hot,.bk-nav'))open();
+        return;
+      }
+      /* a clean tap on an edge hotspot still turns the page */
+      if(opened&&p.hotTap&&!animating&&!drag){
+        if(p.edgeDir<0&&cur===0)close();
+        else step(p.edgeDir);
       }
     }
+  }
+  function onCancel(){
+    /* the OS took the pointer (system gesture, call, app switch):
+       revert to where the user started; never commit a turn from a cancel */
+    if(coverDrag){settleCover(false);return}
+    if(drag){
+      var d=drag;drag=null;
+      book.classList.remove('bk-grabbing');
+      if(!d.closing){
+        var W=d.f.W,Cy=(d.f.Cy==null?d.f.H:d.f.Cy);
+        peelAnimate(d.f,d.P,{x:W-1,y:Cy},220,null,null);
+      }
+      clickBlockUntil=Date.now()+400;
+      return;
+    }
+    pending=null;
   }
 
   function scrollableAncestor(node,dir){
@@ -8122,9 +8247,13 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
   }
 
   function onKey(e){
+    if(e.defaultPrevented)return;
     if(e.key==='Escape'&&tocOpen){closeToc();return}
-    var tag=(e.target.tagName||'').toLowerCase();
-    if(tag==='input'||tag==='textarea')return;
+    var t=e.target,tag=(t.tagName||'').toLowerCase();
+    if(tag==='input'||tag==='textarea'||tag==='select'||tag==='option')return;
+    if(t.isContentEditable)return;
+    /* arrow keys must keep operating legacy widgets inside the pages */
+    if(t.closest&&t.closest('select,[contenteditable="true"],[role="combobox"],[role="listbox"],[role="menu"],[role="slider"],[role="textbox"]'))return;
     var om=document.querySelector('.dm-overlay');
     if(om&&getComputedStyle(om).display!=='none')return;
     if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();opened?step(1):open()}
@@ -8157,34 +8286,40 @@ body.bk-1up .bk-flow .logo-strip__stack{text-align:center;line-height:1.8;max-wi
     stage.addEventListener('pointerdown',onDown);
     window.addEventListener('pointermove',onMove,{passive:false});
     window.addEventListener('pointerup',onUp);
-    window.addEventListener('pointercancel',onUp);
+    window.addEventListener('pointercancel',onCancel);
     stage.addEventListener('touchmove',function(e){if(drag&&drag.active&&!drag.closing)e.preventDefault()},{passive:false});
     document.addEventListener('keydown',onKey);
     document.addEventListener('click',function(e){if(tocOpen&&!toc.contains(e.target))closeToc()});
-    var rt;window.addEventListener('resize',function(){
-      clearTimeout(rt);rt=setTimeout(function(){
-        var loc=locate(cur);
-        fit();
-        cur=Math.min(cumSpreads[loc.c]+Math.min(loc.s,spreadsPer[loc.c]-1),total-1);
-        render(cur);
-      },350);
-    });
+    window.addEventListener('resize',queueRefit);
+    if(window.visualViewport)window.visualViewport.addEventListener('resize',queueRefit);
+    syncNavA11y();
     window.__bookGoTo=function(c){goTo(cumSpreads[Math.max(0,Math.min(c,CHAPTERS.length-1))])};
     window.__bookClose=close;
     slideIn();
   }
+
+  /* repagination is only safe at rest: a turn in flight captured the old page
+     model, so a mid-animation fit() would land it on the wrong spread */
+  var refitT=0;
+  function refit(){
+    if(animating||drag||coverDrag||pending){refitT=setTimeout(refit,220);return}
+    var loc=locate(cur); /* survive repagination as chapter + offset, not a raw index */
+    fit();
+    cur=Math.min(cumSpreads[loc.c]+Math.min(loc.s,spreadsPer[loc.c]-1),total-1);
+    render(cur);
+  }
+  function queueRefit(){clearTimeout(refitT);refitT=setTimeout(refit,350)}
 
   var booted=false;
   function boot(){
     if(booted)return;booted=true;
     init();
     document.documentElement.classList.remove('bk-preboot');
-    window.addEventListener('load',function(){
-      setTimeout(function(){
-        if(cur!==0||animating||drag)return;
-        fit();render(cur);
-      },60);
-    });
+    /* late fonts and late layout both change line wrapping: repaginate when
+       they land, whatever page the reader is on (refit defers until idle) */
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){setTimeout(queueRefit,30)});
+    if(document.readyState==='complete')setTimeout(queueRefit,60);
+    else window.addEventListener('load',function(){setTimeout(queueRefit,60)});
   }
   function ready(){
     var fonts=(document.fonts&&document.fonts.ready)?document.fonts.ready:Promise.resolve();
